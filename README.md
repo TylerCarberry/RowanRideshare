@@ -2,5 +2,5 @@
 
 Rowan RideShare
 
-Authors: Nicholas La Sala, Wen Cao
-Scrum Master:
+Authors: Nicholas La Sala, Wen Cao 
+<br>Scrum Master:
