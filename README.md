@@ -1,6 +1,4 @@
-# Senior-Project
+# Rowan Rideshare
 
-Rowan RideShare
-
-Authors: Nicholas La Sala, Wen Cao, Benny Chen, Tapan Soni
+Authors: Nicholas La Sala, Wen Cao, Benny Chen, Tapan Soni, Tyler Carberry
 <br>Scrum Master:
