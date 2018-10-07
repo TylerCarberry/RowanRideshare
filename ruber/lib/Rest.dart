@@ -2,22 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
-void main() => runApp(new MyApp());
 
-class MyApp extends StatelessWidget {
+class Rest extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: 'Fetch Data Example',
-      theme: new ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: new Scaffold(
-        appBar: new AppBar(
-          title: new Text('Fetch Data Example'),
-        ),
-        body: new Container(
+      home: new Scaffold( body: new Container( //body of the scaffold is a container with a http pull
           child: new FutureBuilder<List<User>>(
             future: fetchUsersFromGitHub(),
             builder: (context, snapshot) {
