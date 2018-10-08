@@ -156,6 +156,24 @@ class NewRideScreen extends StatelessWidget {
                       )
                     ],
                   )
+              ),
+              Container(
+                  child: Column(
+                    children: <Widget>[
+                      TextFormField(
+                          decoration: InputDecoration(
+                              labelText: 'Destination Address: '
+                          )
+                      ),
+                      RaisedButton(
+                        child: Text('Go!'),
+                        onPressed: ()
+                        {
+
+                        },
+                      )
+                    ],
+                  )
               )
             ],
           )
