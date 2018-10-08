@@ -1,30 +1,148 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'dart:async';
-import './Rest.dart';
-void main() => runApp(new MyApp());
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+void main() {
+  runApp(MaterialApp(
+    title: 'RUber',
+    home: MainScreen(),
+  ));
+}
+
+class MainScreen extends StatelessWidget {
+  final String title;
+  MainScreen ({Key key, this.title}) : super (key: key);
+
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: 'Flutter Demo',
-      theme: new ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or press Run > Flutter Hot Reload in IntelliJ). Notice that the
-        // counter didn't reset back to zero; the application is not restarted.
-        primarySwatch: Colors.blue,
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('RUber'),
+          centerTitle: true,
+          automaticallyImplyLeading: false,
+        ),
+        body: Center(
+          child: Column(
+            children: [
+              RaisedButton(
+                child: Text('New Ride'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => NewRideScreen()),
+                  );
+                },
+              ),
+              RaisedButton(
+                  child: Text('Messages'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => NewRideScreen()),
+                    );
+                  }),
+              RaisedButton(
+                  child: Text('Profile'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => NewRideScreen()),
+                    );
+                  }),
+              RaisedButton(
+                  child: Text('Settings'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => NewRideScreen()),
+                    );
+                  }),
+            ],
+          ),
+        ));
+  }
+}
+
+class NewRideScreen extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context)
+  {
+    return Scaffold(
+      appBar: AppBar(title: Text('New Ride'), centerTitle: true),
+      drawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            DrawerHeader(
+              child: Text('RUber Menu'),
+              decoration: BoxDecoration(color: Colors.blue),
+            ),
+            ListTile(
+              leading: Icon(Icons.arrow_back),
+              title: Text('Main Menu'),
+              onTap: ()
+              {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MainScreen()),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.message),
+              title: Text('Messages'),
+              onTap: ()
+              {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MainScreen()),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.account_box),
+              title: Text('Profile'),
+              onTap: ()
+              {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MainScreen()),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text('Settings'),
+              onTap: ()
+              {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MainScreen()),
+                );
+              },
+            ),
+          ],
+        )
       ),
-      home: new Scaffold(appBar: new AppBar(title: new Text('Sample HTTP Get from GitHub'),), body: new Rest()),
-      // here we add a Rest.dart instance to the app ( this keeps main.dart and rest.dart short and readable)
-      // as well as customizable
+      body: DefaultTabController(
+        length: 2,
+        child: new Scaffold(
+          appBar: AppBar(
+            actions: <Widget>[],
+            title: TabBar(
+              tabs: <Widget>[Tab(icon: Icon(Icons.directions_car), text: 'Going to Rowan'),
+                Tab(icon: Icon(Icons.directions_run), text: 'Going Home')
+              ],
+              indicatorColor: Colors.white,
+            ),
+            automaticallyImplyLeading: false,
+          ),
+          body: TabBarView(
+            children: <Widget>[
+              Icon(Icons.directions_car, size: 50.0),
+              Icon(Icons.directions_run, size: 50.0),
+            ],
+          )
+        )
+      )
     );
   }
 }
