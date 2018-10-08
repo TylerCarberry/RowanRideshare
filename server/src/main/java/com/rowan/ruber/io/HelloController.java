@@ -1,4 +1,4 @@
-package com.rowan.ruber;
+package com.rowan.ruber.io;
 
 import org.springframework.web.bind.annotation.*;
 
