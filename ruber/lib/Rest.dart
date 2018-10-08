@@ -10,6 +10,7 @@ class Rest extends StatelessWidget {
     return new MaterialApp(
       home: new Scaffold(
         body: new Container( //body of the scaffold is a container with a http pull
+          child: Center(
           child: FutureBuilder(
             future: fetchResponse(),
 
@@ -18,7 +19,7 @@ class Rest extends StatelessWidget {
               //print (snapshot.connectionState.toString());
               if (snapshot.hasData) {
                 //return Text('${snapshot.data}');
-                print("tagList " + snapshot.data.toString());
+                print(snapshot.data.toString());
                 return Text(snapshot.data.toString());
               } else if (snapshot.hasError) {
                 return Text("${snapshot.data.toString()}");
@@ -26,6 +27,7 @@ class Rest extends StatelessWidget {
               return CircularProgressIndicator();
             },
           ),
+        ),
         ),
       ),
     );
