@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'Rest.dart';
 void main() {
   runApp(MaterialApp(
     title: 'RUber',
@@ -151,7 +151,10 @@ class NewRideScreen extends StatelessWidget {
                         child: Text('Go!'),
                         onPressed: ()
                         {
-
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Rest()),
+                          );
                         },
                       )
                     ],
