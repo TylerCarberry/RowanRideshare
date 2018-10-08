@@ -137,8 +137,26 @@ class NewRideScreen extends StatelessWidget {
           ),
           body: TabBarView(
             children: <Widget>[
-              Icon(Icons.directions_car, size: 50.0),
-              Icon(Icons.directions_run, size: 50.0),
+//              Icon(Icons.directions_car, size: 50.0),
+//              Icon(Icons.directions_run, size: 50.0),
+              Container(
+                  child: Column(
+                    children: <Widget>[
+                      TextFormField(
+                          decoration: InputDecoration(
+                              labelText: 'Starting Address: '
+                          )
+                      ),
+                      RaisedButton(
+                        child: Text('Go!'),
+                        onPressed: ()
+                        {
+
+                        },
+                      )
+                    ],
+                  )
+              )
             ],
           )
         )
