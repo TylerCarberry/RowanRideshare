@@ -151,10 +151,12 @@ class NewRideScreen extends StatelessWidget {
                         child: Text('Go!'),
                         onPressed: ()
                         {
+
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => Rest()),
                           );
+
                         },
                       )
                     ],
