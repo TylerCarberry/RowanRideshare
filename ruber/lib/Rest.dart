@@ -10,30 +10,20 @@ class Rest extends StatelessWidget {
     return new MaterialApp(
       home: new Scaffold(
         body: new Container( //body of the scaffold is a container with a http pull
-          child: new FutureBuilder(
+          child: FutureBuilder(
             future: fetchResponse(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return new ListView.builder(
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (context, index) {
-                      return new Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            new Text(snapshot.data[index].name,
-                                style: new TextStyle(
-                                    fontWeight: FontWeight.bold)),
-                            new Divider()
-                          ]
-                      );
-                    }
-                );
-              } else if (snapshot.hasError) {
-                return new Text("${snapshot.error}");
-              }
 
-              // By default, show a loading spinner
-              return new CircularProgressIndicator();
+            builder: (context, snapshot) {
+              //print(snapshot.data.title);
+              //print (snapshot.connectionState.toString());
+              if (snapshot.hasData) {
+                //return Text('${snapshot.data}');
+                print("tagList " + snapshot.data.toString());
+                return Text(snapshot.data.toString());
+              } else if (snapshot.hasError) {
+                return Text("${snapshot.data.toString()}");
+              }
+              return CircularProgressIndicator();
             },
           ),
         ),
@@ -43,9 +33,9 @@ class Rest extends StatelessWidget {
 
   Future fetchResponse() async {
 
-    List responseList;
+    String responseList;
     http.Response response = await http.get("http://10.0.2.2:8080/hello/greeting").catchError((resp) {});
-    responseList = json.decode(response.body.toString());
+    responseList = response.body.toString();
 
     return responseList;
 
