@@ -1,5 +1,6 @@
-package com.rowan.ruber;
+package com.rowan.ruber.io;
 
+import com.rowan.ruber.Authenticator;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/rides")
@@ -8,6 +9,9 @@ public class RuberController {
 
     @GetMapping("/nearby")
     public String index(@RequestParam(name="authToken") String authToken) {
-        return "Hello from RUber!";
+        Authenticator authenticator = new Authenticator();
+        String name = authenticator.authenticate(authToken);
+
+        return "Hello " + name;
     }
 }
