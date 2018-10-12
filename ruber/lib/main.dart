@@ -82,7 +82,31 @@ class NewLoginScreen extends StatelessWidget {
             leading: const Icon(Icons.person),
             title: new TextField(
               decoration: new InputDecoration(
-                hintText: "Name",
+                hintText: "First Name",
+              ),
+            ),
+          ),
+          new ListTile(
+            leading: const Icon(Icons.person_outline),
+            title: new TextField(
+              decoration: new InputDecoration(
+                hintText: "Last Name",
+              ),
+            ),
+          ),
+          new ListTile(
+            leading: const Icon(Icons.email),
+            title: new TextField(
+              decoration: new InputDecoration(
+                hintText: "Email",
+              ),
+            ),
+          ),
+          new ListTile(
+            leading: const Icon(Icons.location_city),
+            title: new TextField(
+              decoration: new InputDecoration(
+                hintText: "Location",
               ),
             ),
           ),
