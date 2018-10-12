@@ -55,9 +55,40 @@ class MainScreen extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => NewRideScreen()),
                     );
                   }),
+              RaisedButton(
+                  child: Text('Login'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => NewLoginScreen()),
+                    );
+                  }),
             ],
           ),
         ));
+  }
+}
+
+class NewLoginScreen extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context)
+  {
+    return Scaffold(
+      appBar: AppBar(title: Text('Login'), centerTitle: true),
+      body: new Column(
+        children: <Widget>[
+          new ListTile(
+            leading: const Icon(Icons.person),
+            title: new TextField(
+              decoration: new InputDecoration(
+                hintText: "Name",
+              ),
+            ),
+          ),
+        ]
+      )
+    );
   }
 }
 
