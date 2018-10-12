@@ -91,56 +91,50 @@ class _TextForm extends State<TextForm> {
       appBar: AppBar(
         title: Text('Login'),
       ),
-        body: new Column(
-            children: <Widget>[
-              new ListTile(
-                leading: const Icon(Icons.person),
-                title: new TextField(
-                  controller: myController,
-                  decoration: new InputDecoration(
-                    hintText: "First Name",
-                  ),
-                  maxLength: 45,
+      body: new Column(
+          children: <Widget>[
+            new ListTile(
+              leading: const Icon(Icons.person),
+              title: new TextField(
+                controller: myController,
+                decoration: new InputDecoration(
+                  hintText: "First Name",
                 ),
+                maxLength: 45,
               ),
-              new ListTile(
-                leading: const Icon(Icons.person_outline),
-                title: new TextField(
-                  controller: myController1,
-                  decoration: new InputDecoration(
-                    hintText: "Last Name",
-                  ),
-                  maxLength: 45,
+            ),
+            new ListTile(
+              leading: const Icon(Icons.person_outline),
+              title: new TextField(
+                controller: myController1,
+                decoration: new InputDecoration(
+                  hintText: "Last Name",
                 ),
+                maxLength: 45,
               ),
-              new ListTile(
-                leading: const Icon(Icons.email),
-                title: new TextField(
-                  controller: myController2,
-                  decoration: new InputDecoration(
-                    hintText: "Email",
-                  ),
-                  maxLength: 50,
+            ),
+            new ListTile(
+              leading: const Icon(Icons.email),
+              title: new TextField(
+                controller: myController2,
+                decoration: new InputDecoration(
+                  hintText: "Email",
                 ),
+                maxLength: 50,
               ),
-              new ListTile(
-                leading: const Icon(Icons.location_city),
-                title: new TextField(
-                  controller: myController3,
-                  decoration: new InputDecoration(
-                    hintText: "Location",
-                  ),
-                  maxLength: 50,
+            ),
+            new ListTile(
+              leading: const Icon(Icons.location_city),
+              title: new TextField(
+                controller: myController3,
+                decoration: new InputDecoration(
+                  hintText: "Location",
                 ),
+                maxLength: 50,
               ),
-            ]
-        ) ,
-//        body: Padding(
-//        padding: const EdgeInsets.all(16.0),
-//        child: TextField(
-//          controller: myController,
-//        ),
-//      ),
+            ),
+          ]
+      ) ,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           return showDialog(
@@ -155,57 +149,6 @@ class _TextForm extends State<TextForm> {
         tooltip: 'Show me the value!',
         child: Icon(Icons.text_fields),
       ),
-    );
-  }
-}
-
-class NewLoginScreen extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context)
-  {
-    return Scaffold(
-      appBar: AppBar(title: Text('Login'), centerTitle: true),
-      body: new Column(
-        children: <Widget>[
-          new ListTile(
-            leading: const Icon(Icons.person),
-            title: new TextField(
-              decoration: new InputDecoration(
-                hintText: "First Name",
-              ),
-              maxLength: 45,
-            ),
-          ),
-          new ListTile(
-            leading: const Icon(Icons.person_outline),
-            title: new TextField(
-              decoration: new InputDecoration(
-                hintText: "Last Name",
-              ),
-              maxLength: 45,
-            ),
-          ),
-          new ListTile(
-            leading: const Icon(Icons.email),
-            title: new TextField(
-              decoration: new InputDecoration(
-                hintText: "Email",
-              ),
-              maxLength: 50,
-            ),
-          ),
-          new ListTile(
-            leading: const Icon(Icons.location_city),
-            title: new TextField(
-              decoration: new InputDecoration(
-                hintText: "Location",
-              ),
-              maxLength: 50,
-            ),
-          ),
-        ]
-      )
     );
   }
 }
