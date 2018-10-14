@@ -55,9 +55,101 @@ class MainScreen extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => NewRideScreen()),
                     );
                   }),
+              RaisedButton(
+                  child: Text('Login'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => TextForm()),
+                    );
+                  }),
             ],
           ),
         ));
+  }
+}
+
+class TextForm extends StatefulWidget {
+  _TextForm createState() => _TextForm();
+}
+
+class _TextForm extends State<TextForm> {
+  final myController = TextEditingController();
+  final myController2 = TextEditingController();
+  final myController3 = TextEditingController();
+  final myController1 = TextEditingController();
+
+  @override
+  void dispose() {
+    myController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Login'),
+      ),
+      body: new Column(
+          children: <Widget>[
+            new ListTile(
+              leading: const Icon(Icons.person),
+              title: new TextField(
+                controller: myController,
+                decoration: new InputDecoration(
+                  hintText: "First Name",
+                ),
+                maxLength: 45,
+              ),
+            ),
+            new ListTile(
+              leading: const Icon(Icons.person_outline),
+              title: new TextField(
+                controller: myController1,
+                decoration: new InputDecoration(
+                  hintText: "Last Name",
+                ),
+                maxLength: 45,
+              ),
+            ),
+            new ListTile(
+              leading: const Icon(Icons.email),
+              title: new TextField(
+                controller: myController2,
+                decoration: new InputDecoration(
+                  hintText: "Email",
+                ),
+                maxLength: 50,
+              ),
+            ),
+            new ListTile(
+              leading: const Icon(Icons.location_city),
+              title: new TextField(
+                controller: myController3,
+                decoration: new InputDecoration(
+                  hintText: "Location",
+                ),
+                maxLength: 50,
+              ),
+            ),
+          ]
+      ) ,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          return showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                content: Text(myController.text + " " + myController1.text + " " + myController2.text + " " + myController3.text),
+              );
+            },
+          );
+        },
+        tooltip: 'Show me the value!',
+        child: Icon(Icons.text_fields),
+      ),
+    );
   }
 }
 
