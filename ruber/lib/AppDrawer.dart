@@ -27,7 +27,7 @@ Drawer launchAppDrawer(context) {
             {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => MainScreen()),
+                MaterialPageRoute(builder: (context) => MessagesScreen()),
               );
             },
           ),
