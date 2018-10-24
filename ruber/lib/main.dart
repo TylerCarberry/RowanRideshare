@@ -3,6 +3,8 @@ import 'login.dart';
 import 'RideScreen.dart';
 import 'Rest.dart';
 import 'AppDrawer.dart';
+import 'settings_Screen.dart';
+
 
 void main() {
   runApp(MaterialApp(
@@ -56,7 +58,7 @@ class MainScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => NewRideScreen()),
+                      MaterialPageRoute(builder: (context) => SettingsScreen()),
                     );
                   }),
               RaisedButton(
@@ -123,5 +125,11 @@ class NewRideScreen extends StatelessWidget {
         child: launchRideScreen(context)
       )
     );
+  }
+}
+
+class SettingsScreen extends StatelessWidget {
+  Widget build(context) {
+    return launchSettingsScreen(context);
   }
 }
