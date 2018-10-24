@@ -8,6 +8,12 @@ Scaffold launchSettingsScreen(context) {
     body: new Center(
       child: Column(
         children: [
+          Text(
+            'This is the about us portion of the app, right now there is nothing here but evenutally we are going to to you all about us!',
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.clip,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
           RaisedButton(
             child: Text('Sign Out'),
             onPressed: () {
