@@ -6,6 +6,7 @@ import 'AppDrawer.dart';
 import 'settings_Screen.dart';
 import 'MapPage.dart';
 import 'package:map_view/map_view.dart';
+import 'StaticMapPage.dart';
 
 var api_key = "AIzaSyDrHKl8IxB4cGXIoELXQOzzZwiH1xtsRf4";
 
@@ -27,13 +28,15 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+
           title: Text('RUber'),
-          centerTitle: true,
+          centerTitle: false,
           automaticallyImplyLeading: false,
         ),
         body: Center(
           child: Column(
             children: [
+              Container(child: StaticMapPage(), height: 381.0),
               RaisedButton(
                 child: Text('New Ride'),
                 onPressed: () {
@@ -48,7 +51,7 @@ class MainScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => MapPage()),
+                      MaterialPageRoute(builder: (context) => NewRideScreen()),
                     );
                   }),
               RaisedButton(
@@ -83,7 +86,8 @@ class MainScreen extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => MapPage()),
                     );
                   }),
-            ],
+
+            ]
           ),
         ));
   }
