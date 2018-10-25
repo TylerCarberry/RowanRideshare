@@ -4,6 +4,12 @@ import 'RideScreen.dart';
 import 'Rest.dart';
 import 'AppDrawer.dart';
 import 'Messages_Screen.dart';
+<<<<<<< HEAD
+=======
+const String _name = "Your Name";
+import 'settings_Screen.dart';
+
+>>>>>>> 2a6d3d6d973f206072f411066651293d72d067f8
 
 void main() {
   runApp(MaterialApp(
@@ -59,7 +65,7 @@ class MainScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => NewRideScreen()),
+                      MaterialPageRoute(builder: (context) => SettingsScreen()),
                     );
                   }),
               RaisedButton(
@@ -167,5 +173,11 @@ class NewRideScreen extends StatelessWidget {
         child: launchRideScreen(context)
       )
     );
+  }
+}
+
+class SettingsScreen extends StatelessWidget {
+  Widget build(context) {
+    return launchSettingsScreen(context);
   }
 }
