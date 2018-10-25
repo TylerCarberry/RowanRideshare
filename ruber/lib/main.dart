@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'login.dart';
 import 'RideScreen.dart';
-import 'Rest.dart';
 import 'AppDrawer.dart';
 import 'Messages_Screen.dart';
-<<<<<<< HEAD
-=======
-const String _name = "Your Name";
 import 'settings_Screen.dart';
 
->>>>>>> 2a6d3d6d973f206072f411066651293d72d067f8
+const String _name = "Your Name";
 
 void main() {
   runApp(MaterialApp(
@@ -17,8 +13,6 @@ void main() {
     home: MainScreen(),
   ));
 }
-
-const String _name = "Your Name";
 
 class MainScreen extends StatelessWidget {
   final String title;
