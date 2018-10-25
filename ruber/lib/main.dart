@@ -4,6 +4,8 @@ import 'RideScreen.dart';
 import 'Rest.dart';
 import 'AppDrawer.dart';
 import 'Messages_Screen.dart';
+<<<<<<< HEAD
+=======
 const String _name = "Your Name";
 import 'settings_Screen.dart';
 import 'MapPage.dart';
@@ -13,6 +15,7 @@ import 'StaticMapPage.dart';
 var api_key = "AIzaSyDrHKl8IxB4cGXIoELXQOzzZwiH1xtsRf4";
 
 
+>>>>>>> 2a6d3d6d973f206072f411066651293d72d067f8
 
 void main() {
   MapView.setApiKey(api_key);
@@ -21,6 +24,8 @@ void main() {
     home: MainScreen(),
   ));
 }
+
+const String _name = "Your Name";
 
 class MainScreen extends StatelessWidget {
   final String title;
