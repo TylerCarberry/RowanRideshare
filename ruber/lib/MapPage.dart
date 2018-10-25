@@ -12,7 +12,7 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
 
   MapView mapView = new MapView();
-  
+
 
   List<Marker> markers = <Marker>[
     new Marker("1", "My Location",39.70036, -75.1243,
