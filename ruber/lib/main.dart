@@ -4,9 +4,15 @@ import 'RideScreen.dart';
 import 'Rest.dart';
 import 'AppDrawer.dart';
 import 'settings_Screen.dart';
+import 'MapPage.dart';
+import 'package:map_view/map_view.dart';
+
+var api_key = "AIzaSyDrHKl8IxB4cGXIoELXQOzzZwiH1xtsRf4";
+
 
 
 void main() {
+  MapView.setApiKey(api_key);
   runApp(MaterialApp(
     title: 'RUber',
     home: MainScreen(),
@@ -42,7 +48,7 @@ class MainScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => NewRideScreen()),
+                      MaterialPageRoute(builder: (context) => MapPage()),
                     );
                   }),
               RaisedButton(
@@ -67,6 +73,14 @@ class MainScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => TextForm()),
+                    );
+                  }),
+              RaisedButton(
+                  child: Text('Map Test'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MapPage()),
                     );
                   }),
             ],
