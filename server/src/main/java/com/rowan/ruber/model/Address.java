@@ -4,26 +4,28 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Table;
 import javax.persistence.Id;
 
 /** Class to set up the JPA Entity for the Address table in the DB. */
 @Entity
+@Table(name="address")
 public class Address {
     @Id 
-    @Column(name="addressID")
+    @Column(name="AddressID")
     @GeneratedValue(strategy=GenerationType.IDENTITY)   //Identity strategy for MySQL is auto increment
     private int id;
 
-    @Column(columnDefinition="VARCHAR(45)", nullable=false)
+    @Column(name="StreetAddress")
     private String streetAddress;
 
-    @Column(columnDefinition="VARCHAR(45)", nullable=false)
+    @Column(name="City")
     private String city;
 
-    @Column(columnDefinition="VARCHAR(2)", nullable=false)
+    @Column(name="State")
     private String state;
 
-    @Column(columnDefinition="VARCHAR(5)", nullable=false)
+    @Column(name="ZipCode")
     private String zipCode;
 
     /** Default constructor for JPA. 
