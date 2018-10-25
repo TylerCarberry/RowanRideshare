@@ -5,14 +5,14 @@ import 'Rest.dart';
 import 'AppDrawer.dart';
 import 'Messages_Screen.dart';
 
-const String _name = "Your Name";
-
 void main() {
   runApp(MaterialApp(
     title: 'RUber',
     home: MainScreen(),
   ));
 }
+
+const String _name = "Your Name";
 
 class MainScreen extends StatelessWidget {
   final String title;
