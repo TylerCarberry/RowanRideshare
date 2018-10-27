@@ -60,7 +60,7 @@ public class Address implements Serializable{
     }
 
     /** Gets the zip code. */
-    public String zipCode() {
+    public String getZipCode() {
         return zipCode;
     }
 
