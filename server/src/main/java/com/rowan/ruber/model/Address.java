@@ -61,8 +61,8 @@ public class Address {
         return zipCode;
     }
 
-    @Override
     /** Return the String representation for an address. */
+    @Override
     public String toString() {
         return String.format("%s , %s , %s %s", streetAddress, city, state, zipCode);
     }

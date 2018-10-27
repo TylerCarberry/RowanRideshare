@@ -4,16 +4,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Column;
 import javax.persistence.Table;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Class to set up the JPA Entity for the Profile table in the database
  */
 @Entity
-@Table(name = "Profile")
+@Table(name = "profile")
 public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,9 +31,16 @@ public class Profile {
     private String email;
 
     // Refers to address table
+    // ** Leaving out ON UPDATE ON DELETE for now since they are defined in MySQL - will add later if needed.
+    @OneToOne
+    @JoinColumn(name="AddressID")
     private int addressID;
 
+    @Column(name="CreatedDate")
     private Date createdDate;
+
+    @OneToMany(mappedBy="profile")
+    private List<Schedule> schedules = new ArrayList<Schedule>(); // Maintain bi-directional 1 to Many w/ Schedule
 
     /** 
      *  Default constructor for JPA.
