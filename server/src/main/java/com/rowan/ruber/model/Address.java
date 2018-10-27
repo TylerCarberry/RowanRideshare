@@ -30,6 +30,10 @@ public class Address implements Serializable{
     @Column(name="State")
     private String state;
 
+    private double latitude;
+
+    private double longitude;
+
 
     /** Default constructor for JPA. 
      *  It should not be used directly as no values will be initialized.
@@ -37,12 +41,19 @@ public class Address implements Serializable{
     protected Address() {}
 
     /** Constructor that takes all parameters. */
-    public Address(String streetAddress, String city, String state, String zipCode) {
+    public Address(String streetAddress, String city, String state, String zipCode, double latitude, double longitude) {
         this.streetAddress = streetAddress;
         this.city = city;
         this.state = state;
         this.zipCode = zipCode;
+        this.latitude = latitude;
+        this.longitude = longitude;
     } 
+
+    /** Gets the primary id of the adrress */
+    public int getID(){
+        return id;
+    }
 
     /** Gets the street address. */
     public String getStreetAddress() {
@@ -62,6 +73,16 @@ public class Address implements Serializable{
     /** Gets the zip code. */
     public String getZipCode() {
         return zipCode;
+    }
+
+    /** Gets the latitude */
+    public double getLatitude(){
+        return latitude;
+    }
+
+    /** Gets the latitude */
+    public double getLongitude(){
+        return longitude;
     }
 
     /** Return the String representation for an address. */
@@ -88,6 +109,16 @@ public class Address implements Serializable{
     /** Sets the zip code. Limit of 5 characters. */
     public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
+    }
+
+    /** Sets the latitude - DB type is Decimal(11, 8)*/
+    public void setLatitude(double latitude){
+        this.latitude = latitude;
+    }
+
+    /** Sets the latitude - DB type is Decimal(11, 8) */
+    public void setLongitude(double longitude){
+        this.longitude = longitude;
     }
 
 }
