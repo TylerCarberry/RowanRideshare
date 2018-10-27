@@ -9,6 +9,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+/**
+ *  Class to set up the JPA Entity for the Schedule table in the database.
+ *  Each schedule is represented by a day of the week and time ranges for going and leaving.
+ */
 public class Schedule {
     @Id
     @ManyToOne // ** need to decide on fetch type -> Eager or Lazy ?
