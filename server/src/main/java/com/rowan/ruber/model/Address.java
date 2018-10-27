@@ -1,5 +1,7 @@
 package com.rowan.ruber.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,7 +12,7 @@ import javax.persistence.Id;
 /** Class to set up the JPA Entity for the Address table in the DB. */
 @Entity
 @Table(name="address")
-public class Address {
+public class Address implements Serializable{
     @Id 
     @Column(name="AddressID")
     @GeneratedValue(strategy=GenerationType.IDENTITY)   //Identity strategy for MySQL is auto increment
@@ -22,11 +24,12 @@ public class Address {
     @Column(name="City")
     private String city;
 
+    @Column(name="ZipCode")
+    private String zipCode;
+    
     @Column(name="State")
     private String state;
 
-    @Column(name="ZipCode")
-    private String zipCode;
 
     /** Default constructor for JPA. 
      *  It should not be used directly as no values will be initialized.

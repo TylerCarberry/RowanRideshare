@@ -9,6 +9,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Column;
 import javax.persistence.Table;
+
+import java.io.Serializable;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -19,7 +21,7 @@ import java.util.ArrayList;
  */
 @Entity
 @Table(name = "profile")
-public class Profile {
+public class Profile implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="profileID")
@@ -34,7 +36,7 @@ public class Profile {
     // ** Leaving out ON UPDATE ON DELETE for now since they are defined in MySQL - will add later if needed.
     @OneToOne
     @JoinColumn(name="AddressID")
-    private int addressID;
+    private Address address;
 
     @Column(name="CreatedDate")
     private Date createdDate;
@@ -50,10 +52,10 @@ public class Profile {
         
     }
 
-    public Profile(String name, String email, int addressID, Date createdDate){
+    public Profile(String name, String email, Address address, Date createdDate){
         this.name = name;
         this.email = email;
-        this.addressID = addressID;
+        this.address = address;
         this.createdDate = createdDate;
     }
 
@@ -61,7 +63,7 @@ public class Profile {
     public String toString(){
         SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
         return String.format("Name: %s %n Email: %s %n AddressID: %d %n Created Date: %s %n", 
-                            name, email, addressID, sdf.format(createdDate));
+                            name, email, address.toString(), sdf.format(createdDate));
     }
 
     /** Gets the primary ID*/
@@ -79,9 +81,9 @@ public class Profile {
         return email;
     }
 
-    /** Gets the addressID */
-    public int getAddressID(){
-        return addressID;
+    /** Gets the address */
+    public Address getAddressID(){
+        return address;
     }
 
     /** Gets the createdDate */
