@@ -66,38 +66,73 @@ public class Profile implements Serializable{
                             name, email, address.toString(), sdf.format(createdDate));
     }
 
-    /** Gets the primary ID*/
-    public int getID(){
+    /**
+     * @return the id
+     */
+    public int getId() {
         return id;
     }
 
-    /** Gets the name */
-    public String getName(){
+    /**
+     * @return the name
+     */
+    public String getName() {
         return name;
     }
 
-    /** Gets the email */
-    public String getEmail(){
+    /**
+     * @return the email
+     */
+    public String getEmail() {
         return email;
     }
 
-    /** Gets the address */
-    public Address getAddressID(){
+    /**
+     * @return the address
+     */
+    public Address getAddress() {
         return address;
     }
 
-    /** Gets the createdDate */
-    public Date getCreatedDate(){
+    /**
+     * @return the createdDate
+     */
+    public Date getCreatedDate() {
         return createdDate;
     }
 
-    /** Sets the name */
-    public void setName(String name){
+    /**
+     * @return the schedules
+     */
+    public List<Schedule> getSchedules() {
+        return schedules;
+    }
+
+    /**
+     * @param address the address to set
+     */
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+    
+    /**
+     * @param email the email to set
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
         this.name = name;
     }
 
-    /** Sets the email */
-    public void setEmail(String email){
-        this.email = email;
+    /**
+     * @param schedules the schedules to set
+     */
+    public void setSchedules(List<Schedule> schedules) {
+        this.schedules = schedules;
     }
 }

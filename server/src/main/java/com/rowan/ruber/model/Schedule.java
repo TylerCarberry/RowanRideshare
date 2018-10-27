@@ -65,6 +65,7 @@ public class Schedule implements Serializable{
 
     /**
      *  Return the profile associated with this schedule.
+     * @return the profile
      */
     public Profile getProfile() {
         return profile;
@@ -72,6 +73,7 @@ public class Schedule implements Serializable{
 
     /**
      *  Return the day associated with this schedule.
+     * @return the day
      */
     public Day getDay() {
         return day;
@@ -79,6 +81,7 @@ public class Schedule implements Serializable{
 
     /**
      *  Return the going to start time for the schedule.
+     * @return the goingToStart
      */
     public LocalTime getGoingToStart() {
         return goingToStart;
@@ -86,6 +89,7 @@ public class Schedule implements Serializable{
 
     /**
      *  Return the going to end time for the schedule.
+     * @return the goingToEnd
      */
     public LocalTime getGoingToEnd() {
         return goingToEnd;
@@ -93,13 +97,14 @@ public class Schedule implements Serializable{
 
     /**
      *  Return the leaving start time for the schedule.
+     * @return the leavingStart
      */
     public LocalTime getLeavingStart() {
         return leavingStart;
     }
 
     /**
-     *  Return the leaving end time for the schedule.
+     *  @return Return the leaving end time for the schedule.
      */
     public LocalTime getLeavingEnd() {
         return leavingEnd;
@@ -115,6 +120,7 @@ public class Schedule implements Serializable{
 
     /**
      *  Sets the day for the schedule to the given day.
+     * @param day the day to set
      */
     public void setDay(Day day) {
         this.day = day;
@@ -122,30 +128,34 @@ public class Schedule implements Serializable{
 
     /**
      *  Sets the going to start time to the given time.
+     * @param goingToStart the goingToStart to set
      */
-    public void setGoingToStart(LocalTime time) {
-        goingToStart = time;
+    public void setGoingToStart(LocalTime goingToStart) {
+        this.goingToStart = goingToStart;
     }
 
     /**
      *  Sets the going to end time to the given time.
+     * @param goingToEnd the goingToEnd to set
      */
-    public void setGoingToEnd(LocalTime time) {
-        goingToEnd = time;
+    public void setGoingToEnd(LocalTime goingToEnd) {
+        this.goingToEnd = goingToEnd;
     }
 
     /**
      *  Sets the leaving start time to the given time.
+     * @param leavingStart the leavingStart to set
      */
-    public void setLeavingStart(LocalTime time) {
-        leavingStart = time;
+    public void setLeavingStart(LocalTime leavingStart) {
+        this.leavingStart = leavingStart;
     }
 
     /**
-     *  Sets the leaving end time to the given time.
+     *  Sets the leaving end time to the given time. 
+     * @param leavingEnd the leavingEnd to set
      */
-    public void setLeavingEnd(LocalTime time) {
-        leavingEnd = time;
+    public void setLeavingEnd(LocalTime leavingEnd) {
+        this.leavingEnd = leavingEnd;
     }
 
 }
