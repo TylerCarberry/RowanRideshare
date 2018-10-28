@@ -4,10 +4,17 @@ import 'RideScreen.dart';
 import 'AppDrawer.dart';
 import 'Messages_Screen.dart';
 import 'settings_Screen.dart';
+import 'MapPage.dart';
+import 'package:map_view/map_view.dart';
+import 'StaticMapPage.dart';
+
+var api_key = "AIzaSyDrHKl8IxB4cGXIoELXQOzzZwiH1xtsRf4";
+
 
 const String _name = "Your Name";
 
 void main() {
+  MapView.setApiKey(api_key);
   runApp(MaterialApp(
     title: 'RUber',
     home: MainScreen(),
@@ -22,13 +29,15 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+
           title: Text('RUber'),
-          centerTitle: true,
+          centerTitle: false,
           automaticallyImplyLeading: false,
         ),
         body: Center(
           child: Column(
             children: [
+              Container(child: StaticMapPage(), height: 381.0),
               RaisedButton(
                 child: Text('New Ride'),
                 onPressed: () {
@@ -70,7 +79,16 @@ class MainScreen extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => TextForm()),
                     );
                   }),
-            ],
+              RaisedButton(
+                  child: Text('Map Test'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MapPage()),
+                    );
+                  }),
+
+            ]
           ),
         ));
   }
