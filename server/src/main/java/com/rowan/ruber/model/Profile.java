@@ -59,7 +59,10 @@ public class Profile implements Serializable{
         this.createdDate = createdDate;
     }
 
-    /** Returns the string representation for Profile*/
+    /**
+     * Returns the string representation for Profile.
+     * @return the String representation for a Profile
+    */
     public String toString(){
         SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
         return String.format("Name: %s %n Email: %s %n AddressID: %d %n Created Date: %s %n", 
@@ -67,6 +70,7 @@ public class Profile implements Serializable{
     }
 
     /**
+     * Gets the profile id.
      * @return the id
      */
     public int getId() {
@@ -74,6 +78,7 @@ public class Profile implements Serializable{
     }
 
     /**
+     * Gets the name.
      * @return the name
      */
     public String getName() {
@@ -81,6 +86,7 @@ public class Profile implements Serializable{
     }
 
     /**
+     * Gets the email.
      * @return the email
      */
     public String getEmail() {
@@ -88,6 +94,7 @@ public class Profile implements Serializable{
     }
 
     /**
+     * Gets the address.
      * @return the address
      */
     public Address getAddress() {
@@ -95,6 +102,7 @@ public class Profile implements Serializable{
     }
 
     /**
+     * Get the date and time this profile was created.
      * @return the createdDate
      */
     public Date getCreatedDate() {
@@ -102,20 +110,23 @@ public class Profile implements Serializable{
     }
 
     /**
-     * @return the schedules
+     * Gets the schedules for a profile.
+     * @return all the schedules for this profile
      */
     public List<Schedule> getSchedules() {
         return schedules;
     }
 
     /**
-     * @param address the address to set
+     * Sets the address.
+     * @param address the address object to set to
      */
     public void setAddress(Address address) {
         this.address = address;
     }
     
     /**
+     * Sets the email. Limit of 45 characters.
      * @param email the email to set
      */
     public void setEmail(String email) {
@@ -123,6 +134,7 @@ public class Profile implements Serializable{
     }
 
     /**
+     * Sets the name. Limit of 90 characters.
      * @param name the name to set
      */
     public void setName(String name) {
@@ -130,6 +142,7 @@ public class Profile implements Serializable{
     }
 
     /**
+     * Sets the schedule.
      * @param schedules the schedules to set
      */
     public void setSchedules(List<Schedule> schedules) {

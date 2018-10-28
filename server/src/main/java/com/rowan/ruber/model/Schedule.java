@@ -51,7 +51,14 @@ public class Schedule implements Serializable{
     }
 
     /**
-     *  Constructor that takes all parameters.
+     * Constructor that takes all parameters.
+     * 
+     * @param profile the profile for this schedule
+     * @param day the specified day
+     * @param goingToRangeStart the start of the going to time
+     * @param goingToRangeEnd the end of the going to time
+     * @param leavingRangeStart the start of the leaving time
+     * @param leavingRangeEnd the end of the leaving time
      */
     public Schedule(Profile profile, Day day, LocalTime goingToRangeStart, LocalTime goingToRangeEnd, 
                     LocalTime leavingRangeStart, LocalTime leavingRangeEnd) {
@@ -64,7 +71,7 @@ public class Schedule implements Serializable{
     }
 
     /**
-     *  Return the profile associated with this schedule.
+     * Return the profile associated with this schedule.
      * @return the profile
      */
     public Profile getProfile() {
@@ -72,7 +79,7 @@ public class Schedule implements Serializable{
     }
 
     /**
-     *  Return the day associated with this schedule.
+     * Return the day associated with this schedule.
      * @return the day
      */
     public Day getDay() {
@@ -80,7 +87,7 @@ public class Schedule implements Serializable{
     }
 
     /**
-     *  Return the going to start time for the schedule.
+     * Return the going to start time for the schedule.
      * @return the goingToStart
      */
     public LocalTime getGoingToStart() {
@@ -88,7 +95,7 @@ public class Schedule implements Serializable{
     }
 
     /**
-     *  Return the going to end time for the schedule.
+     * Return the going to end time for the schedule.
      * @return the goingToEnd
      */
     public LocalTime getGoingToEnd() {
@@ -96,7 +103,7 @@ public class Schedule implements Serializable{
     }
 
     /**
-     *  Return the leaving start time for the schedule.
+     * Return the leaving start time for the schedule.
      * @return the leavingStart
      */
     public LocalTime getLeavingStart() {
@@ -104,14 +111,16 @@ public class Schedule implements Serializable{
     }
 
     /**
-     *  @return Return the leaving end time for the schedule.
+     * Get the leaving end time for the schedule. 
+     * @return Return the leaving end time for the schedule.
      */
     public LocalTime getLeavingEnd() {
         return leavingEnd;
     }
 
     /**
-     *  Return the String representation of a schedule. Currently a stub.
+     * Return the String representation of a schedule. Currently a stub.
+     * @return a String for this schedule 
      */
     @Override
     public String toString() {
@@ -119,7 +128,7 @@ public class Schedule implements Serializable{
     }
 
     /**
-     *  Sets the day for the schedule to the given day.
+     * Sets the day for the schedule to the given day.
      * @param day the day to set
      */
     public void setDay(Day day) {
@@ -127,7 +136,7 @@ public class Schedule implements Serializable{
     }
 
     /**
-     *  Sets the going to start time to the given time.
+     * Sets the going to start time to the given time.
      * @param goingToStart the goingToStart to set
      */
     public void setGoingToStart(LocalTime goingToStart) {
@@ -135,7 +144,7 @@ public class Schedule implements Serializable{
     }
 
     /**
-     *  Sets the going to end time to the given time.
+     * Sets the going to end time to the given time.
      * @param goingToEnd the goingToEnd to set
      */
     public void setGoingToEnd(LocalTime goingToEnd) {
@@ -143,7 +152,7 @@ public class Schedule implements Serializable{
     }
 
     /**
-     *  Sets the leaving start time to the given time.
+     * Sets the leaving start time to the given time.
      * @param leavingStart the leavingStart to set
      */
     public void setLeavingStart(LocalTime leavingStart) {
@@ -151,7 +160,7 @@ public class Schedule implements Serializable{
     }
 
     /**
-     *  Sets the leaving end time to the given time. 
+     * Sets the leaving end time to the given time. 
      * @param leavingEnd the leavingEnd to set
      */
     public void setLeavingEnd(LocalTime leavingEnd) {

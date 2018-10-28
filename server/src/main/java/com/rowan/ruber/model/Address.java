@@ -51,6 +51,7 @@ public class Address implements Serializable{
     } 
 
     /**
+     * Gets the AddressID.
      * @return the id
      */
     public int getId() {
@@ -58,6 +59,7 @@ public class Address implements Serializable{
     }
 
     /**
+     * Gets the street address.
      * @return the streetAddress
      */
     public String getStreetAddress() {
@@ -65,6 +67,7 @@ public class Address implements Serializable{
     }
 
     /**
+     * Gets the city.
      * @return the city
      */
     public String getCity() {
@@ -72,6 +75,7 @@ public class Address implements Serializable{
     }
 
     /**
+     * Gets the state.
      * @return the state
      */
     public String getState() {
@@ -79,6 +83,7 @@ public class Address implements Serializable{
     }
 
     /**
+     * Gets the zip code.
      * @return the zipCode
      */
     public String getZipCode() {
@@ -86,6 +91,7 @@ public class Address implements Serializable{
     }
 
     /**
+     * Gets the latitude.
      * @return the latitude
      */
     public double getLatitude() {
@@ -93,19 +99,24 @@ public class Address implements Serializable{
     }
 
     /**
+     * Gets the longitude.
      * @return the longitude
      */
     public double getLongitude() {
         return longitude;
     }
 
-    /** Return the String representation for an address. */
+    /** 
+     * Return the String representation for an address. 
+     * @return a String for this address
+    */
     @Override
     public String toString() {
         return String.format("%s , %s , %s %s", streetAddress, city, state, zipCode);
     }
 
     /**
+     * Sets the street address. Limit of 45 characters.
      * @param streetAddress the streetAddress to set
      */
     public void setStreetAddress(String streetAddress) {
@@ -113,6 +124,7 @@ public class Address implements Serializable{
     }
 
     /**
+     * Sets the city. Limit of 45 characters.
      * @param city the city to set
      */
     public void setCity(String city) {
@@ -120,13 +132,15 @@ public class Address implements Serializable{
     }
 
     /**
+     * Sets the state. Limit of 2 characters. For example, NY for New York.
      * @param state the state to set
      */
     public void setState(String state) {
-        this.state = state;
+        this.state = state.toUpperCase();
     }
 
     /**
+     * Sets the zip code. Limit of 5 characters.
      * @param zipCode the zipCode to set
      */
     public void setZipCode(String zipCode) {
@@ -134,6 +148,7 @@ public class Address implements Serializable{
     }
 
     /**
+     * Sets the latitude.
      * @param latitude the latitude to set
      */
     public void setLatitude(double latitude) {
@@ -141,6 +156,7 @@ public class Address implements Serializable{
     }
 
     /**
+     * Sets the longitude.
      * @param longitude the longitude to set
      */
     public void setLongitude(double longitude) {
