@@ -3,7 +3,6 @@ import 'AppDrawer.dart';
 import 'Rest.dart';
 
 String profilepic;
-
 String streetname = "1007 Mountain Drive";
 String city = "Gotham";
 String zip = "53540";
@@ -55,7 +54,6 @@ setProfilePic(String picLocation) {
 }
 
 // GETTERS
-// Data authentication
 
 getName() {
   return name;
@@ -94,14 +92,6 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     setProfilePic(
         "https://i.etsystatic.com/6543599/r/il/0dabd7/447283695/il_570xN.447283695_g8gh.jpg");
-
-//    String fullAddress = streetname + ", " + city + ", " + state + " " + zip;
-
-    print("11 >> Current full address: " + getFullAddress());
-    print("12 >> Current street name: " + getStreetName());
-    print("13 >> Current city name: " + getCity());
-    print("14 >> Current state name: " + getState());
-    print("15 >> Current zip code: " + getZip());
 
     return Scaffold(
       appBar: AppBar(
@@ -222,12 +212,6 @@ class ProfileScreen extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => AddressForm()));
                   },
                 ),
-//                RaisedButton(
-//                    padding: EdgeInsets.all(5.0),
-//                    child: Text('Edit Schedule'),
-//                    onPressed: () {
-//                      print("I'm working on it");
-//                    })
               ],
             )
           ],
@@ -294,6 +278,7 @@ class _MyFullNameForm extends State<FullNameForm> {
                   // Make sure to write to Database
 
                   setName(fullNameController.text);
+
                   Navigator.pop(context);
                 },
               ),
@@ -359,6 +344,7 @@ class _MyEmailForm extends State<EmailForm> {
                 // Make sure to write to Database
 
                 setEmail(emailController.text);
+
                 Navigator.pop(context);
               },
             ))
@@ -397,11 +383,13 @@ class _MyAddressForm extends State<AddressForm> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('Edit your address'), centerTitle: true, automaticallyImplyLeading: false),
+        appBar: AppBar(
+            title: Text('Edit your address'),
+            centerTitle: true,
+            automaticallyImplyLeading: false),
         drawer: launchAppDrawer(context),
         body: Center(
             child: ListView(
@@ -433,14 +421,7 @@ class _MyAddressForm extends State<AddressForm> {
               onEditingComplete: () {
                 // Make sure to write to Database
 
-                print("1 >> In steet field");
-
-                // For submit button
-                newStreet = streetNameController.text;
-
                 setStreetName(streetNameController.text);
-
-                print("2 >> New Street field: " + getStreetName());
 
                 FocusScope.of(context).requestFocus(new FocusNode());
               },
@@ -462,13 +443,7 @@ class _MyAddressForm extends State<AddressForm> {
               onEditingComplete: () {
                 // Make sure to write to Database
 
-                print("3 >> In city field");
-
-                newCity = cityController.text;
-
                 setCity(cityController.text);
-
-                print("4 >> New City field: " + getCity());
 
                 FocusScope.of(context).requestFocus(new FocusNode());
               },
@@ -490,13 +465,7 @@ class _MyAddressForm extends State<AddressForm> {
               onEditingComplete: () {
                 // Make sure to write to Database
 
-                print("5 >> In state field");
-
-                newState = stateController.text;
-
                 setState(stateController.text);
-
-                print("6 >> New state field: " + getState());
 
                 FocusScope.of(context).requestFocus(new FocusNode());
               },
@@ -518,13 +487,7 @@ class _MyAddressForm extends State<AddressForm> {
               onEditingComplete: () {
                 // Make sure to write to Database
 
-                print("7 >> In zip Field");
-
-                newZip = zipController.text;
-
                 setZip(zipController.text);
-
-                print("8 >> New zip field: " + getZip());
 
                 FocusScope.of(context).requestFocus(new FocusNode());
               },
@@ -536,30 +499,11 @@ class _MyAddressForm extends State<AddressForm> {
                   onPressed: () {
                     // Make sure to write to the database
 
-                    print("9 >> New fields: " +
-                        getStreetName() +
-                        " " +
-                        getCity() +
-                        " " +
-                        getZip() +
-                        " " +
-                        getState());
-
                     setFullAddressWithParams(
                         streetNameController.text,
                         cityController.text,
                         zipController.text,
                         stateController.text);
-
-
-                    print("10 >> New fields after method call: " +
-                        getStreetName() +
-                        " " +
-                        getCity() +
-                        " " +
-                        getZip() +
-                        " " +
-                        getState());
 
                     Navigator.push(
                       context,
