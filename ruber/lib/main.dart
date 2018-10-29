@@ -142,18 +142,16 @@ class MessagesScreenState extends State<MessagesScreen> {
   final List<ChatMessage> _messages = <ChatMessage>[];
   final TextEditingController _textController = new TextEditingController();
 
-  void _handleSubmitted(String text) {
+  void _handleSubmitted(String text)
+  {
     _textController.clear();
-    ChatMessage message = new ChatMessage(
-      text: text,
-    );
 
-    // TODO: Why is this an error??
+    ChatMessage message = new ChatMessage(text: text);
+
 
 //    setState(() {
 //      _messages.insert(0, message);
-//    }
-//      );
+//    });
 
   }
 

@@ -9,7 +9,8 @@ String city = "Gotham";
 String zip = "53540";
 String state = "CA";
 String schedule = "Working on this";
-String fullAddress = "";
+String fullAddress =
+    fullAddress = streetname + ", " + city + ", " + state + " " + zip;
 
 String email = "wayne@wayneenterprises.com";
 String name = "Bruce Wayne";
@@ -24,10 +25,9 @@ setFullAddress(String newFullAddress) {
   fullAddress = newFullAddress;
 }
 
-@override
 setFullAddressWithParams(
     String newStreetName, String newCity, String newZip, String newState) {
-  fullAddress = streetname + ", " + city + ", " + state + " " + zip;
+  fullAddress = newStreetName + ", " + newCity + ", " + newState + " " + newZip;
 }
 
 setStreetName(String newStreetName) {
@@ -55,6 +55,7 @@ setProfilePic(String picLocation) {
 }
 
 // GETTERS
+// Data authentication
 
 getName() {
   return name;
@@ -94,7 +95,13 @@ class ProfileScreen extends StatelessWidget {
     setProfilePic(
         "https://i.etsystatic.com/6543599/r/il/0dabd7/447283695/il_570xN.447283695_g8gh.jpg");
 
-    String fullAddress = streetname + ", " + city + ", " + state + " " + zip;
+//    String fullAddress = streetname + ", " + city + ", " + state + " " + zip;
+
+    print("11 >> Current full address: " + getFullAddress());
+    print("12 >> Current street name: " + getStreetName());
+    print("13 >> Current city name: " + getCity());
+    print("14 >> Current state name: " + getState());
+    print("15 >> Current zip code: " + getZip());
 
     return Scaffold(
       appBar: AppBar(
@@ -155,7 +162,7 @@ class ProfileScreen extends StatelessWidget {
             Container(
                 margin: EdgeInsets.all(5.0),
                 child: Text(
-                  email,
+                  getEmail(),
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 16.0),
                 )),
@@ -175,6 +182,7 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ),
             ),
+
             Container(
                 margin: EdgeInsets.all(5.0),
                 child: Text(
@@ -182,29 +190,6 @@ class ProfileScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 16.0),
                 )),
-
-//            // Schedule
-//
-//            Container(
-//              margin: EdgeInsets.only(top: 15.0),
-//              child: Text(
-//                'Schedule',
-//                textAlign: TextAlign.center,
-//                style: TextStyle(
-//                  fontWeight: FontWeight.bold,
-//                  fontSize: 20.0,
-//                  fontFamily: 'Helvetica',
-//                  color: Colors.purpleAccent,
-//                ),
-//              ),
-//            ),
-//            Container(
-//                margin: EdgeInsets.all(5.0),
-//                child: Text(
-//                  schedule,
-//                  textAlign: TextAlign.center,
-//                  style: TextStyle(fontSize: 16.0),
-//                )),
 
             // Edit buttons
 
@@ -345,40 +330,40 @@ class _MyEmailForm extends State<EmailForm> {
         drawer: launchAppDrawer(context),
         body: Center(
             child: ListView(
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.all(10.0),
-                  child: Text(
-                    'Click on each field to edit it',
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.all(10.0),
+              child: Text(
+                'Click on each field to edit it',
+                textAlign: TextAlign.center,
+              ),
+            ),
+
+            // Email
+
+            Container(
+                margin: EdgeInsets.only(top: 15.0),
+                child: Text('Email',
                     textAlign: TextAlign.center,
-                  ),
-                ),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0,
+                        fontFamily: 'Helvetica',
+                        color: Colors.blueAccent))),
+            Container(
+                child: TextField(
+              textAlign: TextAlign.center,
+              decoration: InputDecoration.collapsed(hintText: email),
+              controller: emailController,
+              onEditingComplete: () {
+                // Make sure to write to Database
 
-                // Email
-
-                Container(
-                    margin: EdgeInsets.only(top: 15.0),
-                    child: Text('Email',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20.0,
-                            fontFamily: 'Helvetica',
-                            color: Colors.blueAccent))),
-                Container(
-                    child: TextField(
-                      textAlign: TextAlign.center,
-                      decoration: InputDecoration.collapsed(hintText: email),
-                      controller: emailController,
-                      onEditingComplete: () {
-                        // Make sure to write to Database
-
-                        setEmail(emailController.text);
-                        Navigator.pop(context);
-                      },
-                    ))
-              ],
-            )));
+                setEmail(emailController.text);
+                Navigator.pop(context);
+              },
+            ))
+          ],
+        )));
   }
 }
 
@@ -397,6 +382,11 @@ class _MyAddressForm extends State<AddressForm> {
   final zipController = TextEditingController();
   final stateController = TextEditingController();
 
+  String newStreet = "";
+  String newCity = "";
+  String newZip = "";
+  String newState = "";
+
   @override
   void dispose() {
     streetNameController.dispose();
@@ -407,117 +397,177 @@ class _MyAddressForm extends State<AddressForm> {
     super.dispose();
   }
 
-  // TODO -- Work on entering the whole address separately and it combining together without having to do each one at a time
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('Edit your address'), centerTitle: true),
+        appBar: AppBar(title: Text('Edit your address'), centerTitle: true, automaticallyImplyLeading: false),
         drawer: launchAppDrawer(context),
         body: Center(
             child: ListView(
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.all(10.0),
-                  child: Text(
-                    'Click on each field to edit it',
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.all(10.0),
+              child: Text(
+                'Click on each field to edit it',
+                textAlign: TextAlign.center,
+              ),
+            ),
+
+            // Email
+
+            Container(
+                margin: EdgeInsets.only(top: 15.0),
+                child: Text('Street Name',
                     textAlign: TextAlign.center,
-                  ),
-                ),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0,
+                        fontFamily: 'Helvetica',
+                        color: Colors.blueAccent))),
+            Container(
+                child: TextField(
+              textAlign: TextAlign.center,
+              decoration: InputDecoration.collapsed(hintText: streetname),
+              controller: streetNameController,
+              onEditingComplete: () {
+                // Make sure to write to Database
 
-                // Email
+                print("1 >> In steet field");
 
-                Container(
-                    margin: EdgeInsets.only(top: 15.0),
-                    child: Text('Street Name',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20.0,
-                            fontFamily: 'Helvetica',
-                            color: Colors.blueAccent))),
-                Container(
-                    child: TextField(
-                      textAlign: TextAlign.center,
-                      decoration: InputDecoration.collapsed(hintText: streetname),
-                      controller: streetNameController,
-                      onEditingComplete: () {
-                        // Make sure to write to Database
+                // For submit button
+                newStreet = streetNameController.text;
 
-                        setFullAddressWithParams(
-                            getStreetName(), getCity(), getState(), getZip());
-                        setStreetName(streetNameController.text);
-                        Navigator.pop(context);
-                      },
-                    )),
-                Container(
-                    margin: EdgeInsets.only(top: 15.0),
-                    child: Text('City',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20.0,
-                            fontFamily: 'Helvetica',
-                            color: Colors.blueAccent))),
-                Container(
-                    child: TextField(
-                      textAlign: TextAlign.center,
-                      decoration: InputDecoration.collapsed(hintText: city),
-                      controller: cityController,
-                      onEditingComplete: () {
-                        // Make sure to write to Database
-                        setFullAddressWithParams(
-                            getStreetName(), getCity(), getState(), getZip());
-                        setCity(cityController.text);
-                        Navigator.pop(context);
-                      },
-                    )),
-                Container(
-                    margin: EdgeInsets.only(top: 15.0),
-                    child: Text('State',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20.0,
-                            fontFamily: 'Helvetica',
-                            color: Colors.blueAccent))),
-                Container(
-                    child: TextField(
-                      textAlign: TextAlign.center,
-                      decoration: InputDecoration.collapsed(hintText: state),
-                      controller: stateController,
-                      onEditingComplete: () {
-                        // Make sure to write to Database
-                        setFullAddressWithParams(
-                            getStreetName(), getCity(), getState(), getZip());
-                        setState(stateController.text);
-                        Navigator.pop(context);
-                      },
-                    )),
-                Container(
-                    margin: EdgeInsets.only(top: 15.0),
-                    child: Text('ZIP',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20.0,
-                            fontFamily: 'Helvetica',
-                            color: Colors.blueAccent))),
-                Container(
-                    child: TextField(
-                      textAlign: TextAlign.center,
-                      decoration: InputDecoration.collapsed(hintText: zip),
-                      controller: zipController,
-                      onEditingComplete: () {
-                        // Make sure to write to Database
+                setStreetName(streetNameController.text);
 
-                        setFullAddressWithParams(
-                            getStreetName(), getCity(), getState(), getZip());
-                        setZip(zipController.text);
-                        Navigator.pop(context);
-                      },
-                    )),
-              ],
-            )));
+                print("2 >> New Street field: " + getStreetName());
+
+                FocusScope.of(context).requestFocus(new FocusNode());
+              },
+            )),
+            Container(
+                margin: EdgeInsets.only(top: 15.0),
+                child: Text('City',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0,
+                        fontFamily: 'Helvetica',
+                        color: Colors.blueAccent))),
+            Container(
+                child: TextField(
+              textAlign: TextAlign.center,
+              decoration: InputDecoration.collapsed(hintText: city),
+              controller: cityController,
+              onEditingComplete: () {
+                // Make sure to write to Database
+
+                print("3 >> In city field");
+
+                newCity = cityController.text;
+
+                setCity(cityController.text);
+
+                print("4 >> New City field: " + getCity());
+
+                FocusScope.of(context).requestFocus(new FocusNode());
+              },
+            )),
+            Container(
+                margin: EdgeInsets.only(top: 15.0),
+                child: Text('State',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0,
+                        fontFamily: 'Helvetica',
+                        color: Colors.blueAccent))),
+            Container(
+                child: TextField(
+              textAlign: TextAlign.center,
+              decoration: InputDecoration.collapsed(hintText: state),
+              controller: stateController,
+              onEditingComplete: () {
+                // Make sure to write to Database
+
+                print("5 >> In state field");
+
+                newState = stateController.text;
+
+                setState(stateController.text);
+
+                print("6 >> New state field: " + getState());
+
+                FocusScope.of(context).requestFocus(new FocusNode());
+              },
+            )),
+            Container(
+                margin: EdgeInsets.only(top: 15.0),
+                child: Text('ZIP',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0,
+                        fontFamily: 'Helvetica',
+                        color: Colors.blueAccent))),
+            Container(
+                child: TextField(
+              textAlign: TextAlign.center,
+              decoration: InputDecoration.collapsed(hintText: zip),
+              controller: zipController,
+              onEditingComplete: () {
+                // Make sure to write to Database
+
+                print("7 >> In zip Field");
+
+                newZip = zipController.text;
+
+                setZip(zipController.text);
+
+                print("8 >> New zip field: " + getZip());
+
+                FocusScope.of(context).requestFocus(new FocusNode());
+              },
+            )),
+            Container(
+                margin: EdgeInsets.only(top: 20.0),
+                child: RaisedButton(
+                  child: Text('Save Changes'),
+                  onPressed: () {
+                    // Make sure to write to the database
+
+                    print("9 >> New fields: " +
+                        getStreetName() +
+                        " " +
+                        getCity() +
+                        " " +
+                        getZip() +
+                        " " +
+                        getState());
+
+                    setFullAddressWithParams(
+                        streetNameController.text,
+                        cityController.text,
+                        zipController.text,
+                        stateController.text);
+
+
+                    print("10 >> New fields after method call: " +
+                        getStreetName() +
+                        " " +
+                        getCity() +
+                        " " +
+                        getZip() +
+                        " " +
+                        getState());
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ProfileScreen()),
+                    );
+                  },
+                ))
+          ],
+        )));
   }
 }
