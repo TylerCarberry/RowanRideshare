@@ -493,7 +493,7 @@ class _MyAddressForm extends State<AddressForm> {
               },
             )),
             Container(
-                margin: EdgeInsets.only(top: 20.0),
+                margin: EdgeInsets.only(top: 40.0, left: 70.0, right: 70.0),
                 child: RaisedButton(
                   child: Text('Save Changes'),
                   onPressed: () {
