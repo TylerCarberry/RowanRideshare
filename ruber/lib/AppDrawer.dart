@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'main.dart';
+import 'profile.dart';
 
 Drawer launchAppDrawer(context) {
   return Drawer(
@@ -27,7 +28,7 @@ Drawer launchAppDrawer(context) {
             {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => MainScreen()),
+                MaterialPageRoute(builder: (context) => MessagesScreen()),
               );
             },
           ),
@@ -38,7 +39,7 @@ Drawer launchAppDrawer(context) {
             {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => MainScreen()),
+                MaterialPageRoute(builder: (context) => ProfileScreen()),
               );
             },
           ),
@@ -49,7 +50,7 @@ Drawer launchAppDrawer(context) {
             {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => MainScreen()),
+                MaterialPageRoute(builder: (context) => SettingsScreen()),
               );
             },
           ),
