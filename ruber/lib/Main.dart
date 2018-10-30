@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'login.dart';
+import 'package:ruber/AuthScreen.dart';
+import 'Login.dart';
 import 'RideScreen.dart';
 import 'AppDrawer.dart';
 import 'profile.dart';
@@ -77,6 +78,14 @@ class MainScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => TextForm()),
+                      );
+                    }),
+                RaisedButton(
+                    child: Text('Login (V2)'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AuthScreen()),
                       );
                     }),
                 RaisedButton(
