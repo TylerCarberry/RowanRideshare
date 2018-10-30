@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'login.dart';
 import 'RideScreen.dart';
 import 'AppDrawer.dart';
+import 'profile.dart';
 import 'Messages_Screen.dart';
 import 'settings_Screen.dart';
 import 'MapPage.dart';
@@ -9,7 +10,6 @@ import 'package:map_view/map_view.dart';
 import 'StaticMapPage.dart';
 
 var api_key = "AIzaSyDrHKl8IxB4cGXIoELXQOzzZwiH1xtsRf4";
-
 
 const String _name = "Your Name";
 
@@ -29,70 +29,72 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-
           title: Text('RUber'),
           centerTitle: false,
           automaticallyImplyLeading: false,
         ),
         body: Center(
           child: Column(
-            children: [
-              Container(child: StaticMapPage(), height: 381.0),
-              RaisedButton(
-                child: Text('New Ride'),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => NewRideScreen()),
-                  );
-                },
-              ),
-              RaisedButton(
-                  child: Text('Messages'),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => MessagesScreen()),
-                    );
-                  }),
-              RaisedButton(
-                  child: Text('Profile'),
+              children: [
+//              Container(child: StaticMapPage(), height: 381.0),
+                RaisedButton(
+                  child: Text('New Ride'),
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => NewRideScreen()),
                     );
-                  }),
-              RaisedButton(
-                  child: Text('Settings'),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SettingsScreen()),
-                    );
-                  }),
-              RaisedButton(
-                  child: Text('Login'),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => TextForm()),
-                    );
-                  }),
-              RaisedButton(
-                  child: Text('Map Test'),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => MapPage()),
-                    );
-                  }),
+                  },
+                ),
+                RaisedButton(
+                    child: Text('Messages'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MessagesScreen()),
+                      );
+                    }),
+                RaisedButton(
+                    child: Text('Profile'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ProfileScreen()),
+                      );
+                    }),
+                RaisedButton(
+                    child: Text('Settings'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SettingsScreen()),
+                      );
+                    }),
+                RaisedButton(
+                    child: Text('Login'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => TextForm()),
+                      );
+                    }),
+                RaisedButton(
+                    child: Text('Map Test'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MapPage()),
+                      );
+                    }),
 
-            ]
+              ]
           ),
         ));
   }
 }
+
+// ==================== LOGIN SCREEN ======================== //
 
 class TextForm extends StatefulWidget {
   _TextForm createState() => _TextForm();
@@ -116,12 +118,19 @@ class _TextForm extends State<TextForm> {
   }
 }
 
-class MessagesScreen extends StatefulWidget{
+
+// =================END LOGIN SCREEN ======================== //
+
+
+// ================== MESSAGES SCREEN ======================= //
+
+class MessagesScreen extends StatefulWidget {
   State createState() => MessagesScreenState();
 }
 
 class ChatMessage extends StatelessWidget {
   ChatMessage({this.text});
+
   final String text;
   @override
   Widget build(BuildContext context) {
@@ -133,20 +142,26 @@ class MessagesScreenState extends State<MessagesScreen> {
   final List<ChatMessage> _messages = <ChatMessage>[];
   final TextEditingController _textController = new TextEditingController();
 
-  void _handleSubmitted(String text) {
+  void _handleSubmitted(String text)
+  {
     _textController.clear();
-    ChatMessage message = new ChatMessage(
-      text: text,
-    );
-    setState(() {
-      _messages.insert(0, message);
-    });
+
+    ChatMessage message = new ChatMessage(text: text);
+
+
+//    setState(() {
+//      _messages.insert(0, message);
+//    });
+
   }
+
 
   Widget _buildTextComposer() {
     return new IconTheme(
-        data: new IconThemeData(color: Theme.of(context).accentColor),
-        child: new Container(                                     //modified
+        data: new IconThemeData(color: Theme
+            .of(context)
+            .accentColor),
+        child: new Container( //modified
           margin: const EdgeInsets.symmetric(horizontal: 8.0),
           child: new Row(
             children: <Widget>[
@@ -171,19 +186,21 @@ class MessagesScreenState extends State<MessagesScreen> {
   }
 
   Widget build(BuildContext context) {
-    return launchMessagesScreen(context, _messages,_buildTextComposer);
+    return launchMessagesScreen(context, _messages, _buildTextComposer);
   }
 }
+
+// ======================== END MESSAGES SCREEN ====================== //
 
 class NewRideScreen extends StatelessWidget {
   Widget build(context) {
     return Scaffold(
-      appBar: AppBar(title: Text('New Ride'), centerTitle: true),
-      drawer: launchAppDrawer(context),
-      body: DefaultTabController(
-        length: 2,
-        child: launchRideScreen(context)
-      )
+        appBar: AppBar(title: Text('New Ride'), centerTitle: true),
+        drawer: launchAppDrawer(context),
+        body: DefaultTabController(
+            length: 2,
+            child: launchRideScreen(context)
+        )
     );
   }
 }
