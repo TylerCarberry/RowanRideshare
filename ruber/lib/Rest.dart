@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:async' show Future;
-import 'package:flutter/services.dart' show rootBundle;
-import 'dart:convert';
-import 'User.dart';
+import 'PostModel.dart';
+import 'dart:io';
 
 class Rest extends StatelessWidget {
   // This widget is the root of your application.
@@ -15,47 +14,40 @@ class Rest extends StatelessWidget {
         body: new Container(
           //body of the scaffold is a container with a http pull
           child: Center(
-            child: FutureBuilder(
-              future: loadUser(),
-              builder: (context, snapshot) {
-                //print(snapshot.data.title);
-                //print (snapshot.connectionState.toString());
-                if (snapshot.hasData) {
-                  //return Text('${snapshot.data}');
-                  print(snapshot.data.toString());
-                  return Text(snapshot.data.toString());
-                } else if (snapshot.hasError) {
-                  return Text("${snapshot.data.toString()}");
-                }
-                return CircularProgressIndicator();
-              },
-            ),
-          ),
+              child: FutureBuilder<Post>(
+                  future: getPost(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData)
+                      return Text(
+                          'Created Date from Post JSON : ${snapshot.data.createdDate}');
+                    else
+                      return CircularProgressIndicator();
+                  })),
         ),
       ),
     );
   }
 
-  Future fetchResponse() async {
-    String responseList;
-    http.Response response = await http
-        .get("http://10.0.2.2:8080/hello/greeting")
-        .catchError((resp) {});
-    responseList = response.body.toString();
+  String url = 'http://10.0.2.2:8080/rides/profile/1';
 
-    return responseList;
+  Future<List<Post>> getAllPosts() async {
+    final response = await http.get(url);
+    print(response.body);
+    return allPostsFromJson(response.body);
   }
 
-  Future<String> _loadUserAsset() async {
-    return await rootBundle.loadString('assets/User_Structure.json');
+  Future<Post> getPost() async {
+    final response = await http.get(url);
+    return postFromJson(response.body);
   }
 
-  Future loadUser() async {
-    String jsonString = await _loadUserAsset();
-    final jsonResponse = json.decode(jsonString);
-    User user = new User.fromJson(jsonResponse);
-    print(user.userName);
-
-    return user.userName;
+  Future<http.Response> createPost(Post post) async {
+    final response = await http.post('$url',
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: ''
+        },
+        body: postToJson(post));
+    return response;
   }
 }
