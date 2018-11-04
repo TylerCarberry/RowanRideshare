@@ -14,7 +14,9 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Set;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Class to set up the JPA Entity for the Profile table in the database
@@ -41,8 +43,9 @@ public class Profile implements Serializable{
     @Column(name="CreatedDate")
     private Date createdDate;
 
+
     @OneToMany(mappedBy="profile")
-    private List<Schedule> schedules = new ArrayList<Schedule>(); // Maintain bi-directional 1 to Many w/ Schedule
+    private Set<Schedule> schedules = new HashSet<Schedule>(); // Maintain bi-directional 1 to Many w/ Schedule
 
     /** 
      *  Default constructor for JPA.
@@ -113,7 +116,7 @@ public class Profile implements Serializable{
      * Gets the schedules for a profile.
      * @return all the schedules for this profile
      */
-    public List<Schedule> getSchedules() {
+    public Set<Schedule> getSchedules() {
         return schedules;
     }
 
@@ -145,7 +148,7 @@ public class Profile implements Serializable{
      * Sets the schedule.
      * @param schedules the schedules to set
      */
-    public void setSchedules(List<Schedule> schedules) {
+    public void setSchedules(Set<Schedule> schedules) {
         this.schedules = schedules;
     }
 }
