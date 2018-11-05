@@ -19,6 +19,9 @@ public class RuberController {
     @Autowired
     private ProfileRepository profileRepository;
 
+    @Autowired
+    private ChatroomRepository chatroomRepository;
+
     @GetMapping("/nearby")
     public String index(@RequestParam(name="authToken") String authToken) {
         Authenticator authenticator = new Authenticator();
@@ -40,5 +43,10 @@ public class RuberController {
     @RequestMapping(path="/profile/{profileID}", method = RequestMethod.GET)
     public @ResponseBody Optional<Profile> getProfile(@PathVariable int profileID) {
         return profileRepository.findById(profileID);
+    }
+
+    @RequestMapping(path="/chatroom/{chatroomID}", method = RequestMethod.GET)
+    public @ResponseBody Optional<Chatroom> getChatroom(@PathVariable int chatroomID) {
+        return chatroomRepository.findById(chatroomID);
     }
 }

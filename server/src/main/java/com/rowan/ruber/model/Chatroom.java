@@ -7,8 +7,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="chatroom")
@@ -21,10 +29,21 @@ public class Chatroom implements Serializable{
     @Column(name="CreatedDate")
     private Date createdDate;
 
-    // TODO: linking
-    // wrapper type Int because it is nullable on the database
-    @Column(name="LastMessageID")
-    private Integer lastMessageId;
+    @OneToOne
+    @JoinColumn(name="LastMessageID")
+    private Message lastMessage;
+
+    @JsonManagedReference
+    @ManyToMany
+    @JoinTable(name = "chatroomProfile",
+            joinColumns = { @JoinColumn(name = "ChatroomID") },
+            inverseJoinColumns = { @JoinColumn(name = "ProfileID") })
+    private List<Profile> profiles = new ArrayList<Profile>();
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "chatroom")
+    private List<Message> messages = new ArrayList<Message>();
+
 
     /** 
      *  Default constructor for JPA. 
@@ -33,17 +52,15 @@ public class Chatroom implements Serializable{
     public Chatroom(){}
 
     /**
-     * When chat room is first created, there may not be a message sent yet.
+     * When chat room is first created, there can't be a message sent yet.
+     * A message has to belong to a chatroom, so lastMessage is initially null.
+     * 
      * LastMessageId is nullable on database
      * @param createdDate
      */
     public Chatroom(Date createdDate){
         this.createdDate = createdDate;
-    }
-
-    public Chatroom(Date createdDate, int lastMessageId){
-        this.createdDate = createdDate;
-        this.lastMessageId = lastMessageId;
+        lastMessage = null;
     }
 
     /**
@@ -66,7 +83,15 @@ public class Chatroom implements Serializable{
      * Gets the very recent message id
      * @return the lastMessageId
      */
-    public int getLastMessageId() {
-        return lastMessageId;
+    public Message getLastMessageId() {
+        return lastMessage;
+    }
+
+    /**
+     * Gets the messages for this chatroom.
+     * @return a list of messages
+     */
+    public List<Message> getMessages() {
+        return messages;
     }
 }
