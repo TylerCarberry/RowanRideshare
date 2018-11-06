@@ -75,4 +75,10 @@ public class RuberController {
         Profile profile = getProfile(profileID).get();
         return Optional.ofNullable(profile.getSchedules());
     }
+
+    // TODO: finish post
+    @PostMapping(path="/profile/create?{profileID}")
+    public @ResponseBody void createProfile(@RequestBody Profile profile){
+        profileRepository.save(profile);
+    }
 }
