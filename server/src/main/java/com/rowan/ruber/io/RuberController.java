@@ -45,8 +45,19 @@ public class RuberController {
         return profileRepository.findById(profileID);
     }
 
+    /**
+     * Get the chatroom. 
+     * @param chatroomID the ID for the chatroom
+     * @return the profile in JSON format
+     */
     @RequestMapping(path="/chatroom/{chatroomID}", method = RequestMethod.GET)
     public @ResponseBody Optional<Chatroom> getChatroom(@PathVariable int chatroomID) {
         return chatroomRepository.findById(chatroomID);
+    }
+
+    @RequestMapping(path="/address/{profileID}", method = RequestMethod.GET)
+    public @ResponseBody Optional<Address> getAddress(@PathVariable int profileID){
+        Profile profile = getProfile(profileID).get();
+        return addressRepository.findById(profile.getId());
     }
 }
