@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 /**
  *  Class to set up the JPA Entity for the Schedule table in the database.
  *  Each schedule is represented by a day of the week and time ranges for going and leaving.
@@ -20,7 +22,8 @@ import javax.persistence.Table;
 @Table(name="schedule")
 public class Schedule implements Serializable{
     @Id
-    @ManyToOne // ** need to decide on fetch type -> Eager or Lazy ?
+    @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "ProfileID")
     private Profile profile;
 
