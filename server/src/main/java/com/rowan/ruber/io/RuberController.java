@@ -69,4 +69,10 @@ public class RuberController {
         Chatroom chatroom = getChatroom(chatroomID).get();
         return Optional.ofNullable(chatroom.getMessages());
     }
+
+    @RequestMapping(path="/schedule/{profileID}", method = RequestMethod.GET)
+    public @ResponseBody Optional<List<Schedule>> getSchedule(@PathVariable int profileID){
+        Profile profile = getProfile(profileID).get();
+        return Optional.ofNullable(profile.getSchedules());
+    }
 }
