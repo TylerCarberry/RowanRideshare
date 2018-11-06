@@ -1,5 +1,6 @@
 package com.rowan.ruber.io;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.rowan.ruber.Authenticator;
@@ -57,7 +58,15 @@ public class RuberController {
 
     @RequestMapping(path="/address/{profileID}", method = RequestMethod.GET)
     public @ResponseBody Optional<Address> getAddress(@PathVariable int profileID){
-        Profile profile = getProfile(profileID).get();
-        return addressRepository.findById(profile.getId());
+        // Optional<>.get() returns the Profile object if it was obtained.
+        Profile profile = getProfile(profileID).get(); 
+        // If Profile.Address is not nullable, Optional.of() is a better option.
+        return Optional.ofNullable(profile.getAddress());
+    }
+
+    @RequestMapping(path="/messages/{chatroomID}", method = RequestMethod.GET)
+    public @ResponseBody Optional<List<Message>> getMessage(@PathVariable int chatroomID) {
+        Chatroom chatroom = getChatroom(chatroomID).get();
+        return Optional.ofNullable(chatroom.getMessages());
     }
 }
