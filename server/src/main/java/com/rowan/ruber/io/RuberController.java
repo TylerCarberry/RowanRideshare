@@ -41,7 +41,7 @@ public class RuberController {
      * @param profileID the ID for the profile.
      * @return the profile in JSON format.
      */
-    @RequestMapping(path="/profile/{profileID}", method = RequestMethod.GET)
+    @GetMapping(path="/profile/{profileID}")
     public @ResponseBody Optional<Profile> getProfile(@PathVariable int profileID) {
         return profileRepository.findById(profileID);
     }
@@ -51,12 +51,12 @@ public class RuberController {
      * @param chatroomID the ID for the chatroom
      * @return the profile in JSON format
      */
-    @RequestMapping(path="/chatroom/{chatroomID}", method = RequestMethod.GET)
+    @GetMapping(path="/chatroom/{chatroomID}")
     public @ResponseBody Optional<Chatroom> getChatroom(@PathVariable int chatroomID) {
         return chatroomRepository.findById(chatroomID);
     }
 
-    @RequestMapping(path="/address/{profileID}", method = RequestMethod.GET)
+    @GetMapping(path="/address/{profileID}")
     public @ResponseBody Optional<Address> getAddress(@PathVariable int profileID){
         // Optional<>.get() returns the Profile object if it was obtained.
         Profile profile = getProfile(profileID).get(); 
@@ -64,14 +64,14 @@ public class RuberController {
         return Optional.ofNullable(profile.getAddress());
     }
 
-    @RequestMapping(path="/messages/{chatroomID}", method = RequestMethod.GET)
+    @GetMapping(path="/messages/{chatroomID}")
     public @ResponseBody Optional<List<Message>> getMessage(@PathVariable int chatroomID) {
         Chatroom chatroom = getChatroom(chatroomID).get();
         return Optional.ofNullable(chatroom.getMessages());
     }
 
-    @RequestMapping(path="/schedule/{profileID}", method = RequestMethod.GET)
-    public @ResponseBody Optional<List<Schedule>> getSchedule(@PathVariable int profileID){
+    @GetMapping(path="/schedule/{profileID}")
+    public @ResponseBody Optional<List<Schedule>> geStSchedule(@PathVariable int profileID){
         Profile profile = getProfile(profileID).get();
         return Optional.ofNullable(profile.getSchedules());
     }
