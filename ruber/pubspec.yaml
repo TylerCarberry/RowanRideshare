@@ -13,16 +13,21 @@ environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
 
 dependencies:
+  jaguar: ^2.4.5
+  html: any
   flutter:
-
     sdk: flutter
+  convert: ^2.0.2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
+  map_view:
+
   http: ^0.11.3+16
 
 dev_dependencies:
+
   flutter_test:
     sdk: flutter
 
@@ -32,11 +37,13 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
+  uses-material-design: true
+  assets:
+        - assets/User_Structure.json
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
-  uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -3,6 +3,8 @@
 
 ruber/\.idea/workspace\.xml
 
+ruber/ios/Podfile
+
 # Miscellaneous
 *.class
 *.lock
