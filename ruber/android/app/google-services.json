@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "595426910927",
+    "firebase_url": "https://rowan-carpool.firebaseio.com",
+    "project_id": "rowan-carpool",
+    "storage_bucket": "rowan-carpool.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:595426910927:android:135ac0c60058b625",
+        "android_client_info": {
+          "package_name": "com.ruber.ruber"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "595426910927-pvceg8im0ptob1vdg8f4bcf3k36g13sa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ruber.ruber",
+            "certificate_hash": "d428766354982cbbec770baab9bfcc2db1162ac7"
+          }
+        },
+        {
+          "client_id": "595426910927-5u3ojfnkcb9gigj5n78temrrij09rdug.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtlp3t9GtTVaIqWup2fCltMNrX3yeN2uo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "595426910927-5u3ojfnkcb9gigj5n78temrrij09rdug.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
