@@ -1,3 +1,7 @@
+// TODO: Fix the bug where if you don't enter anything into the edit address
+// TODO: screen, and click the submit button, the address fields are emptied
+// TODO: and you can't see the address in the profile screen
+
 import 'package:flutter/material.dart';
 import 'AppDrawer.dart';
 import 'Rest.dart';

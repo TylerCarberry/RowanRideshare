@@ -9,6 +9,7 @@ import 'settings_Screen.dart';
 import 'MapPage.dart';
 import 'package:map_view/map_view.dart';
 import 'StaticMapPage.dart';
+import 'package:splashscreen/splashscreen.dart';
 
 var api_key = "AIzaSyDrHKl8IxB4cGXIoELXQOzzZwiH1xtsRf4";
 
@@ -18,9 +19,54 @@ void main() {
   MapView.setApiKey(api_key);
   runApp(MaterialApp(
     title: 'RUber',
-    home: MainScreen(),
+    home: Disclaimer(),
   ));
 }
+
+// DISCLAIMER
+
+class Disclaimer extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Column(
+        children: <Widget>[
+          const ListTile(
+            contentPadding: EdgeInsets.only(top: 100.0, left: 70.0),
+            title: Text('EULA Disclaimer'),
+            subtitle: Text('We are not responsible for anything that happens'
+                'from the use of this app to anyone or anything'),
+          ),
+          ButtonTheme.bar(
+            child: Center(
+              child: ButtonBar(
+              children: <Widget>[
+                FlatButton(
+                  child: const Text('Decline and quit'),
+                  onPressed: () {
+                    print("They declined!");
+                  },
+                ),
+                FlatButton(
+                  child: const Text('Accept and use'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MainScreen())
+                    );
+                  },
+                )
+              ],
+              )
+            )
+          )
+        ],
+      )
+    );
+  }
+}
+
+
 
 class MainScreen extends StatelessWidget {
   final String title;
@@ -149,6 +195,7 @@ class ChatMessage extends StatelessWidget {
 
 class MessagesScreenState extends State<MessagesScreen> {
   final List<ChatMessage> _messages = <ChatMessage>[];
+
   final TextEditingController _textController = new TextEditingController();
 
   void _handleSubmitted(String text)
