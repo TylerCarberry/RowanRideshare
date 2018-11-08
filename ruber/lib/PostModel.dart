@@ -24,7 +24,7 @@ class Post {
   int id;
   String name;
   String email;
-  Address address;
+  var address;
   String createdDate;
   var schedules;
 
@@ -42,7 +42,7 @@ class Post {
         id: parsedJson["id"],
         name: parsedJson["name"],
         email: parsedJson["email"],
-        address: Address.fromJson(parsedJson['address']),
+        address: parsedJson['address'],
         createdDate: parsedJson["createdDate"],
         schedules: parsedJson["schedules"],
       );}
@@ -59,7 +59,7 @@ class Post {
 }
 
 
-
+/*
 class Address {
   int id2;
   String streetAddress;
@@ -100,3 +100,5 @@ class Address {
     "longitude": longitude,
   };
 }
+
+*/
