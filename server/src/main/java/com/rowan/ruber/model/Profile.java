@@ -5,10 +5,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Column;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -41,8 +45,13 @@ public class Profile implements Serializable{
     @Column(name="CreatedDate")
     private Date createdDate;
 
+    @JsonManagedReference
     @OneToMany(mappedBy="profile")
     private List<Schedule> schedules = new ArrayList<Schedule>(); // Maintain bi-directional 1 to Many w/ Schedule
+
+    @JsonBackReference
+    @ManyToMany(mappedBy="profiles")
+    private List<Chatroom> chatrooms = new ArrayList<Chatroom>();
 
     /** 
      *  Default constructor for JPA.
@@ -111,10 +120,18 @@ public class Profile implements Serializable{
 
     /**
      * Gets the schedules for a profile.
-     * @return all the schedules for this profile
+     * @return a list of schedules
      */
     public List<Schedule> getSchedules() {
         return schedules;
+    }
+
+    /**
+     * Gets the chatrooms that this profile is in.
+     * @return a list of chatrooms 
+     */
+    public List<Chatroom> getChatrooms() {
+        return chatrooms;
     }
 
     /**

@@ -1,16 +1,16 @@
 {
-  "id": 1,
-  "name": "Firstname Lastname",
-  "email": "firstnamel0@students.rowan.edu",
-  "address": {
-    "id": 1,
-    "streetAddress": "201 Mullica Hill Road",
-    "city": "Glassboro",
-    "zipCode": "08028",
-    "state": "NJ",
-    "latitude": 39.70779,
-    "longitude": -75.11383
-  },
-  "createdDate": "2018-10-28",
-  "schedules": []
+"id": 1,
+"name": "Firstname Lastname",
+"email": "firstnamel0@students.rowan.edu",
+"address": {
+"id": 1,
+"streetAddress": "201 Mullica Hill Road",
+"city": "Glassboro",
+"zipCode": "08028",
+"state": "NJ",
+"latitude": 39.70779,
+"longitude": -75.11383
+},
+"createdDate": "2018-10-28",
+"schedules": []
 }

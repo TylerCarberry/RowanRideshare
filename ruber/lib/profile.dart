@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'AppDrawer.dart';
 import 'Rest.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:async' show Future;
+import 'PostModel.dart';
+import 'dart:io';
 
 String profilepic;
 String streetname = "1007 Mountain Drive";
@@ -35,6 +40,7 @@ setStreetName(String newStreetName) {
 
 setCity(String newCity) {
   city = newCity;
+  //json encode new city, send 
 }
 
 setZip(String newZip) {
@@ -150,12 +156,16 @@ class ProfileScreen extends StatelessWidget {
                       color: Colors.deepOrange)),
             ),
             Container(
-                margin: EdgeInsets.all(5.0),
-                child: Text(
-                  getEmail(),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16.0),
-                )),
+              child: Center(
+                  child: FutureBuilder<Post>(
+                      future: getPost(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData)
+                          return Text(
+                              'Created Date from Post JSON : ${snapshot.data.createdDate}');
+                        else
+                          return CircularProgressIndicator();
+                      }))),
 
             // Address Heading & Text
 
@@ -514,4 +524,9 @@ class _MyAddressForm extends State<AddressForm> {
           ],
         )));
   }
+}
+String url = 'http://10.0.2.2:8080/rides/profile/1';
+Future<Post> getPost() async {
+  final response = await http.get(url);
+  return postFromJson(response.body);
 }
