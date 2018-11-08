@@ -24,7 +24,7 @@ class Post {
   int id;
   String name;
   String email;
-  //Address address;
+  Address address;
   String createdDate;
   var schedules;
 
@@ -32,7 +32,7 @@ class Post {
     this.id,
     this.name,
     this.email,
-    //this.address,
+    this.address,
     this.createdDate,
     this.schedules,
   });
@@ -42,7 +42,7 @@ class Post {
         id: json["id"],
         name: json["name"],
         email: json["email"],
-        //address: json["address"],
+        address: json["address"],
         createdDate: json["createdDate"],
         schedules: json["schedules"],
       );
@@ -52,14 +52,14 @@ class Post {
         "id": id,
         "name": name,
         "email": email,
-        //"address": address,
+        "address": address,
         "createdDate": createdDate,
         "schedules": schedules,
       };
 }
 
 
-/*
+
 class Address {
   int id2;
   String streetAddress;
@@ -79,7 +79,7 @@ class Address {
     this.longitude,
   });
 
-  factory Address.fromJson(Map<String, dynamic> json) => new Address(
+  factory Address.fromJson(Map<String, dynamic> json) {return Address(
     id2: json["id"],
     streetAddress: json["streetAddress"],
     city: json["city"],
@@ -87,7 +87,7 @@ class Address {
     state: json["state"],
     latitude: json["latitude"],
     longitude: json["longitude"],
-  );
+  );}
 
   Map<String, dynamic> toJson() => {
     "id": id2,
@@ -99,4 +99,3 @@ class Address {
     "longitude": longitude,
   };
 }
-*/
