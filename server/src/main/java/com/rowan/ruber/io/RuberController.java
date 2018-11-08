@@ -1,5 +1,6 @@
 package com.rowan.ruber.io;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.rowan.ruber.Authenticator;
@@ -40,13 +41,44 @@ public class RuberController {
      * @param profileID the ID for the profile.
      * @return the profile in JSON format.
      */
-    @RequestMapping(path="/profile/{profileID}", method = RequestMethod.GET)
+    @GetMapping(path="/profile/{profileID}")
     public @ResponseBody Optional<Profile> getProfile(@PathVariable int profileID) {
         return profileRepository.findById(profileID);
     }
 
-    @RequestMapping(path="/chatroom/{chatroomID}", method = RequestMethod.GET)
+    /**
+     * Get the chatroom. 
+     * @param chatroomID the ID for the chatroom
+     * @return the profile in JSON format
+     */
+    @GetMapping(path="/chatroom/{chatroomID}")
     public @ResponseBody Optional<Chatroom> getChatroom(@PathVariable int chatroomID) {
         return chatroomRepository.findById(chatroomID);
+    }
+
+    @GetMapping(path="/address/{profileID}")
+    public @ResponseBody Optional<Address> getAddress(@PathVariable int profileID){
+        // Optional<>.get() returns the Profile object if it was obtained.
+        Profile profile = getProfile(profileID).get(); 
+        // If Profile.Address is not nullable, Optional.of() is a better option.
+        return Optional.ofNullable(profile.getAddress());
+    }
+
+    @GetMapping(path="/messages/{chatroomID}")
+    public @ResponseBody Optional<List<Message>> getMessage(@PathVariable int chatroomID) {
+        Chatroom chatroom = getChatroom(chatroomID).get();
+        return Optional.ofNullable(chatroom.getMessages());
+    }
+
+    @GetMapping(path="/schedule/{profileID}")
+    public @ResponseBody Optional<List<Schedule>> geStSchedule(@PathVariable int profileID){
+        Profile profile = getProfile(profileID).get();
+        return Optional.ofNullable(profile.getSchedules());
+    }
+
+    // TODO: finish post
+    @PostMapping(path="/profile/create?{profileID}")
+    public @ResponseBody void createProfile(@RequestBody Profile profile){
+        profileRepository.save(profile);
     }
 }
