@@ -211,12 +211,16 @@ class ProfileScreen extends StatelessWidget {
             ),
 
             Container(
-                margin: EdgeInsets.all(5.0),
-                child: Text(
-                  fullAddress,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16.0),
-                )),
+                child: Center(
+                    child: FutureBuilder<Post>(
+                        future: getPost(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData)
+                            return Text(
+                                '${snapshot.data.address}');
+                          else
+                            return CircularProgressIndicator();
+                        }))),
 
             // Edit buttons
 
