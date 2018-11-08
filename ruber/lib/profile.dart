@@ -135,19 +135,22 @@ class ProfileScreen extends StatelessWidget {
                         fontFamily: 'Helvetica',
                         color: Colors.blueAccent))),
             Container(
-              margin: EdgeInsets.all(5.0),
-              child: Text(
-                getName(),
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16.0),
-              ),
-            ),
+                child: Center(
+                    child: FutureBuilder<Post>(
+                        future: getPost(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData)
+                            return Text(
+                                '${snapshot.data.name}');
+                          else
+                            return CircularProgressIndicator();
+                        }))),
 
             // Email Heading & Text
 
             Container(
               margin: EdgeInsets.only(top: 15.0),
-              child: Text('Email',
+              child: Text('Email:',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -162,12 +165,36 @@ class ProfileScreen extends StatelessWidget {
                       builder: (context, snapshot) {
                         if (snapshot.hasData)
                           return Text(
-                              'Created Date from Post JSON : ${snapshot.data.createdDate}');
+                              '${snapshot.data.email}');
                         else
                           return CircularProgressIndicator();
                       }))),
 
-            // Address Heading & Text
+            Container(
+              margin: EdgeInsets.only(top: 15.0),
+              child: Text(
+                'Joined Date',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.0,
+                  fontFamily: 'Helvetica',
+                  color: Colors.teal,
+                ),
+              ),
+            ),
+
+            Container(
+                child: Center(
+                    child: FutureBuilder<Post>(
+                        future: getPost(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData)
+                            return Text(
+                                '${snapshot.data.createdDate}');
+                          else
+                            return CircularProgressIndicator();
+                        }))),
 
             Container(
               margin: EdgeInsets.only(top: 15.0),
