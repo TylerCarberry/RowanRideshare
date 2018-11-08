@@ -205,7 +205,7 @@ class ProfileScreen extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   fontSize: 20.0,
                   fontFamily: 'Helvetica',
-                  color: Colors.teal,
+                  color: Colors.orange,
                 ),
               ),
             ),
@@ -224,23 +224,6 @@ class ProfileScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                RaisedButton(
-                  padding: EdgeInsets.all(5.0),
-                  child: Text('Edit Name'),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => FullNameForm()));
-                  },
-                ),
-                RaisedButton(
-                    padding: EdgeInsets.all(5.0),
-                    child: Text('Edit Email'),
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => EmailForm()));
-                    }),
                 RaisedButton(
                   padding: EdgeInsets.all(5.0),
                   child: Text('Edit Address'),
@@ -327,70 +310,6 @@ class _MyFullNameForm extends State<FullNameForm> {
   }
 }
 
-// ====================== END EDIT FULL NAME ========================== //
-
-// ====================== EDIT EMAIL ADDRESS ========================== //
-
-class EmailForm extends StatefulWidget {
-  @override
-  _MyEmailForm createState() => _MyEmailForm();
-}
-
-class _MyEmailForm extends State<EmailForm> {
-  final emailController = TextEditingController();
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: Text('Edit your email'), centerTitle: true),
-        drawer: launchAppDrawer(context),
-        body: Center(
-            child: ListView(
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.all(10.0),
-              child: Text(
-                'Click on each field to edit it',
-                textAlign: TextAlign.center,
-              ),
-            ),
-
-            // Email
-
-            Container(
-                margin: EdgeInsets.only(top: 15.0),
-                child: Text('Email',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0,
-                        fontFamily: 'Helvetica',
-                        color: Colors.blueAccent))),
-            Container(
-                child: TextField(
-              textAlign: TextAlign.center,
-              decoration: InputDecoration.collapsed(hintText: email),
-              controller: emailController,
-              onEditingComplete: () {
-                // Make sure to write to Database
-
-                setEmail(emailController.text);
-
-                Navigator.pop(context);
-              },
-            ))
-          ],
-        )));
-  }
-}
-
-// ========================== END EDIT EMAIL ADDRESS ================= //
 
 // ========================== EDIT ADDRESS =========================== //
 
