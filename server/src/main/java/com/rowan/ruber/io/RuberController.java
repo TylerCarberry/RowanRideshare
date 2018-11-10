@@ -23,6 +23,9 @@ public class RuberController {
     @Autowired
     private ChatroomRepository chatroomRepository;
 
+    @Autowired
+    private MessageRepository messageRepository;
+
     @GetMapping("/nearby")
     public String index(@RequestParam(name="authToken") String authToken) {
         Authenticator authenticator = new Authenticator();
@@ -77,13 +80,25 @@ public class RuberController {
     }
 
     // TODO: finish post
-    @PostMapping(path="/profile/create")
-    public @ResponseBody Profile createProfile(@RequestBody Profile profile){
+    @PostMapping(path="/profile/new")
+    public @ResponseBody Profile createUpdateProfile(@RequestBody Profile profile){
+        //addressRepository.save(profile.getAddress()); //in case we want to update the whole profile object
         return profileRepository.save(profile);
     }
 
-    @PostMapping(path="/address/create")
-    public @ResponseBody Address createAddress(@RequestBody Address address) {
+    @PostMapping(path="/address/new")
+    public @ResponseBody Address createUpdateAddress(@RequestBody Address address) {
         return addressRepository.save(address);
     } 
+
+    @PostMapping(path="/chatroom/new")
+    public @ResponseBody Chatroom createUpdateChatroom(@RequestBody Chatroom chatroom) {
+        return chatroomRepository.save(chatroom);
+    }
+
+    @PostMapping(path="/message/new")
+    public @ResponseBody Message createMessage(@RequestBody Message message) {
+        return messageRepository.save(message);
+    }
+    
 }
