@@ -2,63 +2,29 @@ import 'package:flutter/material.dart';
 import 'Rest.dart';
 
 Scaffold launchRideScreen(context) {
+  var textController = new TextEditingController();
+
   return new Scaffold(
       appBar: AppBar(
-        actions: <Widget>[],
-        title: TabBar(
-          tabs: <Widget>[Tab(icon: Icon(Icons.directions_car), text: 'Going to Rowan'),
-          Tab(icon: Icon(Icons.directions_run), text: 'Going Home')
-          ],
-          indicatorColor: Colors.white,
-        ),
-        automaticallyImplyLeading: false,
+        title: Text('Ride Screen'),
       ),
-      body: TabBarView(
-        children: <Widget>[
-//              Icon(Icons.directions_car, size: 50.0),
-//              Icon(Icons.directions_run, size: 50.0),
-          Container(
-              child: Column(
-                children: <Widget>[
-                  TextFormField(
-                      decoration: InputDecoration(
-                          labelText: 'Starting Address: '
-                      )
-                  ),
-                  RaisedButton(
-                    child: Text('Go!'),
-                    onPressed: ()
-                    {
-
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Rest()),
-                      );
-
-                    },
-                  )
-                ],
-              )
+      body: new Row(
+        children: <Widget> [
+          new Column(
+              children: [
+                RaisedButton(
+                  child: Text('Ride to Rowan')
+                )
+              ]
           ),
-          Container(
-              child: Column(
-                children: <Widget>[
-                  TextFormField(
-                      decoration: InputDecoration(
-                          labelText: 'Destination Address: '
-                      )
-                  ),
-                  RaisedButton(
-                    child: Text('Go!'),
-                    onPressed: ()
-                    {
-
-                    },
-                  )
-                ],
+          new Column(
+            children: [
+              RaisedButton(
+                child: Text('Get a Ride Home')
               )
-          )
-        ],
-      )
+            ]
+          ),
+      ],
+    ),
   );
 }

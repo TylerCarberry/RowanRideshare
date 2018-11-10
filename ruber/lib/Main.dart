@@ -12,7 +12,6 @@ import 'StaticMapPage.dart';
 import 'package:splashscreen/splashscreen.dart';
 
 var api_key = "AIzaSyDrHKl8IxB4cGXIoELXQOzzZwiH1xtsRf4";
-
 const String _name = "Your Name";
 
 void main() {
@@ -42,17 +41,11 @@ class Disclaimer extends StatelessWidget {
               child: ButtonBar(
               children: <Widget>[
                 FlatButton(
-                  child: const Text('Decline and quit'),
-                  onPressed: () {
-                    print("They declined!");
-                  },
-                ),
-                FlatButton(
                   child: const Text('Accept and use'),
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => MainScreen())
+                      MaterialPageRoute(builder: (context) => MainScreen()) //Change this to AuthScreen()
                     );
                   },
                 )
@@ -65,8 +58,6 @@ class Disclaimer extends StatelessWidget {
     );
   }
 }
-
-
 
 class MainScreen extends StatelessWidget {
   final String title;
