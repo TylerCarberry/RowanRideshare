@@ -33,7 +33,7 @@ public class Chatroom implements Serializable{
     @JoinColumn(name="LastMessageID")
     private Message lastMessage;
 
-    @JsonManagedReference
+    
     @ManyToMany
     @JoinTable(name = "chatroomProfile",
             joinColumns = { @JoinColumn(name = "ChatroomID") },
