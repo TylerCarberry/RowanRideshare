@@ -77,8 +77,13 @@ public class RuberController {
     }
 
     // TODO: finish post
-    @PostMapping(path="/profile/create?{profileID}")
-    public @ResponseBody void createProfile(@RequestBody Profile profile){
-        profileRepository.save(profile);
+    @PostMapping(path="/profile/create")
+    public @ResponseBody Profile createProfile(@RequestBody Profile profile){
+        return profileRepository.save(profile);
     }
+
+    @PostMapping(path="/address/create")
+    public @ResponseBody Address createAddress(@RequestBody Address address) {
+        return addressRepository.save(address);
+    } 
 }
