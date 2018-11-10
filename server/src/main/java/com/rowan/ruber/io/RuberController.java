@@ -83,21 +83,48 @@ public class RuberController {
     }
 
     // TODO: finish post
-    @PostMapping(path="/profile/new")
-    public @ResponseBody Profile createUpdateProfile(@RequestBody Profile profile){
-        //addressRepository.save(profile.getAddress()); //in case we want to update the whole profile object
-        return profileRepository.save(profile);
+    //Maybe we should split this into 2 methods?
+    @PostMapping(path={"/profile/new", "/profile/update"})
+    public @ResponseBody Profile createUpdateProfile(@RequestBody Map<String, String> map){
+        try {
+            String name = map.get("name");
+            String email = map.get("email");
+
+            Profile profile = null;
+
+            //if id exists, then we are doing an update. Otherwise, new address
+            if(map.containsKey("id")) {
+                int profileID = Integer.parseInt(map.get("id"));
+                profile = profileRepository.findById(profileID).get();
+
+                profile.setName(name);
+                profile.setEmail(email);
+            }
+            else {
+                int addressID = Integer.parseInt(map.get("address"));
+                Date createdDate = new SimpleDateFormat("yyyy-MM-dd").parse(map.get("createdDate"));
+                Address address = addressRepository.findById(addressID).get();
+                profile = new Profile(name, email, address, createdDate);
+            }
+
+            return profileRepository.save(profile);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    @PostMapping(path="/address/new")
+    @PostMapping(path={"/address/new", "/address/update"})
     public @ResponseBody Address createUpdateAddress(@RequestBody Address address) {
         return addressRepository.save(address);
     } 
 
     @PostMapping(path="/chatroom/new")
-    public @ResponseBody Chatroom createUpdateChatroom(@RequestBody Chatroom chatroom) {
+    public @ResponseBody Chatroom createChatroom(@RequestBody Chatroom chatroom) {
         return chatroomRepository.save(chatroom);
     }
+
 
     @PostMapping(path="/message/new")
     public @ResponseBody Message createMessage(@RequestBody Map<String, String> map) {
