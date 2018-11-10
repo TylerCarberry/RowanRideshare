@@ -1,6 +1,9 @@
 package com.rowan.ruber.io;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.rowan.ruber.Authenticator;
@@ -97,8 +100,22 @@ public class RuberController {
     }
 
     @PostMapping(path="/message/new")
-    public @ResponseBody Message createMessage(@RequestBody Message message) {
-        return messageRepository.save(message);
+    public @ResponseBody Message createMessage(@RequestBody Map<String, String> map) {
+        try{
+            int chatroomID = Integer.parseInt(map.get("chatroom"));
+            int senderID = Integer.parseInt(map.get("sender"));
+            String text = map.get("text");
+            Date timeSent = new SimpleDateFormat("yyyy-MM-dd").parse(map.get("timeSent"));
+
+            Chatroom chatroom = chatroomRepository.findById(chatroomID).get();
+            Profile sender = profileRepository.findById(senderID).get();
+            Message message = new Message(chatroom, sender, text, timeSent);
+            return messageRepository.save(message);
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        } 
+        return null; //stub for now - try to fix later
     }
     
 }
