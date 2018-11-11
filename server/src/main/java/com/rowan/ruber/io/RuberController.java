@@ -11,10 +11,12 @@ import com.rowan.ruber.repository.*;
 import com.rowan.ruber.model.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/rides")
 @RestController
+
 public class RuberController {
 
     @Autowired
@@ -144,5 +146,54 @@ public class RuberController {
         } 
         return null; //stub for now - try to fix later
     }
+
+    /**
+     *  Using try catch for testing phase, in a complete system the app shouldn't attempt to 
+     *  delete using a non-existing id.( boolean -> void, and remove try catch.)
+     * @param profileID
+     * @return false if given id doesn't exist
+     */
+    @GetMapping("/profile/delete/{profileID}")
+    public boolean deleteProfile(@PathVariable int profileID){
+        try{
+            profileRepository.deleteById(profileID);
+            return true;
+        }
+        catch(IllegalArgumentException e){
+            return false;
+        }
+    }
+
+    @GetMapping("/address/delete/{addressID}")
+    public boolean deleteAddress(@PathVariable int addressID){
+        try{
+            addressRepository.deleteById(addressID);
+            return true;
+        }
+        catch(IllegalArgumentException e){
+            return false;
+        }
+    }
     
+    @GetMapping("/chatroom/delete/{chatroomID}")
+    public boolean deleteChatroom(@PathVariable int chatroomID){
+        try{
+            chatroomRepository.deleteById(chatroomID);
+            return true;
+        }
+        catch(IllegalArgumentException e){
+            return false;
+        }
+    }
+
+    @GetMapping("/message/delete/{messageID}")
+    public boolean deleteMessage(@PathVariable int messageID){
+        try{
+            messageRepository.deleteById(messageID);
+            return true;
+        }
+        catch(IllegalArgumentException e){
+            return false;
+        }
+    }
 }
