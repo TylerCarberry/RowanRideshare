@@ -2,6 +2,7 @@ package com.rowan.ruber.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,7 +42,7 @@ public class Chatroom implements Serializable{
     private List<Profile> profiles = new ArrayList<Profile>();
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "chatroom")
+    @OneToMany(mappedBy = "chatroom", cascade=CascadeType.REMOVE)
     private List<Message> messages = new ArrayList<Message>();
 
 

@@ -163,17 +163,6 @@ public class RuberController {
             return false;
         }
     }
-
-    @GetMapping("/address/delete/{addressID}")
-    public boolean deleteAddress(@PathVariable int addressID){
-        try{
-            addressRepository.deleteById(addressID);
-            return true;
-        }
-        catch(IllegalArgumentException e){
-            return false;
-        }
-    }
     
     @GetMapping("/chatroom/delete/{chatroomID}")
     public boolean deleteChatroom(@PathVariable int chatroomID){
