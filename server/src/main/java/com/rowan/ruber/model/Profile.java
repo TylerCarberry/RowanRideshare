@@ -49,7 +49,6 @@ public class Profile implements Serializable{
     @OneToMany(mappedBy="profile")
     private List<Schedule> schedules = new ArrayList<Schedule>(); // Maintain bi-directional 1 to Many w/ Schedule
 
-    @JsonBackReference
     @ManyToMany(mappedBy="profiles")
     private List<Chatroom> chatrooms = new ArrayList<Chatroom>();
 
