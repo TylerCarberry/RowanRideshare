@@ -175,19 +175,19 @@ public class Schedule implements Serializable{
      * @param schedule the schedule to be compared
      * @return true if there was a match, false if there was not a match
      */
-    public bool updateWithMatchedTime(Schedule schedule)
+    public boolean updateWithMatchedTime(Schedule schedule)
     {
         if((day == schedule.getDay())
                 && (goingToEnd.compareTo(schedule.getGoingToStart()) >= 0)
-                && (schedule.getGoingToEnd()..compareTo(goingToStart) >= 0)
-                && (leavingEnd.compareTo(schedule.getLeavingStart() >= 0)
-            && (schedule.getLeavingEnd()..compareTo(leavingStart))) >= 0) {
+                && (schedule.getGoingToEnd().compareTo(goingToStart) >= 0)
+                && (leavingEnd.compareTo(schedule.getLeavingStart()) >= 0)
+            && (schedule.getLeavingEnd().compareTo(leavingStart) >= 0)) {
             if (goingToStart.isBefore(schedule.getGoingToStart()))
                 goingToStart = schedule.getGoingToStart();
             if (goingToEnd.isAfter(schedule.getGoingToEnd()))
                 goingToEnd = schedule.getGoingToEnd();
             if (leavingStart.isBefore(schedule.getLeavingStart()))
-                leaingStart = schedule.getLeavingStart();
+                leavingStart = schedule.getLeavingStart();
             if (leavingEnd.isAfter(schedule.getLeavingEnd()))
                 leavingEnd = schedule.getLeavingEnd();
             return true;

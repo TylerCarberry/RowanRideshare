@@ -11,6 +11,7 @@ import com.rowan.ruber.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import com.rowan.ruber.Search;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -83,7 +84,7 @@ public class RuberController {
     }
 
     @GetMapping(path="/schedule/{profileID}")
-    public @ResponseBody Optional<List<Schedule>> geStSchedule(@PathVariable int profileID){
+    public @ResponseBody Optional<List<Schedule>> getSchedule(@PathVariable int profileID){
         Profile profile = getProfile(profileID).get();
         return Optional.ofNullable(profile.getSchedules());
     }
@@ -187,6 +188,16 @@ public class RuberController {
         }
         catch(IllegalArgumentException e){
             return false;
+        }
+    }
+
+    @GetMapping("/matching/{profileID}/{radius}")
+    public @ResponseBody List<Profile> getMatches(@PathVariable int profileID, @PathVariable int radius){
+        try{
+            return new Search().getMatches(profileRepository, profileID, radius);
+        }
+        catch(IllegalArgumentException e){
+            return null;
         }
     }
 
