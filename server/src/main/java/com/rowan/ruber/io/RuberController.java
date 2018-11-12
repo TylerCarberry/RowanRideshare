@@ -1,18 +1,22 @@
 package com.rowan.ruber.io;
 
+import com.rowan.ruber.Authenticator;
+import com.rowan.ruber.model.*;
+import com.rowan.ruber.model.google_maps.GeoencodingResult;
+import com.rowan.ruber.model.google_maps.Location;
+import com.rowan.ruber.repository.AddressRepository;
+import com.rowan.ruber.repository.ChatroomRepository;
+import com.rowan.ruber.repository.MessageRepository;
+import com.rowan.ruber.repository.ProfileRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
-import com.rowan.ruber.Authenticator;
-import com.rowan.ruber.repository.*;
-import com.rowan.ruber.model.*;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/rides")
 @RestController
@@ -137,8 +141,8 @@ public class RuberController {
             Date timeSent = new SimpleDateFormat("yyyy-MM-dd").parse(map.get("timeSent"));
 
             Chatroom chatroom = chatroomRepository.findById(chatroomID).get();
-            Profile sender = profileRepository.findById(senderID).get();
-            Message message = new Message(chatroom, sender, text, timeSent);
+            //Profile sender = profileRepository.findById(senderID).get();
+            Message message = new Message(chatroom, senderID, text, timeSent);
             return messageRepository.save(message);
         }
         catch(Exception e) {
@@ -184,5 +188,18 @@ public class RuberController {
         catch(IllegalArgumentException e){
             return false;
         }
+    }
+
+    // TODO: Remove this endpoint once it is hooked directly into set address since this endpoint won't be needed
+    @RequestMapping(path="/maps", method = RequestMethod.GET)
+    public Location getCoordinatesFromAddress(@RequestParam String address) {
+        // If you are reading this after December 2018, our API key has been deactivated
+        String url = "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyBUWTvOdjkdIur2IFzkEPCVTodoL7xUzJk&address=" + address;
+
+        RestTemplate restTemplate = new RestTemplate();
+        GeoencodingResult geoencodingResult = restTemplate.getForObject(url, GeoencodingResult.class);
+
+        return geoencodingResult.getResults().get(0).getGeometry().getLocation();
+
     }
 }

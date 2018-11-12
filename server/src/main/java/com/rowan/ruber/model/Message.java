@@ -32,9 +32,8 @@ public class Message implements Serializable{
     @JoinColumn(name = "ChatroomID")
     private Chatroom chatroom;
 
-    @OneToOne
-    @JoinColumn(name="senderID")
-    private Profile sender;
+    @Column(name="senderID")
+    private int senderID;
 
     @Column(name="text")
     private String text;
@@ -48,9 +47,9 @@ public class Message implements Serializable{
      */
     public Message(){}
 
-    public Message(Chatroom chatroom, Profile sender, String text, Date timeSent){
+    public Message(Chatroom chatroom, int senderID, String text, Date timeSent){
         this.chatroom = chatroom;
-        this.sender = sender;
+        this.senderID = senderID;
         this.text = text;
         this.timeSent = timeSent; // SQL date or util date?
     }
@@ -76,8 +75,8 @@ public class Message implements Serializable{
      * Get the sender.
      * @return a profile
      */
-    public Profile getSender() {
-        return sender;
+    public int getSenderID() {
+        return senderID;
     }
 
     /**
@@ -116,8 +115,8 @@ public class Message implements Serializable{
      * Set the sender for this message.
      * @param sender the sender's profile
      */
-    public void setSender(Profile sender) {
-        this.sender = sender;
+    public void setSender(int senderID) {
+        this.senderID = senderID;
     }
 
     /**
