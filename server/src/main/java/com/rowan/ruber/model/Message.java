@@ -13,7 +13,8 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import java.sql.Date;
+//import java.sql.Date;
+import java.util.Date;
 
 
 
@@ -51,10 +52,11 @@ public class Message implements Serializable{
         this.chatroom = chatroom;
         this.sender = sender;
         this.text = text;
-        this.timeSent = timeSent;
+        this.timeSent = timeSent; // SQL date or util date?
     }
 
-    /**
+
+	/**
      * Get the message id.
      * @return the id
      */

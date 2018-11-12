@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Table;
 
@@ -15,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class Profile implements Serializable{
 
     // Refers to address table
     // ** Leaving out ON UPDATE ON DELETE for now since they are defined in MySQL - will add later if needed.
-    @OneToOne
+    @OneToOne(cascade=CascadeType.REMOVE)
     @JoinColumn(name="AddressID")
     private Address address;
 
@@ -46,10 +47,9 @@ public class Profile implements Serializable{
     private Date createdDate;
 
     @JsonManagedReference
-    @OneToMany(mappedBy="profile")
+    @OneToMany(mappedBy="profile", cascade=CascadeType.REMOVE)
     private List<Schedule> schedules = new ArrayList<Schedule>(); // Maintain bi-directional 1 to Many w/ Schedule
 
-    @JsonBackReference
     @ManyToMany(mappedBy="profiles")
     private List<Chatroom> chatrooms = new ArrayList<Chatroom>();
 
