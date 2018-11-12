@@ -1,8 +1,8 @@
 package com.rowan.ruber.io;
 
 import com.rowan.ruber.Authenticator;
+import com.rowan.ruber.MapsManager;
 import com.rowan.ruber.model.*;
-import com.rowan.ruber.model.google_maps.GeoencodingResult;
 import com.rowan.ruber.model.google_maps.Location;
 import com.rowan.ruber.repository.AddressRepository;
 import com.rowan.ruber.repository.ChatroomRepository;
@@ -10,7 +10,6 @@ import com.rowan.ruber.repository.MessageRepository;
 import com.rowan.ruber.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -123,6 +122,10 @@ public class RuberController {
 
     @PostMapping(path={"/address/new", "/address/update"})
     public @ResponseBody Address createUpdateAddress(@RequestBody Address address) {
+        String formattedAddress = address.getStreetAddress() + " " + address.getCity() + " " + address.getState() + " " + address.getZipCode();
+        Location coordinates = MapsManager.getCoordinatesFromAddress(formattedAddress);
+        address.setLatitude(coordinates.getLat());
+        address.setLongitude(coordinates.getLng());
         return addressRepository.save(address);
     } 
 
@@ -188,18 +191,5 @@ public class RuberController {
         catch(IllegalArgumentException e){
             return false;
         }
-    }
-
-    // TODO: Remove this endpoint once it is hooked directly into set address since this endpoint won't be needed
-    @RequestMapping(path="/maps", method = RequestMethod.GET)
-    public Location getCoordinatesFromAddress(@RequestParam String address) {
-        // If you are reading this after December 2018, our API key has been deactivated
-        String url = "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyBUWTvOdjkdIur2IFzkEPCVTodoL7xUzJk&address=" + address;
-
-        RestTemplate restTemplate = new RestTemplate();
-        GeoencodingResult geoencodingResult = restTemplate.getForObject(url, GeoencodingResult.class);
-
-        return geoencodingResult.getResults().get(0).getGeometry().getLocation();
-
     }
 }
