@@ -141,8 +141,8 @@ public class RuberController {
             Date timeSent = new SimpleDateFormat("yyyy-MM-dd").parse(map.get("timeSent"));
 
             Chatroom chatroom = chatroomRepository.findById(chatroomID).get();
-            Profile sender = profileRepository.findById(senderID).get();
-            Message message = new Message(chatroom, sender, text, timeSent);
+            //Profile sender = profileRepository.findById(senderID).get();
+            Message message = new Message(chatroom, senderID, text, timeSent);
             return messageRepository.save(message);
         }
         catch(Exception e) {
