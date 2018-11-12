@@ -90,52 +90,19 @@ public class Schedule implements Serializable{
     }
 
     /**
-     * Return the going to start time for the schedule.
-     * @return the goingToStart
-     */
-    public LocalTime getGoingToStart() {
-        return goingToStart;
-    }
-
-    /**
-     * Return the going to end time for the schedule.
-     * @return the goingToEnd
-     */
-    public LocalTime getGoingToEnd() {
-        return goingToEnd;
-    }
-
-    /**
-     * Return the leaving start time for the schedule.
-     * @return the leavingStart
-     */
-    public LocalTime getLeavingStart() {
-        return leavingStart;
-    }
-
-    /**
-     * Get the leaving end time for the schedule. 
-     * @return Return the leaving end time for the schedule.
-     */
-    public LocalTime getLeavingEnd() {
-        return leavingEnd;
-    }
-
-    /**
-     * Return the String representation of a schedule. Currently a stub.
-     * @return a String for this schedule 
-     */
-    @Override
-    public String toString() {
-        return "STUB FOR SCHEDULE";
-    }
-
-    /**
      * Sets the day for the schedule to the given day.
      * @param day the day to set
      */
     public void setDay(Day day) {
         this.day = day;
+    }
+
+    /**
+     * Return the going to start time for the schedule.
+     * @return the goingToStart
+     */
+    public LocalTime getGoingToStart() {
+        return goingToStart;
     }
 
     /**
@@ -147,11 +114,27 @@ public class Schedule implements Serializable{
     }
 
     /**
+     * Return the going to end time for the schedule.
+     * @return the goingToEnd
+     */
+    public LocalTime getGoingToEnd() {
+        return goingToEnd;
+    }
+
+    /**
      * Sets the going to end time to the given time.
      * @param goingToEnd the goingToEnd to set
      */
     public void setGoingToEnd(LocalTime goingToEnd) {
         this.goingToEnd = goingToEnd;
+    }
+
+    /**
+     * Return the leaving start time for the schedule.
+     * @return the leavingStart
+     */
+    public LocalTime getLeavingStart() {
+        return leavingStart;
     }
 
     /**
@@ -163,11 +146,28 @@ public class Schedule implements Serializable{
     }
 
     /**
-     * Sets the leaving end time to the given time. 
+     * Get the leaving end time for the schedule.
+     * @return Return the leaving end time for the schedule.
+     */
+    public LocalTime getLeavingEnd() {
+        return leavingEnd;
+    }
+
+    /**
+     * Sets the leaving end time to the given time.
      * @param leavingEnd the leavingEnd to set
      */
     public void setLeavingEnd(LocalTime leavingEnd) {
         this.leavingEnd = leavingEnd;
+    }
+
+    /**
+     * Return the String representation of a schedule. Currently a stub.
+     * @return a String for this schedule
+     */
+    @Override
+    public String toString() {
+        return "STUB FOR SCHEDULE";
     }
 
     /**
@@ -182,16 +182,16 @@ public class Schedule implements Serializable{
                 && (schedule.getGoingToEnd()..compareTo(goingToStart) >= 0)
                 && (leavingEnd.compareTo(schedule.getLeavingStart() >= 0)
             && (schedule.getLeavingEnd()..compareTo(leavingStart))) >= 0) {
-        if (goingToStart.isBefore(schedule.getGoingToStart()))
-            goingToStart = schedule.getGoingToStart();
-        if (goingToEnd.isAfter(schedule.getGoingToEnd()))
-            goingToEnd = schedule.getGoingToEnd();
-        if (leavingStart.isBefore(schedule.getLeavingStart()))
-            leaingStart = schedule.getLeavingStart();
-        if (leavingEnd.isAfter(schedule.getLeavingEnd()))
-            leavingEnd = schedule.getLeavingEnd();
-        return true;
-    }
+            if (goingToStart.isBefore(schedule.getGoingToStart()))
+                goingToStart = schedule.getGoingToStart();
+            if (goingToEnd.isAfter(schedule.getGoingToEnd()))
+                goingToEnd = schedule.getGoingToEnd();
+            if (leavingStart.isBefore(schedule.getLeavingStart()))
+                leaingStart = schedule.getLeavingStart();
+            if (leavingEnd.isAfter(schedule.getLeavingEnd()))
+                leavingEnd = schedule.getLeavingEnd();
+            return true;
+            }
         return false;
     }
 }
