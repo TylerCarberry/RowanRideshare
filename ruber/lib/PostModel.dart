@@ -24,8 +24,9 @@ class Post {
   int id;
   String name;
   String email;
-  var address;
+  Address address;      //Try with var and Address object
   String createdDate;
+
   var schedules;
 
   Post({
@@ -52,14 +53,14 @@ class Post {
         "id": id,
         "name": name,
         "email": email,
-        "address": address,
+        "address": address.toString(),
         "createdDate": createdDate,
         "schedules": schedules,
       };
 }
 
 
-/*
+
 class Address {
   int id2;
   String streetAddress;
@@ -78,6 +79,12 @@ class Address {
     this.latitude,
     this.longitude,
   });
+  @override
+  String toString(){
+    String addressString = this.streetAddress + this.city + this.state;
+    return addressString;
+  }
+
 
   factory Address.fromJson(Map<String, dynamic> json) {
     return Address(
@@ -101,4 +108,3 @@ class Address {
   };
 }
 
-*/
