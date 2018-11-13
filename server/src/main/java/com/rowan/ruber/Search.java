@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import java.sql.ResultSet;
 
-
 import java.sql.SQLException;
 import java.util.List;
 
@@ -21,13 +20,15 @@ public class Search{
 
 	public List<Profile> getMatches(ProfileRepository repo, int profileID, int radius) {
 		Profile profile = repo.findById(profileID).get();
-		return getMatchesByDistance(profile.getAddress().getLatitude(), profile.getAddress().getLongitude(), radius);
+		List<Profile> matchedProfiles = getMatchesByDistance(profileID, profile.getAddress().getLatitude(), profile.getAddress().getLongitude(), radius);
+
+		return matchedProfiles;
 	}
 
-	private List<Profile> getMatchesByDistance(double lat, double lng, double radius){
+	private List<Profile> getMatchesByDistance(int profileID, double lat, double lng, double radius){
 	    List<Profile> matchedProfiles = jdbcTemplate.query(
-                "SELECT *, ( 3959* ACOS( COS( RADIANS(?) ) * COS( RADIANS( Latitude ) ) * COS( RADIANS( Longitude ) - RADIANS(?) ) + SIN( RADIANS(?) ) * SIN( RADIANS( Latitude ) ) ) ) AS distance FROM address JOIN profile USING (AddressID) HAVING distance < ? ORDER BY distance;",
-                new Object[] {lat, lng, lat, radius},
+                "SELECT *, ( 3959* ACOS( COS( RADIANS(?) ) * COS( RADIANS( Latitude ) ) * COS( RADIANS( Longitude ) - RADIANS(?) ) + SIN( RADIANS(?) ) * SIN( RADIANS( Latitude ) ) ) ) AS distance FROM address JOIN profile USING (AddressID) WHERE ProfileID <> ? HAVING distance < ? ORDER BY distance;",
+                new Object[] {lat, lng, lat, profileID, radius},
                 new ProfileRowMapper());
         for (Profile profile : matchedProfiles ) {
             List<Schedule> schedules = jdbcTemplate.query(
