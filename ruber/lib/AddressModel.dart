@@ -24,7 +24,7 @@ class Address {
   int id;
   String streetAddress;
   String city;
-  int zipCode;
+  String zipCode;
   String state;
   double latitude;
   double longitude;
