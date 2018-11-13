@@ -1,7 +1,3 @@
-// TODO: Fix the bug where if you don't enter anything into the edit address
-// TODO: screen, and click the submit button, the address fields are emptied
-// TODO: and you can't see the address in the profile screen
-
 import 'package:flutter/material.dart';
 import 'AppDrawer.dart';
 import 'Rest.dart';
@@ -185,29 +181,12 @@ class ProfileScreen extends StatelessWidget {
                   style: TextStyle(fontSize: 16.0),
                 )),
 
-            // Edit buttons
+            // Edit address button
 
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                RaisedButton(
-                  padding: EdgeInsets.all(5.0),
-                  child: Text('Edit Name'),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => FullNameForm()));
-                  },
-                ),
-                RaisedButton(
-                    padding: EdgeInsets.all(5.0),
-                    child: Text('Edit Email'),
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => EmailForm()));
-                    }),
                 RaisedButton(
                   padding: EdgeInsets.all(5.0),
                   child: Text('Edit Address'),
@@ -224,140 +203,6 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 }
-
-// ========================= EDIT FULL NAME ========================== /
-
-class FullNameForm extends StatefulWidget {
-  @override
-  _MyFullNameForm createState() => _MyFullNameForm();
-}
-
-class _MyFullNameForm extends State<FullNameForm> {
-  final fullNameController = TextEditingController();
-
-  @override
-  void dispose() {
-    fullNameController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Edit your full name'),
-        centerTitle: true,
-      ),
-      drawer: launchAppDrawer(context),
-      body: Center(
-        child: ListView(
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.all(10.0),
-              child: Text(
-                'Click on each to edit it',
-                textAlign: TextAlign.center,
-              ),
-            ),
-
-            // Full Name
-
-            Container(
-                margin: EdgeInsets.only(top: 15.0),
-                child: Text('Full Name',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0,
-                        fontFamily: 'Helvetica',
-                        color: Colors.blueAccent))),
-            Container(
-              child: TextField(
-                textAlign: TextAlign.center,
-                decoration: InputDecoration.collapsed(
-                  hintText: name,
-                ),
-                controller: fullNameController,
-                onEditingComplete: () {
-                  // Make sure to write to Database
-
-                  setName(fullNameController.text);
-
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// ====================== END EDIT FULL NAME ========================== //
-
-// ====================== EDIT EMAIL ADDRESS ========================== //
-
-class EmailForm extends StatefulWidget {
-  @override
-  _MyEmailForm createState() => _MyEmailForm();
-}
-
-class _MyEmailForm extends State<EmailForm> {
-  final emailController = TextEditingController();
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: Text('Edit your email'), centerTitle: true),
-        drawer: launchAppDrawer(context),
-        body: Center(
-            child: ListView(
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.all(10.0),
-              child: Text(
-                'Click on each field to edit it',
-                textAlign: TextAlign.center,
-              ),
-            ),
-
-            // Email
-
-            Container(
-                margin: EdgeInsets.only(top: 15.0),
-                child: Text('Email',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0,
-                        fontFamily: 'Helvetica',
-                        color: Colors.blueAccent))),
-            Container(
-                child: TextField(
-              textAlign: TextAlign.center,
-              decoration: InputDecoration.collapsed(hintText: email),
-              controller: emailController,
-              onEditingComplete: () {
-                // Make sure to write to Database
-
-                setEmail(emailController.text);
-
-                Navigator.pop(context);
-              },
-            ))
-          ],
-        )));
-  }
-}
-
-// ========================== END EDIT EMAIL ADDRESS ================= //
 
 // ========================== EDIT ADDRESS =========================== //
 
@@ -425,7 +270,7 @@ class _MyAddressForm extends State<AddressForm> {
               onEditingComplete: () {
                 // Make sure to write to Database
 
-                setStreetName(streetNameController.text);
+                newStreet = streetNameController.text;
 
                 FocusScope.of(context).requestFocus(new FocusNode());
               },
@@ -447,7 +292,7 @@ class _MyAddressForm extends State<AddressForm> {
               onEditingComplete: () {
                 // Make sure to write to Database
 
-                setCity(cityController.text);
+                newCity = cityController.text;
 
                 FocusScope.of(context).requestFocus(new FocusNode());
               },
@@ -469,7 +314,7 @@ class _MyAddressForm extends State<AddressForm> {
               onEditingComplete: () {
                 // Make sure to write to Database
 
-                setState(stateController.text);
+                newState = stateController.text;
 
                 FocusScope.of(context).requestFocus(new FocusNode());
               },
@@ -491,7 +336,7 @@ class _MyAddressForm extends State<AddressForm> {
               onEditingComplete: () {
                 // Make sure to write to Database
 
-                setZip(zipController.text);
+                newZip = zipController.text;
 
                 FocusScope.of(context).requestFocus(new FocusNode());
               },
@@ -501,13 +346,35 @@ class _MyAddressForm extends State<AddressForm> {
                 child: RaisedButton(
                   child: Text('Save Changes'),
                   onPressed: () {
-                    // Make sure to write to the database
+                    // Make sure to write to the database only
+                    // if the address has changed
 
-                    setFullAddressWithParams(
-                        streetNameController.text,
-                        cityController.text,
-                        zipController.text,
-                        stateController.text);
+                    // TODO Make sure to write to the database
+                    // TODO ONLY INSIDE the if loops, only if the data changed
+
+                    if (streetNameController.text.isEmpty != true) {
+                      setStreetName(streetNameController.text);
+                      setFullAddressWithParams(
+                          getStreetName(), getCity(), getZip(), getState());
+                    }
+
+                    if (cityController.text.isEmpty != true) {
+                      setCity(cityController.text);
+                      setFullAddressWithParams(
+                          getStreetName(), getCity(), getZip(), getState());
+                    }
+
+                    if (zipController.text.isEmpty != true) {
+                      setZip(zipController.text);
+                      setFullAddressWithParams(
+                          getStreetName(), getCity(), getZip(), getState());
+                    }
+
+                    if (stateController.text.isEmpty != true) {
+                      setState(stateController.text);
+                      setFullAddressWithParams(
+                          getStreetName(), getCity(), getZip(), getState());
+                    }
 
                     Navigator.push(
                       context,

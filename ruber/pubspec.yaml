@@ -20,6 +20,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
   map_view:
+     git:
+       url: git://github.com/Eimji/flutter_google_map_view.git
 
 
   http: ^0.11.3+16
