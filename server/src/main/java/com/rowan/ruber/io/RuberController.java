@@ -191,10 +191,15 @@ public class RuberController {
         }
     }
 
+    @Autowired
+    private Search search;
+
     @GetMapping("/matching/{profileID}/{radius}")
     public @ResponseBody List<Profile> getMatches(@PathVariable int profileID, @PathVariable int radius){
         try{
-            return new Search().getMatches(profileRepository, profileID, radius);
+            List<Profile> profiles = search.getMatches(profileRepository, profileID, radius);
+            System.out.println("test");
+            return profiles;
         }
         catch(IllegalArgumentException e){
             return null;
