@@ -74,6 +74,25 @@ public class Schedule implements Serializable{
     }
 
     /**
+     * Constructor that takes all parameters except for profile.
+     *
+     * @param day the specified day
+     * @param goingToRangeStart the start of the going to time
+     * @param goingToRangeEnd the end of the going to time
+     * @param leavingRangeStart the start of the leaving time
+     * @param leavingRangeEnd the end of the leaving time
+     */
+    public Schedule(Day day, LocalTime goingToRangeStart, LocalTime goingToRangeEnd,
+                    LocalTime leavingRangeStart, LocalTime leavingRangeEnd) {
+        this.profile = profile;
+        this.day = day;
+        this.goingToStart = goingToRangeStart;
+        this.goingToEnd = goingToRangeEnd;
+        this.leavingStart = leavingRangeStart;
+        this.leavingEnd = leavingRangeEnd;
+    }
+
+    /**
      * Return the profile associated with this schedule.
      * @return the profile
      */
@@ -95,6 +114,14 @@ public class Schedule implements Serializable{
      */
     public void setDay(Day day) {
         this.day = day;
+    }
+
+    /**
+     * Sets the profile for the schedule to the given profile
+     * @param profile the profile to set
+     */
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
     /**
