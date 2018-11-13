@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-Address scheduleFromJson(String str) {
+Schedule scheduleFromJson(String str) {
   final jsonData = json.decode(str);
   return Schedule.fromJson(jsonData);
 }
@@ -12,7 +12,7 @@ String scheduleToJson(Schedule data) {
 
 List<Schedule> allSchedulesFromJson(String str) {
   final jsonData = json.decode(str);
-  return new List<Schedule>.from(jsonData.map((x) => Address.fromJson(x)));
+  return new List<Schedule>.from(jsonData.map((x) => Schedule.fromJson(x)));
 }
 
 String allScheduleToJson(List<Schedule> data) {
@@ -39,7 +39,7 @@ class Schedule {
 
 
   factory Schedule.fromJson(Map<String, dynamic> parsedJson) {
-    return Address(
+    return Schedule(
       profile: parsedJson["profile"],
       day: parsedJson["day"],
       goingToRangeStart: parsedJson["goingToRangeStart"],
