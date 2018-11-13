@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'AppDrawer.dart';
-import 'Rest.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:async' show Future;
-import 'PostModel.dart';
-import 'dart:io';
+import 'ProfileModel.dart';
+import 'AddressModel.dart';
 
 String profilepic;
 String streetname = "1007 Mountain Drive";
@@ -212,12 +211,12 @@ class ProfileScreen extends StatelessWidget {
 
             Container(
                 child: Center(
-                    child: FutureBuilder<Post>(
-                        future: getPost(),
+                    child: FutureBuilder<Address>(
+                        future: getAddressPost(),
                         builder: (context, snapshot) {
                           if (snapshot.hasData)
                             return Text(
-                                '${snapshot.data.address}');
+                                '${snapshot.data.city}');
                           else
                             return CircularProgressIndicator();
                         }))),
@@ -479,4 +478,10 @@ String url = 'http://10.0.2.2:8080/rides/profile/1';
 Future<Post> getPost() async {
   final response = await http.get(url);
   return postFromJson(response.body);
+}
+
+String url2 = 'http://10.0.2.2:8080/rides/address/1';
+Future<Address> getAddressPost() async {
+  final response2 = await http.get(url2);
+  return addressFromJson(response2.body);
 }
