@@ -7,7 +7,7 @@ import 'ProfileModel.dart';
 import 'AddressModel.dart';
 
 String profilepic;
-String streetname = "1007 Mountain Drive";
+String streetname;
 String city = "Gotham";
 String zip = "53540";
 String state = "CA";
@@ -213,10 +213,10 @@ class ProfileScreen extends StatelessWidget {
                 child: Center(
                     child: FutureBuilder<Address>(
                         future: getAddressPost(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData)
+                        builder: (context2, snapshot2) {
+                          if (snapshot2.hasData)
                             return Text(
-                                '${snapshot.data.city}');
+                                '${snapshot2.data.streetAddress}');
                           else
                             return CircularProgressIndicator();
                         }))),
