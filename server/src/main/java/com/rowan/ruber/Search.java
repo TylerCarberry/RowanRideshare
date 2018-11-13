@@ -12,7 +12,6 @@ import java.sql.ResultSet;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.ArrayList;
 
 @Component
 public class Search{
@@ -32,7 +31,7 @@ public class Search{
                 new ProfileRowMapper());
         for (Profile profile : matchedProfiles ) {
             List<Schedule> schedules = jdbcTemplate.query(
-                    "SELECT * FROM schedule JOIN profile USING (ProfileID) WHERE EmailAddress = ?",
+                    "SELECT * FROM schedule JOIN profile USING (ProfileID) WHERE EmailAddress = ?;",
                     new Object[]{profile.getEmail()},
                     new ScheduleRowMapper());
             for (Schedule schedule : schedules)
@@ -69,7 +68,7 @@ public class Search{
 	public class ScheduleResultSetExtractor implements ResultSetExtractor{
 	    @Override
         public Object extractData(ResultSet rs) throws SQLException {
-	        return new Schedule(Day.fromInteger(rs.getInt("Day")),
+            return new Schedule(Day.valueOf(rs.getString("Day")),
                     rs.getTime("GoingToRangeStart").toLocalTime(),
                     rs.getTime("GoingToRangeEnd").toLocalTime(),
                     rs.getTime("LeavingRangeStart").toLocalTime(),

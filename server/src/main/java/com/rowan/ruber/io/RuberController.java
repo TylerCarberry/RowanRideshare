@@ -49,6 +49,12 @@ public class RuberController {
         return addressRepository.findAll(); //returns JSON or XML of addresses
     }
 
+    // Temp
+    @GetMapping(path="/profile/all")
+    public @ResponseBody Iterable<Profile> getProfiles() {
+        return profileRepository.findAll(); //returns JSON or XML of addresses
+    }
+
     /**
      * Get the profile. May return null.
      * @param profileID the ID for the profile.
