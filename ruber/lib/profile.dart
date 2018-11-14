@@ -41,7 +41,7 @@ setZip(String newZip) {
   zip = newZip;
 }
 
-setState(String newState) {
+setNewState(String newState) {
   state = newState;
 }
 
@@ -371,7 +371,7 @@ class _MyAddressForm extends State<AddressForm> {
                     }
 
                     if (stateController.text.isEmpty != true) {
-                      setState(stateController.text);
+                      setNewState(stateController.text);
                       setFullAddressWithParams(
                           getStreetName(), getCity(), getZip(), getState());
                     }

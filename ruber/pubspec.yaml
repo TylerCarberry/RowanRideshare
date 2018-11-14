@@ -23,6 +23,9 @@ dependencies:
      git:
        url: git://github.com/Eimji/flutter_google_map_view.git
 
+  shared_preferences: ^0.4.3
+
+  path_provider: ^0.4.0
 
   http: ^0.11.3+16
   google_sign_in: ^3.2.1
