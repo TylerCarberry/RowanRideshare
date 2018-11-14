@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'ProfileModel.dart';
 
 Schedule scheduleFromJson(String str) {
   final jsonData = json.decode(str);
@@ -21,7 +22,7 @@ String allScheduleToJson(List<Schedule> data) {
 }
 
 class Schedule {
-  Profile profile;
+  Post profile;
   Day day;
   LocalTime goingToRangeStart;
   LocalTime goingToRangeEnd;
@@ -57,4 +58,5 @@ class Schedule {
         "leavingRangeStart": leavingRangeStart,
         "leavingRangeEnd": leavingRangeEnd,
       };
+
 }
