@@ -30,10 +30,6 @@ Scaffold launchRideScreen(context) {
                     onPressed: ()
                     {
 
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Rest()),
-                      );
 
                     },
                   )

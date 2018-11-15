@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'dart:async';
 
 class Map extends StatelessWidget {
@@ -9,11 +8,11 @@ class Map extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
       home: new Scaffold(
-        body: new Container( //body of the scaffold is a container with a http pull
+        body: new Container(
+          //body of the scaffold is a container with a http pull
           child: Center(
             child: FutureBuilder(
               future: fetchResponse(),
-
               builder: (context, snapshot) {
                 //print(snapshot.data.title);
                 //print (snapshot.connectionState.toString());
@@ -34,14 +33,12 @@ class Map extends StatelessWidget {
   }
 
   Future fetchResponse() async {
-
     String responseList;
-    http.Response response = await http.get("http://10.0.2.2:8080/hello/greeting").catchError((resp) {});
+    http.Response response = await http
+        .get("http://10.0.2.2:8080/hello/greeting")
+        .catchError((resp) {});
     responseList = response.body.toString();
 
     return responseList;
-
-
   }
-
 }
