@@ -123,6 +123,15 @@ public class Profile implements Serializable{
     }
 
     /**
+     * Get the formatted date and time this profile was created.
+     * Avoid using SimpleDateFormat as it is not thread-safe.
+     * @return the createdDate as a formatted String.
+     */
+    public String getCreatedDateString() {
+        return String.format("%1$TD %1$TT", createdDate);
+    }
+
+    /**
      * Gets the schedules for a profile.
      * @return a list of schedules
      */

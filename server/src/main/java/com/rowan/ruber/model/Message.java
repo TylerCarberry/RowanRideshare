@@ -96,6 +96,15 @@ public class Message implements Serializable{
     }
 
     /**
+     * Get the formatted date and time this message was sent.
+     * Avoid using SimpleDateFormat as it is not thread-safe.
+     * @return the timeSent as a formatted String.
+     */
+    public String getTimeSentString() {
+        return String.format("%1$TD %1$TT", timeSent);
+    }
+
+    /**
      * Set the message id
      * @param id the id to set
      */
