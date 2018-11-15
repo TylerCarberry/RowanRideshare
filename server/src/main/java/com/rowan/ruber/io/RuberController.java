@@ -1,6 +1,8 @@
 package com.rowan.ruber.io;
 
+import java.time.LocalTime;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -168,6 +170,20 @@ public class RuberController {
         return null; //stub for now - try to fix later
     }
 
+    @PostMapping(path="/profile/{profileID}/schedule/new")
+    public @ResponseBody Schedule createUpdateSchedule(@PathVariable int profileID, Map<String, String> map) {
+        Schedule schedule = null;
+        try {
+            Profile profile = profileRepository.findById(profileID).get();
+            
+            //TODO get input from map, parse it
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return schedule;
+    }
+
     /**
      *  Using try catch for testing phase, in a complete system the app shouldn't attempt to 
      *  delete using a non-existing id.( boolean -> void, and remove try catch.)
@@ -205,6 +221,37 @@ public class RuberController {
         catch(IllegalArgumentException e){
             return false;
         }
+    }
+
+    /**
+     * Return a map of the formmated
+     * @param s
+     * @return
+     */
+    private Map<String, LocalTime> extractSchedule(String s) {
+        //0600,0630,1700,1730
+        s = s.trim();
+        Map<String, LocalTime>  map = new HashMap<String, LocalTime>();
+        String goingToStart = formatScheduleTime(s.substring(0, 4));
+        String goingToEnd = formatScheduleTime(s.substring(4,8));
+        String leavingStart = formatScheduleTime(s.substring(8,12));
+        String leavingEnd = formatScheduleTime(s.substring(12)); 
+        
+        map.put("goingToStart", LocalTime.parse(goingToStart));
+        map.put("goingToEnd", LocalTime.parse(goingToStart));
+        map.put("leavingStart", LocalTime.parse(goingToStart));
+        map.put("leavingEnd", LocalTime.parse(goingToStart));
+        return map;
+    }
+
+    /**
+     * Takes input in as HHMM and outputs HH:MM.
+     * i.e. 0600 -> 06:00
+     * @param s
+     * @return
+     */
+    private String formatScheduleTime(String s) {
+        return s.substring(0,2) + ":" + s.substring(2);
     }
 
 }
