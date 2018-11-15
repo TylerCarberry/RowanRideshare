@@ -145,7 +145,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
           MaterialButton(
               child: const Text('Sign In With Google'),
-              onPressed: () {
+              onPressed: ()
+              {
                 setState(() {
                   _message = _testSignInWithGoogle();
                 });

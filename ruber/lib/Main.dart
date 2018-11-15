@@ -136,7 +136,7 @@ class HomeState extends State<Home> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      MainScreen()) //Change this to AuthScreen()
+                                      AuthScreen()) //Change this to AuthScreen()
                               );
                         },
                       )
