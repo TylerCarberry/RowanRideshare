@@ -46,7 +46,6 @@ public class Profile implements Serializable{
     @Column(name="CreatedDate")
     private Date createdDate;
 
-    @JsonManagedReference
     @OneToMany(mappedBy="profile", cascade=CascadeType.REMOVE)
     private List<Schedule> schedules = new ArrayList<Schedule>(); // Maintain bi-directional 1 to Many w/ Schedule
 

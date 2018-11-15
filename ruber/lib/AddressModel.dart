@@ -46,6 +46,7 @@ class Address {
       streetAddress: parsedJson["streetAddress"],
       city: parsedJson["city"],
       zipCode: parsedJson["zipCode"],
+      state: parsedJson["state"],
       latitude: parsedJson["latitude"],
       longitude: parsedJson["longitude"],
     );}
@@ -60,4 +61,10 @@ class Address {
         "latitude": latitude,
         "longitude": longitude,
       };
+
+
+  @override
+  String toString() {
+    return id.toString() + streetAddress.toString() + city + zipCode + state;
+  }
 }
