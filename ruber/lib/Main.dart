@@ -6,6 +6,7 @@ import 'AppDrawer.dart';
 import 'profile.dart';
 import 'Messages_Screen.dart';
 import 'settings_Screen.dart';
+import 'editschedule.dart';
 import 'MapPage.dart';
 import 'package:map_view/map_view.dart';
 
@@ -136,7 +137,7 @@ class HomeState extends State<Home> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      AuthScreen()) //Change this to AuthScreen()
+                                      MainScreen()) //Change this to AuthScreen()
                               );
                         },
                       )
@@ -218,11 +219,11 @@ class MainScreen extends StatelessWidget {
                   );
                 }),
             RaisedButton(
-                child: Text('Map Test'),
+                child: Text('Edit Schedule Test'),
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => MapPage()),
+                    MaterialPageRoute(builder: (context) => ScheduleForm()),
                   );
                 }),
           ]),

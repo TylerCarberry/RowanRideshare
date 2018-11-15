@@ -151,8 +151,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   _message = _testSignInWithGoogle();
                 });
               }),
-
-
           FutureBuilder<String>(
               future: _message,
               builder: (_, AsyncSnapshot<String> snapshot) {
