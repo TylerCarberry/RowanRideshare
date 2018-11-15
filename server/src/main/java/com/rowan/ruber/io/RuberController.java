@@ -101,22 +101,8 @@ public class RuberController {
                 profile.setEmail(email);
             }
             else {
-                int addressID = Integer.parseInt(map.get("address"));
                 Date createdDate = new Date(); 
-                Address address = addressRepository.findById(addressID).get();
-                
-                /**
-                 * May want to convert to this soon
-                String streetAddress = map.get("address");
-                String city = map.get("city");
-                String state = map.get("state");
-                String zipCode = map.get("zipCode");
-                //Get the lat long 
-                Address address = new Address(streetAddress, city, state, zipCode, latitude, longitude)
-                createUpdateAddress(Address);
-                */
-                
-                profile = new Profile(name, email, address, createdDate); //let DB handle date creation
+                profile = new Profile(name, email, null, createdDate); //let DB handle date creation
             }
         }
         catch (Exception e) {
@@ -223,6 +209,8 @@ public class RuberController {
         }
     }
 
+    /** TEST BELOW AND THE SCHEDULE ENDPOINT */
+    
     /**
      * Return a map of the formmated
      * @param s
