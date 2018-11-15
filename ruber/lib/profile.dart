@@ -466,10 +466,15 @@ class _MyAddressForm extends State<AddressForm> {
 
                         if (streetNameController.text.isEmpty != true) {
                           setStreetName(streetNameController.text);
+                        }
+                        if (stateController.text.isEmpty != true) {
                           setState(stateController.text);
+                        }
+                        if (cityController.text.isEmpty != true) {
                           setCity(cityController.text);
+                        }
+                        if (zipController.text.isEmpty != true) {
                           setZip(zipController.text);
-
                         }
 
                           String streetNameEdit = getStreetName();
