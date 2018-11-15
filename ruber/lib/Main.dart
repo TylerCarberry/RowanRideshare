@@ -17,17 +17,9 @@ import 'package:flutter/foundation.dart';
 var api_key = "AIzaSyDrHKl8IxB4cGXIoELXQOzzZwiH1xtsRf4";
 const String _name = "Your Name";
 
-//void main() {
-//  MapView.setApiKey(api_key);
-//  runApp(MaterialApp(
-//    title: 'RUber',
-//    home: Disclaimer(),
-//  ));
-//}
+void main() => runApp(new RUber());
 
-void main() => runApp(new MyApp());
-
-class MyApp extends StatelessWidget {
+class RUber extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -77,9 +69,7 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
-  TextEditingController controller = TextEditingController();
   String state;
-  Future<Directory> _appDocDir;
 
   @override
   void initState() {
@@ -93,70 +83,74 @@ class HomeState extends State<Home> {
 
   Future<File> writeData() async {
     setState(() {
-      state = controller.text;
-      controller.text = "";
+      state = "accepted";
     });
 
     return widget.storage.writeData(state);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('Disclaimer'),
-          centerTitle: true,
-        ),
-        body: Center(
-            child: Column(
-          children: <Widget>[
-            Text('${state ?? "File is empty"}'),
-            TextField(
-              controller: controller,
-            ),
-            RaisedButton(
-                onPressed: () {
-                  writeData();
-                },
-                child: Text('Write to file'))
-          ],
-        )));
+  void readData() {
+    widget.storage.readData().then((String value) {
+      setState(() {
+        state = value.toString();
+      });
+    });
   }
-}
 
-// DISCLAIMER
-
-class Disclaimer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Card(
-        child: Column(
-      children: <Widget>[
-        const ListTile(
-          contentPadding: EdgeInsets.only(top: 100.0, left: 70.0),
-          title: Text('EULA Disclaimer'),
-          subtitle: Text('We are not responsible for anything that happens'
-              'from the use of this app to anyone or anything'),
-        ),
-        ButtonTheme.bar(
+    readData();
+
+    if (state != "accepted") {
+      // If state DOES NOT equal "accepted" - first time
+      return Scaffold(
+          appBar: AppBar(
+            title: Text('Disclaimer'),
+            centerTitle: true,
+          ),
+          body: Card(
             child: Center(
-                child: ButtonBar(
-          children: <Widget>[
-            FlatButton(
-              child: const Text('Accept and use'),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            MainScreen()) //Change this to AuthScreen()
-                    );
-              },
-            )
-          ],
-        )))
-      ],
-    ));
+              child: Column(
+                children: <Widget>[
+                  const ListTile(
+                    title: Text('End-User License Agreement (EULA) for RUber',
+                        textAlign: TextAlign.center),
+                    subtitle: Text(
+                      'The development team of RUber is not responsible'
+                          ' for  how the user (you) uses the app. All actions are made'
+                          ' on behalf and by the user and the RUber team does not accept'
+                          ' any penalties from your actions. You have to accept this'
+                          ' agreement to use this application.',
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      RaisedButton(
+                        child: Text('Accept'),
+                        onPressed: () {
+                          // Write the "accepted" to the file
+                          writeData();
+
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      MainScreen()) //Change this to AuthScreen()
+                              );
+                        },
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ));
+    } else // If state EQUALS "accepted" -- after 1st time
+    {
+      return MainScreen();
+    }
   }
 }
 
