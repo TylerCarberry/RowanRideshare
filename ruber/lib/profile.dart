@@ -472,14 +472,29 @@ class _MyAddressForm extends State<AddressForm> {
 
                         }
 
+                          String streetNameEdit = getStreetName();
+                          String cityNameFinal = getCity();
+                          String zipCodeEdit = getZip();
+                          String stateEdit = getState();
+                          Address newAddress = Address(
+                              id: 1,
+                              streetAddress: streetNameEdit,
+                              city: cityNameFinal,
+                              zipCode: zipCodeEdit,
+                              state: stateEdit
+                          ); // creating a new Post object to send it to API
 
-                        Address newAddress= new Address(id: 1, streetAddress: getStreetName(), city: getCity(),
-                            zipCode: getZip(), state: getState());
-
+                          createAddress(newAddress).then((response){
+                            if(response.statusCode > 200)
+                              print(response.body);
+                            else
+                              print(response.statusCode);
+                          }).catchError((error){
+                            print('error : $error');
+                          });
 
                         print(newAddress.toString());
 
-                        createAddress(newAddress);
 
                         Navigator.push(
                           context,
@@ -507,8 +522,16 @@ Future<Address> getAddressPost() async {
   return addressFromJson(response2.body);
 }
 
-Future<http.Response> createAddress(Address address) async {
+
+
+Future<http.Response> createAddress(Address address) async{
   String updateUrl = 'http://10.0.2.2:8080/rides/address/update';
-  final response = await http.post('$updateUrl', body: addressToJson(address));
+  final response = await http.post('$updateUrl',
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.authorizationHeader : ''
+      },
+      body: addressToJson(address)
+  );
   return response;
 }
