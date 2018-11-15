@@ -85,7 +85,8 @@ class _MyHomePageState extends State<MyHomePage> {
     //This if statement need to check for first time login
     if(user.getIdToken() == null){
       var now = new DateTime.now();
-      NewUser newUser = new NewUser(user.uid, user.displayName,user.email,now,null,null,user.uid);
+      NewUser newUser = new NewUser(user.displayName,user.email,now,"-1",user.uid);
+//      NewUser newUser = new NewUser(user.uid, user.displayName,user.email,now,user.uid,"-1",user.uid);
       createPost(newUser).then((response){
         if(response.statusCode > 200)
           print(response.body);
@@ -186,7 +187,7 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class NewUser{
-  String id;
+//  String id;
   String name;
   String email;
   var createdDate;
@@ -194,13 +195,14 @@ class NewUser{
   var address;
   String chatroom;
 //  var schedules;
-  NewUser(String id,String name, String email, var createdDate, var schedules, var address, String chatroom){
-    this.id = id;
+  NewUser(String name, String email, var createdDate, var schedules, String chatroom){
+//  NewUser(String id,String name, String email, var createdDate, var schedules, var address, String chatroom){
+//    this.id = id;
     this.name =name;
     this.email =email;
     this.createdDate = createdDate;
     this.schedules = schedules;
-    this.address = address;
+//    this.address = address;
     this.chatroom = chatroom;
   }
 
