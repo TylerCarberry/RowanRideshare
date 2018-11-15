@@ -12,10 +12,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.text.SimpleDateFormat;

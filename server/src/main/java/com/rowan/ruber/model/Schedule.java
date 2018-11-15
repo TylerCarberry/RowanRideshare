@@ -2,7 +2,6 @@ package com.rowan.ruber.model;
 
 import java.io.Serializable;
 import java.time.LocalTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
