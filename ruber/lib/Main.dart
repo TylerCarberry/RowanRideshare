@@ -195,6 +195,15 @@ class MainScreen extends StatelessWidget {
                   );
                 }),
             RaisedButton(
+              child: Text('Schedule'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ScheduleForm())
+                );
+              },
+            ),
+            RaisedButton(
                 child: Text('Settings'),
                 onPressed: () {
                   Navigator.push(
@@ -216,14 +225,6 @@ class MainScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => AuthScreen()),
-                  );
-                }),
-            RaisedButton(
-                child: Text('Edit Schedule Test'),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ScheduleForm()),
                   );
                 }),
           ]),
