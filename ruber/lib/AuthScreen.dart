@@ -75,10 +75,25 @@ class _MyHomePageState extends State<MyHomePage> {
     assert(user.displayName != null);
     assert(!user.isAnonymous);
     assert(await user.getIdToken() != null);
-    var now = new DateTime.now();
+
+    /*
+    *This is where new users are created for first time logins
+    * this logic should work but might need to happen else where
+    * address schedule and chatroom are all null for now
+     */
+
+    //This if statement need to check for first time login
     if(user.getIdToken() == null){
-      NewUser newUser = new NewUser(user.uid, user.displayName,user.email,now,null,null, null);
-      createPost(newUser);
+      var now = new DateTime.now();
+      NewUser newUser = new NewUser(user.uid, user.displayName,user.email,now,null,null,user.uid);
+      createPost(newUser).then((response){
+        if(response.statusCode > 200)
+          print(response.body);
+        else
+          print(response.statusCode);
+      }).catchError((error){
+        print('error : $error');
+      });
     }
 
     final FirebaseUser currentUser = await _auth.currentUser();
@@ -177,9 +192,9 @@ class NewUser{
   var createdDate;
   var schedules;
   var address;
-  var chatroom;
+  String chatroom;
 //  var schedules;
-  NewUser(String id,String name, String email, var createdDate, var schedules, var address, var chatroom){
+  NewUser(String id,String name, String email, var createdDate, var schedules, var address, String chatroom){
     this.id = id;
     this.name =name;
     this.email =email;
