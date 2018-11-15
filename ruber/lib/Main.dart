@@ -22,7 +22,6 @@ void main() => runApp(new RUber());
 class RUber extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return MaterialApp(title: 'RUber', home: Home(storage: Storage()));
   }
 }
@@ -284,9 +283,9 @@ class MessagesScreenState extends State<MessagesScreen> {
 
     ChatMessage message = new ChatMessage(text: text);
 
-//    setState(() {
-//      _messages.insert(0, message);
-//    });
+    setState(() {
+      _messages.insert(0, message);
+    });
   }
 
   Widget _buildTextComposer() {
