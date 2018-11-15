@@ -1,21 +1,18 @@
 package com.rowan.ruber.io;
 
-import com.rowan.ruber.Authenticator;
-import com.rowan.ruber.MapsManager;
-import com.rowan.ruber.model.*;
-import com.rowan.ruber.model.google_maps.Location;
-import com.rowan.ruber.repository.AddressRepository;
-import com.rowan.ruber.repository.ChatroomRepository;
-import com.rowan.ruber.repository.MessageRepository;
-import com.rowan.ruber.repository.ProfileRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import com.rowan.ruber.Authenticator;
+import com.rowan.ruber.repository.*;
+import com.rowan.ruber.model.*;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/rides")
 @RestController
@@ -82,22 +79,19 @@ public class RuberController {
     }
 
     @GetMapping(path="/schedule/{profileID}")
-    public @ResponseBody Optional<List<Schedule>> geStSchedule(@PathVariable int profileID){
+    public @ResponseBody Optional<List<Schedule>> getSchedule(@PathVariable int profileID){
         Profile profile = getProfile(profileID).get();
         return Optional.ofNullable(profile.getSchedules());
     }
 
-    // TODO: finish post
-    //Maybe we should split this into 2 methods?
     @PostMapping(path={"/profile/new", "/profile/update"})
     public @ResponseBody Profile createUpdateProfile(@RequestBody Map<String, String> map){
+        Profile profile = null;
         try {
             String name = map.get("name");
             String email = map.get("email");
 
-            Profile profile = null;
-
-            //if id exists, then we are doing an update. Otherwise, new address
+            //if id exists, then we are doing an update. Otherwise, new profile
             if(map.containsKey("id")) {
                 int profileID = Integer.parseInt(map.get("id"));
                 profile = profileRepository.findById(profileID).get();
@@ -107,33 +101,55 @@ public class RuberController {
             }
             else {
                 int addressID = Integer.parseInt(map.get("address"));
-                Date createdDate = new SimpleDateFormat("yyyy-MM-dd").parse(map.get("createdDate"));
+                Date createdDate = new Date(); 
                 Address address = addressRepository.findById(addressID).get();
-                profile = new Profile(name, email, address, createdDate);
+                
+                /**
+                 * May want to convert to this soon
+                String streetAddress = map.get("address");
+                String city = map.get("city");
+                String state = map.get("state");
+                String zipCode = map.get("zipCode");
+                //Get the lat long 
+                Address address = new Address(streetAddress, city, state, zipCode, latitude, longitude)
+                createUpdateAddress(Address);
+                */
+                
+                profile = new Profile(name, email, address, createdDate); //let DB handle date creation
             }
-
-            return profileRepository.save(profile);
         }
         catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return profileRepository.save(profile);
     }
 
     @PostMapping(path={"/address/new", "/address/update"})
     public @ResponseBody Address createUpdateAddress(@RequestBody Address address) {
-        String formattedAddress = address.getStreetAddress() + " " + address.getCity() + " " + address.getState() + " " + address.getZipCode();
-        Location coordinates = MapsManager.getCoordinatesFromAddress(formattedAddress);
-        address.setLatitude(coordinates.getLat());
-        address.setLongitude(coordinates.getLng());
         return addressRepository.save(address);
-    } 
-
-    @PostMapping(path="/chatroom/new")
-    public @ResponseBody Chatroom createChatroom(@RequestBody Chatroom chatroom) {
-        return chatroomRepository.save(chatroom);
     }
 
+    /** 
+     * I decided to combine create chatroom and addProfileToChatroom.
+     * Since we're manually taking care of createDate, a chatroom should consist of at least 1 user to start the chatroom
+     * otherwise a chatroom is just hanging around not attached to any profiles.
+     */
+    @PostMapping(path="/profile/{profileID}/chatroom/new")
+    public @ResponseBody Profile addProfileToChatroom(@PathVariable int profileID, @RequestBody Map<String,String> map) {
+        Profile profile = null;
+        try {
+            profile = profileRepository.findById(profileID).get();
+            //if chatroom included not included in map, make new chatroom. Otherwise fetch from DB.
+            Chatroom chat = (map.get("chatroom") == null ? chatroomRepository.save(new Chatroom(new Date())):
+                            chatroomRepository.findById(Integer.parseInt(map.get("chatroom"))).get());
+
+            profile.getChatrooms().add(chat);
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return profileRepository.save(profile);
+    }
 
     @PostMapping(path="/message/new")
     public @ResponseBody Message createMessage(@RequestBody Map<String, String> map) {
@@ -141,11 +157,10 @@ public class RuberController {
             int chatroomID = Integer.parseInt(map.get("chatroom"));
             int senderID = Integer.parseInt(map.get("sender"));
             String text = map.get("text");
-            Date timeSent = new SimpleDateFormat("yyyy-MM-dd").parse(map.get("timeSent"));
-
+            Date timeSent = new Date();
             Chatroom chatroom = chatroomRepository.findById(chatroomID).get();
-            //Profile sender = profileRepository.findById(senderID).get();
             Message message = new Message(chatroom, senderID, text, timeSent);
+            chatroom.setLastMessage(message);
             return messageRepository.save(message);
         }
         catch(Exception e) {
@@ -182,7 +197,7 @@ public class RuberController {
         }
     }
 
-    @GetMapping("/message/delete/{messageID}")
+    @GetMapping("/message/delete/{messageID}/")
     public boolean deleteMessage(@PathVariable int messageID){
         try{
             messageRepository.deleteById(messageID);
@@ -192,4 +207,5 @@ public class RuberController {
             return false;
         }
     }
+
 }

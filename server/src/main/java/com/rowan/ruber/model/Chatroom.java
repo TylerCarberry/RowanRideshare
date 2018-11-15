@@ -14,8 +14,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,11 +36,8 @@ public class Chatroom implements Serializable{
     @JoinColumn(name="LastMessageID")
     private Message lastMessage;
 
-    
-    @ManyToMany
-    @JoinTable(name = "chatroomProfile",
-            joinColumns = { @JoinColumn(name = "ChatroomID") },
-            inverseJoinColumns = { @JoinColumn(name = "ProfileID") })
+    @JsonBackReference
+    @ManyToMany(mappedBy="chatrooms")
     private List<Profile> profiles = new ArrayList<Profile>();
 
     @JsonManagedReference
@@ -95,4 +94,12 @@ public class Chatroom implements Serializable{
     public List<Message> getMessages() {
         return messages;
     }
+
+    /**
+     * Sets the last message.
+     */
+    public void setLastMessage(Message message) {
+        lastMessage = message;
+    }
+
 }

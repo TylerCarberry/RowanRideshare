@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -50,8 +51,11 @@ public class Profile implements Serializable{
     @OneToMany(mappedBy="profile", cascade=CascadeType.REMOVE)
     private List<Schedule> schedules = new ArrayList<Schedule>(); // Maintain bi-directional 1 to Many w/ Schedule
 
-    @ManyToMany(mappedBy="profiles")
-    private List<Chatroom> chatrooms = new ArrayList<Chatroom>();
+    @ManyToMany
+    @JoinTable(name = "chatroomProfile",
+            joinColumns = { @JoinColumn(name = "ProfileID") },
+            inverseJoinColumns = { @JoinColumn(name = "ChatroomID") })
+    private List<Chatroom> chatrooms = new ArrayList<Chatroom>(); //Profile is the "owner" side of the relationship
 
     /** 
      *  Default constructor for JPA.
