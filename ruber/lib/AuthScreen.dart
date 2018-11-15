@@ -85,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
     //This if statement need to check for first time login
     if(user.getIdToken() == null){
       var now = new DateTime.now();
-      NewUser newUser = new NewUser(user.displayName,user.email,now,"-1",user.uid);
+      NewUser newUser = new NewUser(user.displayName,user.email,now,"-1");
 //      NewUser newUser = new NewUser(user.uid, user.displayName,user.email,now,user.uid,"-1",user.uid);
       createPost(newUser).then((response){
         if(response.statusCode > 200)
@@ -193,9 +193,9 @@ class NewUser{
   var createdDate;
   var schedules;
   var address;
-  String chatroom;
+//  String chatroom;
 //  var schedules;
-  NewUser(String name, String email, var createdDate, var schedules, String chatroom){
+  NewUser(String name, String email, var createdDate, var schedules){
 //  NewUser(String id,String name, String email, var createdDate, var schedules, var address, String chatroom){
 //    this.id = id;
     this.name =name;
@@ -203,7 +203,7 @@ class NewUser{
     this.createdDate = createdDate;
     this.schedules = schedules;
 //    this.address = address;
-    this.chatroom = chatroom;
+//    this.chatroom = chatroom;
   }
 
 //  factory NewUser.fromJson(Map<String, dynamic> parsedJson) {
@@ -217,13 +217,13 @@ class NewUser{
 
   Map<String, dynamic> toJson() =>
       {
-        "id": id,
+//        "id": id,
         "name": name,
         "email": email,
         "createdDate": createdDate,
         "schedules":schedules,
-        "address":address,
-        "chatroom":chatroom,
+//        "address":address,
+//        "chatroom":chatroom,
       };
 
 
