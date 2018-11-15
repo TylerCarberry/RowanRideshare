@@ -68,6 +68,12 @@ public class Profile implements Serializable{
         this.createdDate = createdDate;
     }
 
+    public Profile(String name, String email, Address address){
+        this.name = name;
+        this.email = email;
+        this.address = address;
+    }
+
     /**
      * Returns the string representation for Profile.
      * @return the String representation for a Profile

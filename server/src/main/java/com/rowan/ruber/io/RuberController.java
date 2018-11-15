@@ -1,8 +1,8 @@
 package com.rowan.ruber.io;
 
 import com.rowan.ruber.Authenticator;
-import com.rowan.ruber.MapsManager;
 import com.rowan.ruber.model.*;
+import com.rowan.ruber.model.google_maps.GeoencodingResult;
 import com.rowan.ruber.model.google_maps.Location;
 import com.rowan.ruber.repository.AddressRepository;
 import com.rowan.ruber.repository.ChatroomRepository;
@@ -10,6 +10,8 @@ import com.rowan.ruber.repository.MessageRepository;
 import com.rowan.ruber.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import com.rowan.ruber.Search;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -47,6 +49,12 @@ public class RuberController {
         return addressRepository.findAll(); //returns JSON or XML of addresses
     }
 
+    // Temp
+    @GetMapping(path="/profile/all")
+    public @ResponseBody Iterable<Profile> getProfiles() {
+        return profileRepository.findAll(); //returns JSON or XML of addresses
+    }
+
     /**
      * Get the profile. May return null.
      * @param profileID the ID for the profile.
@@ -82,7 +90,7 @@ public class RuberController {
     }
 
     @GetMapping(path="/schedule/{profileID}")
-    public @ResponseBody Optional<List<Schedule>> geStSchedule(@PathVariable int profileID){
+    public @ResponseBody Optional<List<Schedule>> getSchedule(@PathVariable int profileID){
         Profile profile = getProfile(profileID).get();
         return Optional.ofNullable(profile.getSchedules());
     }
@@ -122,10 +130,6 @@ public class RuberController {
 
     @PostMapping(path={"/address/new", "/address/update"})
     public @ResponseBody Address createUpdateAddress(@RequestBody Address address) {
-        String formattedAddress = address.getStreetAddress() + " " + address.getCity() + " " + address.getState() + " " + address.getZipCode();
-        Location coordinates = MapsManager.getCoordinatesFromAddress(formattedAddress);
-        address.setLatitude(coordinates.getLat());
-        address.setLongitude(coordinates.getLng());
         return addressRepository.save(address);
     } 
 
@@ -191,5 +195,33 @@ public class RuberController {
         catch(IllegalArgumentException e){
             return false;
         }
+    }
+
+    @Autowired
+    private Search search;
+
+    @GetMapping("/matching/{profileID}/{radius}")
+    public @ResponseBody List<Profile> getMatches(@PathVariable int profileID, @PathVariable int radius){
+        try{
+            List<Profile> profiles = search.getMatches(profileRepository, profileID, radius);
+            System.out.println("test");
+            return profiles;
+        }
+        catch(IllegalArgumentException e){
+            return null;
+        }
+    }
+
+    // TODO: Remove this endpoint once it is hooked directly into set address since this endpoint won't be needed
+    @RequestMapping(path="/maps", method = RequestMethod.GET)
+    public Location getCoordinatesFromAddress(@RequestParam String address) {
+        // If you are reading this after December 2018, our API key has been deactivated
+        String url = "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyBUWTvOdjkdIur2IFzkEPCVTodoL7xUzJk&address=" + address;
+
+        RestTemplate restTemplate = new RestTemplate();
+        GeoencodingResult geoencodingResult = restTemplate.getForObject(url, GeoencodingResult.class);
+
+        return geoencodingResult.getResults().get(0).getGeometry().getLocation();
+
     }
 }
