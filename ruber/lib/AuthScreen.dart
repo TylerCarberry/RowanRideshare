@@ -77,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
     assert(await user.getIdToken() != null);
     var now = new DateTime.now();
     if(user.getIdToken() == null){
-      NewUser newUser = new NewUser(user.uid, user.displayName,user.email,now);
+      NewUser newUser = new NewUser(user.uid, user.displayName,user.email,now,null,null, null);
       createPost(newUser);
     }
 
@@ -176,13 +176,17 @@ class NewUser{
   String email;
   var createdDate;
   var schedules;
+  var address;
+  var chatroom;
 //  var schedules;
-  NewUser(String id,String name, String email, var createdDate){
+  NewUser(String id,String name, String email, var createdDate, var schedules, var address, var chatroom){
     this.id = id;
     this.name =name;
     this.email =email;
     this.createdDate = createdDate;
-    this.schedules;
+    this.schedules = schedules;
+    this.address = address;
+    this.chatroom = chatroom;
   }
 
 //  factory NewUser.fromJson(Map<String, dynamic> parsedJson) {
@@ -201,6 +205,8 @@ class NewUser{
         "email": email,
         "createdDate": createdDate,
         "schedules":schedules,
+        "address":address,
+        "chatroom":chatroom,
       };
 
 
@@ -210,7 +216,7 @@ String postToJson(NewUser data) {
   final dyn = data.toJson();
   return json.encode(dyn);
 }
-String url = 'http://10.0.2.2:8080/rides/profile/666';
+String url = 'http://10.0.2.2:8080/rides/profile/125';
 Future<http.Response> createPost(NewUser post) async {
   final response = await http.post('$url',
       headers: {
