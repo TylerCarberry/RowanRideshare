@@ -71,19 +71,11 @@ public class Chatroom implements Serializable{
     }
 
     /**
-     * Gets the created date of this chat room
-     * @return the createdDate
-     */
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    /**
      * Get the formatted date and time this profile was created.
      * Avoid using SimpleDateFormat as it is not thread-safe.
      * @return the createdDate as a formatted String.
      */
-    public String getCreatedDateString() {
+    public String getCreatedDate() {
         return String.format("%1$TD %1$TT", createdDate);
     }
 
@@ -101,6 +93,14 @@ public class Chatroom implements Serializable{
      */
     public List<Message> getMessages() {
         return messages;
+    }
+
+    /**
+     * Gets the profiles in this chatroom.
+     * @return a list of profiles
+     */
+    public List<Profile> getProfiles() {
+        return profiles;
     }
 
     /**

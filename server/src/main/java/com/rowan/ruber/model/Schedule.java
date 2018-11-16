@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -19,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
  */
 @Entity
 @Table(name="schedule")
+@IdClass(ScheduleId.class)
 public class Schedule implements Serializable{
     @Id
     @ManyToOne
@@ -31,7 +33,6 @@ public class Schedule implements Serializable{
     @Column(name="Day")
     private Day day;
 
-    //Is it possible to use a Calendar object or something similar to abstract these?
     @Column(name="GoingToRangeStart")
     private LocalTime goingToStart;
 
