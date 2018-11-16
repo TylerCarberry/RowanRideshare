@@ -215,7 +215,10 @@ class WelcomeScreen extends StatelessWidget {
               RaisedButton(
                 child: Text("Sign In"),
                 onPressed: () {
-                  _message = _testSignInWithGoogle();
+//                  _message = _testSignInWithGoogle();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MainScreen()));
                 },
               )
             ],

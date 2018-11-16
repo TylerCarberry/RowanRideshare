@@ -264,7 +264,7 @@ class ProfileScreen extends StatelessWidget {
                         builder: (context2, snapshot2) {
                           if (snapshot2.hasData) {
                             String newState = snapshot2.data.state.toString();
-                            setState(newState);
+                            setNewState(newState);
 
                             return Text(
                                 '${snapshot2.data.state}');
@@ -472,7 +472,7 @@ class _MyAddressForm extends State<AddressForm> {
                           setStreetName(streetNameController.text);
                         }
                         if (stateController.text.isEmpty != true) {
-                          setState(stateController.text);
+                          setNewState(stateController.text);
                         }
                         if (cityController.text.isEmpty != true) {
                           setCity(cityController.text);
