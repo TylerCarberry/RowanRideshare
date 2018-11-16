@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'AppDrawer.dart';
-import 'Rest.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:async' show Future;
+import 'ProfileModel.dart';
+import 'AddressModel.dart';
+import 'dart:io';
 
-String profilepic;
-String streetname = "1007 Mountain Drive";
-String city = "Gotham";
-String zip = "53540";
-String state = "CA";
-String schedule = "Working on this";
-String fullAddress =
-    fullAddress = streetname + ", " + city + ", " + state + " " + zip;
+String profilePic;
+String streetName = "";
+String city = "";
+String zipCode = "";
+String state = "";
 
-String email = "wayne@wayneenterprises.com";
-String name = "Bruce Wayne";
+String email = "";
+String name = "";
 
 // SETTERS
 
@@ -20,37 +22,29 @@ setName(String newName) {
   name = newName;
 }
 
-setFullAddress(String newFullAddress) {
-  fullAddress = newFullAddress;
-}
-
-setFullAddressWithParams(
-    String newStreetName, String newCity, String newZip, String newState) {
-  fullAddress = newStreetName + ", " + newCity + ", " + newState + " " + newZip;
-}
-
 setStreetName(String newStreetName) {
-  streetname = newStreetName;
+  streetName = newStreetName;
 }
 
 setCity(String newCity) {
   city = newCity;
-}
 
-setZip(String newZip) {
-  zip = newZip;
 }
-
 setState(String newState) {
   state = newState;
 }
+
+setZip(String newZip) {
+  zipCode = newZip;
+}
+
 
 setEmail(String newEmail) {
   email = newEmail;
 }
 
 setProfilePic(String picLocation) {
-  profilepic = picLocation;
+  profilePic = picLocation;
 }
 
 // GETTERS
@@ -59,12 +53,8 @@ getName() {
   return name;
 }
 
-getFullAddress() {
-  return fullAddress;
-}
-
 getStreetName() {
-  return streetname;
+  return streetName;
 }
 
 getCity() {
@@ -72,7 +62,7 @@ getCity() {
 }
 
 getZip() {
-  return zip;
+  return zipCode;
 }
 
 getState() {
@@ -84,7 +74,7 @@ getEmail() {
 }
 
 getProfilePic() {
-  return profilepic;
+  return profilePic;
 }
 
 class ProfileScreen extends StatelessWidget {
@@ -115,7 +105,7 @@ class ProfileScreen extends StatelessWidget {
                     image: new DecorationImage(
                         fit: BoxFit.fill,
                         // This is where we would retrieve the image from the data base
-                        image: NetworkImage(profilepic)))),
+                        image: NetworkImage(profilePic)))),
 
             // Full Name Heading & Text
 
@@ -129,19 +119,22 @@ class ProfileScreen extends StatelessWidget {
                         fontFamily: 'Helvetica',
                         color: Colors.blueAccent))),
             Container(
-              margin: EdgeInsets.all(5.0),
-              child: Text(
-                getName(),
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16.0),
-              ),
-            ),
+                child: Center(
+                    child: FutureBuilder<Post>(
+                        future: getPost(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData)
+                            return Text(
+                                '${snapshot.data.name}');
+                          else
+                            return CircularProgressIndicator();
+                        }))),
 
             // Email Heading & Text
 
             Container(
               margin: EdgeInsets.only(top: 15.0),
-              child: Text('Email',
+              child: Text('Email:',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -150,19 +143,21 @@ class ProfileScreen extends StatelessWidget {
                       color: Colors.deepOrange)),
             ),
             Container(
-                margin: EdgeInsets.all(5.0),
-                child: Text(
-                  getEmail(),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16.0),
-                )),
-
-            // Address Heading & Text
+                child: Center(
+                    child: FutureBuilder<Post>(
+                        future: getPost(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData)
+                            return Text(
+                                '${snapshot.data.email}');
+                          else
+                            return CircularProgressIndicator();
+                        }))),
 
             Container(
               margin: EdgeInsets.only(top: 15.0),
               child: Text(
-                'Home Address',
+                'Joined Date',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -174,12 +169,134 @@ class ProfileScreen extends StatelessWidget {
             ),
 
             Container(
-                margin: EdgeInsets.all(5.0),
-                child: Text(
-                  fullAddress,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16.0),
-                )),
+                child: Center(
+                    child: FutureBuilder<Post>(
+                        future: getPost(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Text(
+                                '${snapshot.data.createdDate}');
+                          }
+                          else
+                            return CircularProgressIndicator();
+                        }))),
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            Container(
+              margin: EdgeInsets.only(top: 15.0),
+              child: Text(
+                'Street Name',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.0,
+                  fontFamily: 'Helvetica',
+                  color: Colors.orange,
+                ),
+              ),
+            ),
+
+            Container(
+                child: Center(
+                    child: FutureBuilder<Address>(
+                        future: getAddressPost(),
+                        builder: (context2, snapshot2) {
+                          if (snapshot2.hasData) {
+                            String newStreetName = snapshot2.data.streetAddress
+                                .toString();
+                            setStreetName(newStreetName);
+                            return Text(
+                                '${snapshot2.data.streetAddress}');
+                          }
+                          else
+                            return CircularProgressIndicator();
+                        }))),
+            Container(
+              margin: EdgeInsets.only(top: 15.0),
+              child: Text(
+                'City',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.0,
+                  fontFamily: 'Helvetica',
+                  color: Colors.pink,
+                ),
+              ),
+            ),
+
+            Container(
+                child: Center(
+                    child: FutureBuilder<Address>(
+                        future: getAddressPost(),
+                        builder: (context2, snapshot2) {
+                          if (snapshot2.hasData) {
+                            String newCity = snapshot2.data.city.toString();
+                            setCity(newCity);
+
+                            return Text(
+                                '${snapshot2.data.city}');
+                          }
+                          else
+                            return CircularProgressIndicator();
+                        }))),
+            Container(
+              margin: EdgeInsets.only(top: 15.0),
+              child: Text(
+                'State',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.0,
+                  fontFamily: 'Helvetica',
+                  color: Colors.purple,
+                ),
+              ),
+            ),
+
+            Container(
+                child: Center(
+                    child: FutureBuilder<Address>(
+                        future: getAddressPost(),
+                        builder: (context2, snapshot2) {
+                          if (snapshot2.hasData) {
+                            String newState = snapshot2.data.state.toString();
+                            setState(newState);
+
+                            return Text(
+                                '${snapshot2.data.state}');
+                          }
+                          else
+                            return CircularProgressIndicator();
+                        }))),
+            Container(
+              margin: EdgeInsets.only(top: 15.0),
+              child: Text(
+                'Zip Code',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.0,
+                  fontFamily: 'Helvetica',
+                  color: Colors.indigo,
+                ),
+              ),
+            ),
+
+            Container(
+                child: Center(
+                    child: FutureBuilder<Address>(
+                        future: getAddressPost(),
+                        builder: (context2, snapshot2) {
+                          if (snapshot2.hasData) {
+                            String newZipCode = snapshot2.data.zipCode.toString();
+                            setZip(newZipCode);
+
+                            return Text(
+                                '${snapshot2.data.zipCode}');
+                          }
+                          else
+                            return CircularProgressIndicator();
+                        }))),
 
             // Edit buttons
 
@@ -187,23 +304,6 @@ class ProfileScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                RaisedButton(
-                  padding: EdgeInsets.all(5.0),
-                  child: Text('Edit Name'),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => FullNameForm()));
-                  },
-                ),
-                RaisedButton(
-                    padding: EdgeInsets.all(5.0),
-                    child: Text('Edit Email'),
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => EmailForm()));
-                    }),
                 RaisedButton(
                   padding: EdgeInsets.all(5.0),
                   child: Text('Edit Address'),
@@ -221,139 +321,6 @@ class ProfileScreen extends StatelessWidget {
   }
 }
 
-// ========================= EDIT FULL NAME ========================== /
-
-class FullNameForm extends StatefulWidget {
-  @override
-  _MyFullNameForm createState() => _MyFullNameForm();
-}
-
-class _MyFullNameForm extends State<FullNameForm> {
-  final fullNameController = TextEditingController();
-
-  @override
-  void dispose() {
-    fullNameController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Edit your full name'),
-        centerTitle: true,
-      ),
-      drawer: launchAppDrawer(context),
-      body: Center(
-        child: ListView(
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.all(10.0),
-              child: Text(
-                'Click on each to edit it',
-                textAlign: TextAlign.center,
-              ),
-            ),
-
-            // Full Name
-
-            Container(
-                margin: EdgeInsets.only(top: 15.0),
-                child: Text('Full Name',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0,
-                        fontFamily: 'Helvetica',
-                        color: Colors.blueAccent))),
-            Container(
-              child: TextField(
-                textAlign: TextAlign.center,
-                decoration: InputDecoration.collapsed(
-                  hintText: name,
-                ),
-                controller: fullNameController,
-                onEditingComplete: () {
-                  // Make sure to write to Database
-
-                  setName(fullNameController.text);
-
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// ====================== END EDIT FULL NAME ========================== //
-
-// ====================== EDIT EMAIL ADDRESS ========================== //
-
-class EmailForm extends StatefulWidget {
-  @override
-  _MyEmailForm createState() => _MyEmailForm();
-}
-
-class _MyEmailForm extends State<EmailForm> {
-  final emailController = TextEditingController();
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: Text('Edit your email'), centerTitle: true),
-        drawer: launchAppDrawer(context),
-        body: Center(
-            child: ListView(
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.all(10.0),
-              child: Text(
-                'Click on each field to edit it',
-                textAlign: TextAlign.center,
-              ),
-            ),
-
-            // Email
-
-            Container(
-                margin: EdgeInsets.only(top: 15.0),
-                child: Text('Email',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0,
-                        fontFamily: 'Helvetica',
-                        color: Colors.blueAccent))),
-            Container(
-                child: TextField(
-              textAlign: TextAlign.center,
-              decoration: InputDecoration.collapsed(hintText: email),
-              controller: emailController,
-              onEditingComplete: () {
-                // Make sure to write to Database
-
-                setEmail(emailController.text);
-
-                Navigator.pop(context);
-              },
-            ))
-          ],
-        )));
-  }
-}
-
-// ========================== END EDIT EMAIL ADDRESS ================= //
 
 // ========================== EDIT ADDRESS =========================== //
 
@@ -393,125 +360,183 @@ class _MyAddressForm extends State<AddressForm> {
         drawer: launchAppDrawer(context),
         body: Center(
             child: ListView(
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.all(10.0),
-              child: Text(
-                'Click on each field to edit it',
-                textAlign: TextAlign.center,
-              ),
-            ),
-
-            // Email
-
-            Container(
-                margin: EdgeInsets.only(top: 15.0),
-                child: Text('Street Name',
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.all(10.0),
+                  child: Text(
+                    'Click on each field to edit it',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0,
-                        fontFamily: 'Helvetica',
-                        color: Colors.blueAccent))),
-            Container(
-                child: TextField(
-              textAlign: TextAlign.center,
-              decoration: InputDecoration.collapsed(hintText: streetname),
-              controller: streetNameController,
-              onEditingComplete: () {
-                // Make sure to write to Database
+                  ),
+                ),
 
-                setStreetName(streetNameController.text);
+                // Email
 
-                FocusScope.of(context).requestFocus(new FocusNode());
-              },
-            )),
-            Container(
-                margin: EdgeInsets.only(top: 15.0),
-                child: Text('City',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0,
-                        fontFamily: 'Helvetica',
-                        color: Colors.blueAccent))),
-            Container(
-                child: TextField(
-              textAlign: TextAlign.center,
-              decoration: InputDecoration.collapsed(hintText: city),
-              controller: cityController,
-              onEditingComplete: () {
-                // Make sure to write to Database
+                Container(
+                    margin: EdgeInsets.only(top: 15.0),
+                    child: Text('Street Name',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                            fontFamily: 'Helvetica',
+                            color: Colors.blueAccent))),
+                Container(
+                    child: TextField(
+                      textAlign: TextAlign.center,
+                      decoration: InputDecoration.collapsed(hintText: streetName),
+                      controller: streetNameController,
+                      onEditingComplete: () {
 
-                setCity(cityController.text);
+                        newStreet = streetNameController.text;
 
-                FocusScope.of(context).requestFocus(new FocusNode());
-              },
-            )),
-            Container(
-                margin: EdgeInsets.only(top: 15.0),
-                child: Text('State',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0,
-                        fontFamily: 'Helvetica',
-                        color: Colors.blueAccent))),
-            Container(
-                child: TextField(
-              textAlign: TextAlign.center,
-              decoration: InputDecoration.collapsed(hintText: state),
-              controller: stateController,
-              onEditingComplete: () {
-                // Make sure to write to Database
 
-                setState(stateController.text);
+                        FocusScope.of(context).requestFocus(new FocusNode());
+                      },
+                    )),
+                Container(
+                    margin: EdgeInsets.only(top: 15.0),
+                    child: Text('City',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                            fontFamily: 'Helvetica',
+                            color: Colors.blueAccent))),
+                Container(
+                    child: TextField(
+                      textAlign: TextAlign.center,
+                      decoration: InputDecoration.collapsed(hintText: city),
+                      controller: cityController,
+                      onEditingComplete: () {
+                        // Make sure to write to Database
 
-                FocusScope.of(context).requestFocus(new FocusNode());
-              },
-            )),
-            Container(
-                margin: EdgeInsets.only(top: 15.0),
-                child: Text('ZIP',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0,
-                        fontFamily: 'Helvetica',
-                        color: Colors.blueAccent))),
-            Container(
-                child: TextField(
-              textAlign: TextAlign.center,
-              decoration: InputDecoration.collapsed(hintText: zip),
-              controller: zipController,
-              onEditingComplete: () {
-                // Make sure to write to Database
+                        newCity = cityController.text;
 
-                setZip(zipController.text);
+                        FocusScope.of(context).requestFocus(new FocusNode());
+                      },
+                    )),
+                Container(
+                    margin: EdgeInsets.only(top: 15.0),
+                    child: Text('State',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                            fontFamily: 'Helvetica',
+                            color: Colors.blueAccent))),
+                Container(
+                    child: TextField(
+                      textAlign: TextAlign.center,
+                      decoration: InputDecoration.collapsed(hintText: state),
+                      controller: stateController,
+                      onEditingComplete: () {
+                        // Make sure to write to Database
 
-                FocusScope.of(context).requestFocus(new FocusNode());
-              },
-            )),
-            Container(
-                margin: EdgeInsets.only(top: 40.0, left: 70.0, right: 70.0),
-                child: RaisedButton(
-                  child: Text('Save Changes'),
-                  onPressed: () {
-                    // Make sure to write to the database
+                        newState = stateController.text;
 
-                    setFullAddressWithParams(
-                        streetNameController.text,
-                        cityController.text,
-                        zipController.text,
-                        stateController.text);
+                        FocusScope.of(context).requestFocus(new FocusNode());
+                      },
+                    )),
+                Container(
+                    margin: EdgeInsets.only(top: 15.0),
+                    child: Text('ZIP',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                            fontFamily: 'Helvetica',
+                            color: Colors.blueAccent))),
+                Container(
+                    child: TextField(
+                      textAlign: TextAlign.center,
+                      decoration: InputDecoration.collapsed(hintText: zipCode),
+                      controller: zipController,
+                      onEditingComplete: () {
+                        // Make sure to write to Database
+                        newZip = zipController.text;
 
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ProfileScreen()),
-                    );
-                  },
-                ))
-          ],
-        )));
+                        FocusScope.of(context).requestFocus(new FocusNode());
+                      },
+                    )),
+                Container(
+                    margin: EdgeInsets.only(top: 40.0, left: 70.0, right: 70.0),
+                    child: RaisedButton(
+                      child: Text('Save Changes'),
+                      onPressed: () {
+
+                        if (streetNameController.text.isEmpty != true) {
+                          setStreetName(streetNameController.text);
+                        }
+                        if (stateController.text.isEmpty != true) {
+                          setState(stateController.text);
+                        }
+                        if (cityController.text.isEmpty != true) {
+                          setCity(cityController.text);
+                        }
+                        if (zipController.text.isEmpty != true) {
+                          setZip(zipController.text);
+                        }
+
+                          String streetNameEdit = getStreetName();
+                          String cityNameFinal = getCity();
+                          String zipCodeEdit = getZip();
+                          String stateEdit = getState();
+                          Address newAddress = Address(
+                              id: 1,
+                              streetAddress: streetNameEdit,
+                              city: cityNameFinal,
+                              zipCode: zipCodeEdit,
+                              state: stateEdit
+                          ); // creating a new Post object to send it to API
+
+                          createAddress(newAddress).then((response){
+                            if(response.statusCode > 200)
+                              print(response.body);
+                            else
+                              print(response.statusCode);
+                          }).catchError((error){
+                            print('error : $error');
+                          });
+
+                        print(newAddress.toString());
+
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ProfileScreen()),
+                        );
+                      },
+                    ))
+              ],
+            )));
   }
+}
+
+
+Future<Post> getPost() async {
+  String postUrl = 'http://10.0.2.2:8080/rides/profile/1';
+  final response = await http.get(postUrl);
+  return postFromJson(response.body);
+}
+
+
+
+Future<Address> getAddressPost() async {
+  String addressUrl = 'http://10.0.2.2:8080/rides/address/1';
+  final response2 = await http.get(addressUrl);
+  return addressFromJson(response2.body);
+}
+
+
+
+Future<http.Response> createAddress(Address address) async{
+  String updateUrl = 'http://10.0.2.2:8080/rides/address/update';
+  final response = await http.post('$updateUrl',
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.authorizationHeader : ''
+      },
+      body: addressToJson(address)
+  );
+  return response;
 }

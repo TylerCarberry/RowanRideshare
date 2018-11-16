@@ -11,9 +11,17 @@ import com.rowan.ruber.Authenticator;
 import com.rowan.ruber.repository.*;
 import com.rowan.ruber.model.*;
 
+import com.rowan.ruber.model.google_maps.GeoencodingResult;
+import com.rowan.ruber.model.google_maps.Location;
+import com.rowan.ruber.repository.AddressRepository;
+import com.rowan.ruber.repository.ChatroomRepository;
+import com.rowan.ruber.repository.MessageRepository;
+import com.rowan.ruber.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import com.rowan.ruber.Search;
 
 @RequestMapping("/rides")
 @RestController
@@ -43,6 +51,12 @@ public class RuberController {
     @GetMapping(path="/address/all")
     public @ResponseBody Iterable<Address> getAddresses() {
         return addressRepository.findAll(); //returns JSON or XML of addresses
+    }
+
+    // Temp
+    @GetMapping(path="/profile/all")
+    public @ResponseBody Iterable<Profile> getProfiles() {
+        return profileRepository.findAll(); //returns JSON or XML of addresses
     }
 
     /**
@@ -207,6 +221,34 @@ public class RuberController {
         catch(IllegalArgumentException e){
             return false;
         }
+    }
+
+    @Autowired
+    private Search search;
+
+    @GetMapping("/matching/{profileID}/{radius}")
+    public @ResponseBody List<Profile> getMatches(@PathVariable int profileID, @PathVariable int radius){
+        try{
+            List<Profile> profiles = search.getMatches(profileRepository, profileID, radius);
+            System.out.println("test");
+            return profiles;
+        }
+        catch(IllegalArgumentException e){
+            return null;
+        }
+    }
+
+    // TODO: Remove this endpoint once it is hooked directly into set address since this endpoint won't be needed
+    @RequestMapping(path="/maps", method = RequestMethod.GET)
+    public Location getCoordinatesFromAddress(@RequestParam String address) {
+        // If you are reading this after December 2018, our API key has been deactivated
+        String url = "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyBUWTvOdjkdIur2IFzkEPCVTodoL7xUzJk&address=" + address;
+
+        RestTemplate restTemplate = new RestTemplate();
+        GeoencodingResult geoencodingResult = restTemplate.getForObject(url, GeoencodingResult.class);
+
+        return geoencodingResult.getResults().get(0).getGeometry().getLocation();
+
     }
 
     /** TEST BELOW AND THE SCHEDULE ENDPOINT */

@@ -9,6 +9,7 @@ import 'settings_Screen.dart';
 import 'MapPage.dart';
 import 'package:map_view/map_view.dart';
 import 'StaticMapPage.dart';
+import 'Rest.dart';
 
 var api_key = "AIzaSyDrHKl8IxB4cGXIoELXQOzzZwiH1xtsRf4";
 
@@ -126,9 +127,6 @@ class _TextForm extends State<TextForm> {
     return launchLoginScreen(myController, myController1, myController2, myController3, context);
   }
 }
-
-
-// =================END LOGIN SCREEN ======================== //
 
 
 // ================== MESSAGES SCREEN ======================= //

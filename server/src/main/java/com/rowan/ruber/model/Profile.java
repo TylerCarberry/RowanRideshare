@@ -44,7 +44,6 @@ public class Profile implements Serializable{
     @Column(name="CreatedDate")
     private Date createdDate;
 
-    @JsonManagedReference
     @OneToMany(mappedBy="profile", cascade=CascadeType.REMOVE)
     private List<Schedule> schedules = new ArrayList<Schedule>(); // Maintain bi-directional 1 to Many w/ Schedule
 
@@ -67,6 +66,12 @@ public class Profile implements Serializable{
         this.email = email;
         this.address = address;
         this.createdDate = createdDate;
+    }
+
+    public Profile(String name, String email, Address address){
+        this.name = name;
+        this.email = email;
+        this.address = address;
     }
 
     /**
