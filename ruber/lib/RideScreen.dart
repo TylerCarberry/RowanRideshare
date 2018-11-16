@@ -16,6 +16,7 @@ Scaffold launchRideScreen(context) {
                   child: Text('Ride to Rowan')
                 )
               ]
+
           ),
           new Column(
             children: [

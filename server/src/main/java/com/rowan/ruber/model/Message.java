@@ -6,8 +6,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import java.sql.Date;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+//import java.sql.Date;
+import java.util.Date;
 
 
 
@@ -20,12 +27,12 @@ public class Message implements Serializable{
     @GeneratedValue(strategy=GenerationType.IDENTITY)   //Identity strategy for MySQL is auto increment
     private int id;
 
-    // TODO: link
-    @Column(name="profileGroup")
-    private int roomID;
+    @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name = "ChatroomID")
+    private Chatroom chatroom;
 
-    // TODO: link
-    @Column(name="senderID") // links to sender's ProfileID
+    @Column(name="senderID")
     private int senderID;
 
     @Column(name="text")
@@ -40,14 +47,16 @@ public class Message implements Serializable{
      */
     public Message(){}
 
-    public Message(int roomID, int senderID, String text, Date timeSent){
-        this.roomID = roomID;
+    public Message(Chatroom chatroom, int senderID, String text, Date timeSent){
+        this.chatroom = chatroom;
         this.senderID = senderID;
         this.text = text;
-        this.timeSent = timeSent;
+        this.timeSent = timeSent; // SQL date or util date?
     }
 
-    /**
+
+	/**
+     * Get the message id.
      * @return the id
      */
     public int getId() {
@@ -55,20 +64,23 @@ public class Message implements Serializable{
     }
 
     /**
-     * @return the roomID
+     * Get the chatroom.
+     * @return the chatroom
      */
-    public int getRoomID() {
-        return roomID;
+    public Chatroom getChatroom() {
+        return chatroom;
     }
 
     /**
-     * @return the senderID
+     * Get the sender.
+     * @return a profile
      */
     public int getSenderID() {
         return senderID;
     }
 
     /**
+     * Get the message text. Limit of 200 characters.
      * @return the text
      */
     public String getText() {
@@ -76,6 +88,7 @@ public class Message implements Serializable{
     }
 
     /**
+     * Get the date this message was sent.
      * @return the timeSent
      */
     public Date getTimeSent() {
@@ -83,6 +96,7 @@ public class Message implements Serializable{
     }
 
     /**
+     * Set the message id
      * @param id the id to set
      */
     public void setId(int id) {
@@ -90,20 +104,23 @@ public class Message implements Serializable{
     }
 
     /**
-     * @param roomID the roomID to set
+     * Set the chatroom.
+     * @param chatroom the chatroom to set
      */
-    public void setRoomID(int roomID) {
-        this.roomID = roomID;
+    public void setChatroom(Chatroom chatroom) {
+        this.chatroom = chatroom;
     }
 
     /**
-     * @param senderID the senderID to set
+     * Set the sender for this message.
+     * @param sender the sender's profile
      */
-    public void setSenderID(int senderID) {
+    public void setSender(int senderID) {
         this.senderID = senderID;
     }
 
     /**
+     * Set the text for this message.
      * @param text the text to set
      */
     public void setText(String text) {
@@ -111,6 +128,7 @@ public class Message implements Serializable{
     }
 
     /**
+     * Set the date and time for this message.
      * @param timeSent the timeSent to set
      */
     public void setTimeSent(Date timeSent) {

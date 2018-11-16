@@ -9,7 +9,12 @@ import 'settings_Screen.dart';
 import 'editschedule.dart';
 import 'MapPage.dart';
 import 'package:map_view/map_view.dart';
+
 import 'AuthScreen.dart';
+
+import 'StaticMapPage.dart';
+import 'Rest.dart';
+
 
 import 'dart:async';
 import 'dart:io';
