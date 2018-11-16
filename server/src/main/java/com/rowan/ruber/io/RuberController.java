@@ -31,6 +31,9 @@ public class RuberController {
     private MessageRepository messageRepository;
 
     @Autowired
+    private ScheduleRepository scheduleRepository;
+
+    @Autowired
     private Search search;
 
     @GetMapping("/nearby")
@@ -158,6 +161,7 @@ public class RuberController {
     @PostMapping(path = "/message/new")
     public @ResponseBody
     Message createMessage(@RequestBody Map<String, String> map) {
+        Message message = null;
         try {
             int chatroomID = Integer.parseInt(map.get("chatroomID"));
             int senderID = Integer.parseInt(map.get("senderID"));
@@ -171,13 +175,12 @@ public class RuberController {
 ;
             String text = map.get("text");
             Date timeSent = new Date();
-            Message message = new Message(chatroom, senderID, text, timeSent);
+            message = new Message(chatroom, senderID, text, timeSent);
             chatroom.setLastMessage(message);
-            return messageRepository.save(message);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null; //stub for now - try to fix later
+        return messageRepository.save(message);
     }
 
     @PostMapping(path = "/profile/{profileID}/schedule/new")
@@ -191,12 +194,11 @@ public class RuberController {
                  //get "monday", "tuesday", etc. from map and convert to Schedule
                 String dayString = day.toString().trim().toLowerCase();
                 if(map.get(dayString) != null) {
-                    Schedule daySchedule = extractSchedule(day, map.get(dayString));
+                    Schedule daySchedule = extractSchedule(day, profile, map.get(dayString));
                     schedules.add(daySchedule);
+                    scheduleRepository.save(daySchedule); // commit to db
                 }
             }
-            //set schedules
-            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -273,7 +275,7 @@ public class RuberController {
      * @param s Schedule string of the form "0060..." - every 4 characters represents a time
      * @return a Schedule
      */
-    private Schedule extractSchedule(Day day, String s) {
+    private Schedule extractSchedule(Day day, Profile profile, String s) {
         //0600063017001730 -> 06:00, 06:30, 17:00, 17:30
         s = s.trim();
         String goingToStart = formatScheduleTime(s.substring(0, 4));
@@ -281,7 +283,8 @@ public class RuberController {
         String leavingStart = formatScheduleTime(s.substring(8, 12));
         String leavingEnd = formatScheduleTime(s.substring(12));
 
-        return new Schedule(day, LocalTime.parse(goingToStart), LocalTime.parse(goingToEnd), LocalTime.parse(leavingStart), LocalTime.parse(leavingEnd));
+        return new Schedule(profile, day, LocalTime.parse(goingToStart), 
+                LocalTime.parse(goingToEnd), LocalTime.parse(leavingStart), LocalTime.parse(leavingEnd));
     }
 
     /**
