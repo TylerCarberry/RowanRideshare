@@ -8,7 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -93,6 +92,15 @@ public class Message implements Serializable{
      */
     public Date getTimeSent() {
         return timeSent;
+    }
+
+    /**
+     * Get the formatted date and time this message was sent.
+     * Avoid using SimpleDateFormat as it is not thread-safe.
+     * @return the timeSent as a formatted String.
+     */
+    public String getTimeSentString() {
+        return String.format("%1$TD %1$TT", timeSent);
     }
 
     /**
