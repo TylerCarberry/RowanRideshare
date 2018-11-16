@@ -9,11 +9,22 @@ import 'settings_Screen.dart';
 import 'editschedule.dart';
 import 'MapPage.dart';
 import 'package:map_view/map_view.dart';
+import 'AuthScreen.dart';
+
+import 'dart:async';
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'dart:io';
 import 'dart:async';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
+final GoogleSignIn _googleSignIn = GoogleSignIn();
 
 var api_key = "AIzaSyDrHKl8IxB4cGXIoELXQOzzZwiH1xtsRf4";
 const String _name = "Your Name";
@@ -23,136 +34,194 @@ void main() => runApp(new RUber());
 class RUber extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'RUber', home: Home(storage: Storage()));
+    return MaterialApp(title: 'RUber', home: WelcomeScreen());
   }
 }
 
-class Storage {
-  // Get the local path
-  Future<String> get localPath async {
-    final dir = await getApplicationDocumentsDirectory();
-    return dir.path;
+//class Storage {
+//  // Get the local path
+//  Future<String> get localPath async {
+//    final dir = await getApplicationDocumentsDirectory();
+//    return dir.path;
+//  }
+//
+//  // Get the local file
+//  Future<File> get localFile async {
+//    final path = await localPath;
+//    return File('$path/disclaimer.txt');
+//  }
+//
+//  // Read the data
+//  Future<String> readData() async {
+//    try {
+//      final file = await localFile;
+//      String body = await file.readAsString();
+//
+//      return body;
+//    } catch (e) {
+//      return e.toString();
+//    }
+//  }
+//
+//  // Write the data
+//  Future<File> writeData(String data) async {
+//    final file = await localFile;
+//    return file.writeAsString("$data");
+//  }
+//}
+//
+//class Home extends StatefulWidget {
+//  final Storage storage;
+//
+//  Home({Key key, @required this.storage}) : super(key: key);
+//
+//  @override
+//  HomeState createState() => HomeState();
+//}
+//
+//class HomeState extends State<Home> {
+//  String state;
+//
+//  @override
+//  void initState() {
+//    super.initState();
+//    widget.storage.readData().then((String value) {
+//      setState(() {
+//        state = value;
+//      });
+//    });
+//  }
+//
+//  Future<File> writeData() async {
+//    setState(() {
+//      state = "accepted";
+//    });
+//
+//    return widget.storage.writeData(state);
+//  }
+//
+//  void readData() {
+//    widget.storage.readData().then((String value) {
+//      setState(() {
+//        state = value.toString();
+//      });
+//    });
+//  }
+//
+//  @override
+//  Widget build(BuildContext context) {
+//    readData();
+//
+//    if (state != "accepted") {
+//      // If state DOES NOT equal "accepted" - first time
+//      return Scaffold(
+//          appBar: AppBar(
+//            title: Text('Disclaimer'),
+//            centerTitle: true,
+//          ),
+//          body: Card(
+//            child: Center(
+//              child: Column(
+//                children: <Widget>[
+//                  const ListTile(
+//                    title: Text('End-User License Agreement (EULA) for RUber',
+//                        textAlign: TextAlign.center),
+//                    subtitle: Text(
+//                      'The development team of RUber is not responsible'
+//                          ' for  how the user (you) uses the app. All actions are made'
+//                          ' on behalf and by the user and the RUber team does not accept'
+//                          ' any penalties from your actions. You have to accept this'
+//                          ' agreement to use this application.',
+//                      textAlign: TextAlign.center,
+//                    ),
+//                  ),
+//                  Row(
+//                    mainAxisAlignment: MainAxisAlignment.center,
+//                    children: <Widget>[
+//                      RaisedButton(
+//                        child: Text('Accept'),
+//                        onPressed: () {
+//                          // Write the "accepted" to the file
+//                          writeData();
+//
+//                          Navigator.push(
+//                              context,
+//                              MaterialPageRoute(
+//                                  builder: (context) =>
+//                                      MainScreen()) //Change this to AuthScreen()
+//                              );
+//                        },
+//                      )
+//                    ],
+//                  )
+//                ],
+//              ),
+//            ),
+//          ));
+//    } else // If state EQUALS "accepted" -- after 1st time
+//    {
+//      return MainScreen();
+//    }
+//  }
+//}
+
+// ==================== WELCOME SCREEN ====================== //
+
+class WelcomeScreen extends StatelessWidget {
+
+  Future<String> _message = Future<String>.value('');
+  String verificationId;
+
+
+  Future<String> _testSignInWithGoogle() async {
+    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+    final GoogleSignInAuthentication googleAuth =
+    await googleUser.authentication;
+    final FirebaseUser user = await _auth.signInWithGoogle(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+    assert(user.email != null);
+    assert(user.displayName != null);
+    assert(!user.isAnonymous);
+    assert(await user.getIdToken() != null);
+
+    final FirebaseUser currentUser = await _auth.currentUser();
+    assert(user.uid == currentUser.uid);
+
+    return 'signInWithGoogle succeeded: $user';
   }
 
-  // Get the local file
-  Future<File> get localFile async {
-    final path = await localPath;
-    return File('$path/disclaimer.txt');
-  }
-
-  // Read the data
-  Future<String> readData() async {
-    try {
-      final file = await localFile;
-      String body = await file.readAsString();
-
-      return body;
-    } catch (e) {
-      return e.toString();
-    }
-  }
-
-  // Write the data
-  Future<File> writeData(String data) async {
-    final file = await localFile;
-    return file.writeAsString("$data");
-  }
-}
-
-class Home extends StatefulWidget {
-  final Storage storage;
-
-  Home({Key key, @required this.storage}) : super(key: key);
-
-  @override
-  HomeState createState() => HomeState();
-}
-
-class HomeState extends State<Home> {
-  String state;
-
-  @override
-  void initState() {
-    super.initState();
-    widget.storage.readData().then((String value) {
-      setState(() {
-        state = value;
-      });
-    });
-  }
-
-  Future<File> writeData() async {
-    setState(() {
-      state = "accepted";
-    });
-
-    return widget.storage.writeData(state);
-  }
-
-  void readData() {
-    widget.storage.readData().then((String value) {
-      setState(() {
-        state = value.toString();
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
-    readData();
-
-    if (state != "accepted") {
-      // If state DOES NOT equal "accepted" - first time
-      return Scaffold(
-          appBar: AppBar(
-            title: Text('Disclaimer'),
-            centerTitle: true,
-          ),
-          body: Card(
-            child: Center(
-              child: Column(
-                children: <Widget>[
-                  const ListTile(
-                    title: Text('End-User License Agreement (EULA) for RUber',
-                        textAlign: TextAlign.center),
-                    subtitle: Text(
-                      'The development team of RUber is not responsible'
-                          ' for  how the user (you) uses the app. All actions are made'
-                          ' on behalf and by the user and the RUber team does not accept'
-                          ' any penalties from your actions. You have to accept this'
-                          ' agreement to use this application.',
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      RaisedButton(
-                        child: Text('Accept'),
-                        onPressed: () {
-                          // Write the "accepted" to the file
-                          writeData();
-
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      MainScreen()) //Change this to AuthScreen()
-                              );
-                        },
-                      )
-                    ],
-                  )
-                ],
+    return Scaffold (
+        appBar: AppBar(
+          title: Text('Welcome to RUber'),
+          centerTitle: true,
+          automaticallyImplyLeading: false,
+        ),
+        body: Center(
+          child: Column(
+            children: <Widget>[
+              Container(
+                child: Text('RUber', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.orange, fontSize: 24.0),),
               ),
-            ),
-          ));
-    } else // If state EQUALS "accepted" -- after 1st time
-    {
-      return MainScreen();
-    }
+              RaisedButton(
+                child: Text("Sign In"),
+                onPressed: () {
+                  _message = _testSignInWithGoogle();
+                },
+              )
+            ],
+          ),
+        )
+    );
   }
 }
+
+// =========================== END WELCOME SCREEN ====================== //
+
 
 class MainScreen extends StatelessWidget {
   final String title;
@@ -164,7 +233,7 @@ class MainScreen extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text('RUber'),
-          centerTitle: false,
+          centerTitle: true,
           automaticallyImplyLeading: false,
         ),
         body: Center(
@@ -231,6 +300,9 @@ class MainScreen extends StatelessWidget {
         ));
   }
 }
+
+
+
 
 // ==================== LOGIN SCREEN ======================== //
 

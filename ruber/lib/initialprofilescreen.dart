@@ -1,4 +1,5 @@
 // TODO -- Work on the initial profile screen, and the schedule input
+// TODO -- require address, then only continue, then take them to schedule edit screen
 
 import 'package:flutter/material.dart';
 import 'AppDrawer.dart';
