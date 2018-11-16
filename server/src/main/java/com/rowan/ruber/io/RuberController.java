@@ -5,10 +5,7 @@ import com.rowan.ruber.Search;
 import com.rowan.ruber.model.*;
 import com.rowan.ruber.model.google_maps.GeoencodingResult;
 import com.rowan.ruber.model.google_maps.Location;
-import com.rowan.ruber.repository.AddressRepository;
-import com.rowan.ruber.repository.ChatroomRepository;
-import com.rowan.ruber.repository.MessageRepository;
-import com.rowan.ruber.repository.ProfileRepository;
+import com.rowan.ruber.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -140,15 +137,16 @@ public class RuberController {
      * Since we're manually taking care of createDate, a chatroom should consist of at least 1 user to start the chatroom
      * otherwise a chatroom is just hanging around not attached to any profiles.
      */
-    @PostMapping(path = "/profile/{profileID}/chatroom/new")
+    @PostMapping(path = {"/profile/{profileID}/chatroom/new", "/profile/{profileID}/chatroom/update"})
     public @ResponseBody
     Profile addProfileToChatroom(@PathVariable int profileID, @RequestBody Map<String, String> map) {
         Profile profile = null;
         try {
             profile = profileRepository.findById(profileID).get();
             //if chatroom included not included in map, make new chatroom. Otherwise fetch from DB.
-            Chatroom chat = (map.get("chatroom") == null ? chatroomRepository.save(new Chatroom(new Date())) :
-                    chatroomRepository.findById(Integer.parseInt(map.get("chatroom"))).get());
+            String chatroomID = map.get("chatroomID");
+            Chatroom chat = (chatroomID == null ? chatroomRepository.save(new Chatroom(new Date())) :
+                    chatroomRepository.findById(Integer.parseInt(chatroomID)).get());
 
             profile.getChatrooms().add(chat);
         } catch (Exception e) {
@@ -161,11 +159,18 @@ public class RuberController {
     public @ResponseBody
     Message createMessage(@RequestBody Map<String, String> map) {
         try {
-            int chatroomID = Integer.parseInt(map.get("chatroom"));
-            int senderID = Integer.parseInt(map.get("sender"));
+            int chatroomID = Integer.parseInt(map.get("chatroomID"));
+            int senderID = Integer.parseInt(map.get("senderID"));
+
+            Profile sender = profileRepository.findById(senderID).get();
+            Chatroom chatroom = chatroomRepository.findById(chatroomID).get();
+
+            //Checking the list in chatroom is better than checking sender b/c chatrooms have limited number of profiles
+            if(! chatroom.getProfiles().contains(sender))
+                throw new Exception("This profile is not in this chatroom");
+;
             String text = map.get("text");
             Date timeSent = new Date();
-            Chatroom chatroom = chatroomRepository.findById(chatroomID).get();
             Message message = new Message(chatroom, senderID, text, timeSent);
             chatroom.setLastMessage(message);
             return messageRepository.save(message);
@@ -176,17 +181,26 @@ public class RuberController {
     }
 
     @PostMapping(path = "/profile/{profileID}/schedule/new")
-    public @ResponseBody
-    Schedule createUpdateSchedule(@PathVariable int profileID, Map<String, String> map) {
-        Schedule schedule = null;
+    public @ResponseBody 
+    List<Schedule> createUpdateSchedule(@PathVariable int profileID, @RequestBody Map<String, String> map) {
+        List<Schedule> schedules = new LinkedList<Schedule>();
         try {
             Profile profile = profileRepository.findById(profileID).get();
 
-            //TODO get input from map, parse it
+            for(Day day : Day.values()) {
+                 //get "monday", "tuesday", etc. from map and convert to Schedule
+                String dayString = day.toString().trim().toLowerCase();
+                if(map.get(dayString) != null) {
+                    Schedule daySchedule = extractSchedule(day, map.get(dayString));
+                    schedules.add(daySchedule);
+                }
+            }
+            //set schedules
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return schedule;
+        return schedules;
     }
 
     /**
@@ -241,7 +255,7 @@ public class RuberController {
     // TODO: Remove this endpoint once it is hooked directly into set address since this endpoint won't be needed
     @RequestMapping(path = "/maps", method = RequestMethod.GET)
     public Location getCoordinatesFromAddress(@RequestParam String address) {
-        // If you are reading this after December 2018, our API key has been deactivated
+        // If you are reading this after December 2018, our API key has been deactivated :)
         String url = "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyBUWTvOdjkdIur2IFzkEPCVTodoL7xUzJk&address=" + address;
 
         RestTemplate restTemplate = new RestTemplate();
@@ -251,36 +265,31 @@ public class RuberController {
 
     }
 
-    /** TEST BELOW AND THE SCHEDULE ENDPOINT */
 
     /**
-     * Return a map of the formmated
-     *
-     * @param s
-     * @return
+     * Return a Schedule representing the given day and the schedule string
+     * Does not check if the given string is numeric.
+     * 
+     * @param s Schedule string of the form "0060..." - every 4 characters represents a time
+     * @return a Schedule
      */
-    private Map<String, LocalTime> extractSchedule(String s) {
-        //0600,0630,1700,1730
+    private Schedule extractSchedule(Day day, String s) {
+        //0600063017001730 -> 06:00, 06:30, 17:00, 17:30
         s = s.trim();
-        Map<String, LocalTime> map = new HashMap<String, LocalTime>();
         String goingToStart = formatScheduleTime(s.substring(0, 4));
         String goingToEnd = formatScheduleTime(s.substring(4, 8));
         String leavingStart = formatScheduleTime(s.substring(8, 12));
         String leavingEnd = formatScheduleTime(s.substring(12));
 
-        map.put("goingToStart", LocalTime.parse(goingToStart));
-        map.put("goingToEnd", LocalTime.parse(goingToStart));
-        map.put("leavingStart", LocalTime.parse(goingToStart));
-        map.put("leavingEnd", LocalTime.parse(goingToStart));
-        return map;
+        return new Schedule(day, LocalTime.parse(goingToStart), LocalTime.parse(goingToEnd), LocalTime.parse(leavingStart), LocalTime.parse(leavingEnd));
     }
 
     /**
-     * Takes input in as HHMM and outputs HH:MM.
+     * Takes input string in as HHMM and outputs HH:MM.
      * i.e. 0600 -> 06:00
      *
-     * @param s
-     * @return
+     * @param s Input string "HHMM"
+     * @return Formatted string "HH:MM"
      */
     private String formatScheduleTime(String s) {
         return s.substring(0, 2) + ":" + s.substring(2);

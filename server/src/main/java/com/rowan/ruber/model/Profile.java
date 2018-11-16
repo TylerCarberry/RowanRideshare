@@ -12,7 +12,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Table;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -117,19 +116,11 @@ public class Profile implements Serializable{
     }
 
     /**
-     * Get the date and time this profile was created.
-     * @return the createdDate
-     */
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    /**
      * Get the formatted date and time this profile was created.
      * Avoid using SimpleDateFormat as it is not thread-safe.
      * @return the createdDate as a formatted String.
      */
-    public String getCreatedDateString() {
+    public String getCreatedDate() {
         return String.format("%1$TD %1$TT", createdDate);
     }
 
@@ -174,7 +165,10 @@ public class Profile implements Serializable{
     }
 
     /**
-     * Sets the schedule.
+     * Sets the schedule. Should only be used for displaying needs.
+     * Note that this method cannot be used to commit schedule changes to the database - not the owner side of the relationship
+     * between schedule and profile.
+     * 
      * @param schedules the schedules to set
      */
     public void setSchedules(List<Schedule> schedules) {

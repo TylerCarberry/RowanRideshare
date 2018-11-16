@@ -87,19 +87,11 @@ public class Message implements Serializable{
     }
 
     /**
-     * Get the date this message was sent.
-     * @return the timeSent
-     */
-    public Date getTimeSent() {
-        return timeSent;
-    }
-
-    /**
      * Get the formatted date and time this message was sent.
      * Avoid using SimpleDateFormat as it is not thread-safe.
      * @return the timeSent as a formatted String.
      */
-    public String getTimeSentString() {
+    public String getTimeSent() {
         return String.format("%1$TD %1$TT", timeSent);
     }
 
