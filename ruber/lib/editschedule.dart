@@ -18,6 +18,7 @@ var scheduleMap = {
   "friday": ""
 };
 
+/// Getter methods for the scheduleMap variable
 getScheduleMapMonday() {
   return scheduleMap["monday"];
 }
@@ -42,6 +43,7 @@ getScheduleMap() {
   return scheduleMap;
 }
 
+/// Setter methods for the scheduleMap variable
 setScheduleMapMonday(String a, String b, String c, String d) {
   scheduleMap["monday"] = a + b + c + d;
 }
@@ -79,8 +81,6 @@ var mondaySchedule = {
   "c": "0000",
   "d": "0000"
 };
-
-//setMondaySchedule
 
 var tuesdaySchedule = {
   "as": "",
@@ -127,31 +127,26 @@ var fridaySchedule = {
 };
 
 /// Changes the AM/PM time to military time
-
 String getNewTime(String selectedTime) {
   if (selectedTime.contains('AM', 0)) {
     // AM times
     if (selectedTime.length == 7) {
       // single digit AM times
-//      print("0" + selectedTime.substring(0, 1) + selectedTime.substring(2, 4));
       return ("0" +
           selectedTime.substring(0, 1) +
           selectedTime.substring(2, 4));
     } else {
       // double digit AM times
-//      print(selectedTime.substring(0, 2) + selectedTime.substring(3, 5));
       return (selectedTime.substring(0, 2) + selectedTime.substring(3, 5));
     }
   } else {
     // PM times
     if (selectedTime.length == 7) {
       // single digit PM times
-//      print("0" + selectedTime.substring(0, 1) + selectedTime.substring(2, 4));
       return ((int.parse(selectedTime.substring(0, 1)) + 12).toString() +
           selectedTime.substring(2, 4));
     } else {
       // Double digit PM times - 12:00 PM and 12:30 PM
-//      print(selectedTime.substring(0, 2) + selectedTime.substring(3, 5));
       return selectedTime.substring(0, 2) + selectedTime.substring(3, 5);
     }
   }
@@ -170,7 +165,7 @@ class _MyScheduleForm extends State<ScheduleForm> {
           title: Text('Edit Schedule'),
           centerTitle: true,
         ),
-        drawer: Drawer(),
+        drawer: launchAppDrawer(context),
         body: Center(
             child: Column(
           children: <Widget>[
@@ -256,10 +251,6 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                 setState(() {
                                   mondaySchedule["as"] = value;
                                   mondaySchedule["a"] = getNewTime(value);
-//                                  scheduleMap["monday"] = mondaySchedule["a"] +
-//                                      mondaySchedule["b"] +
-//                                      mondaySchedule["c"] +
-//                                      mondaySchedule["d"];
 
                                   setScheduleMapMonday(
                                       mondaySchedule["a"],
@@ -268,7 +259,8 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                       mondaySchedule["d"]);
                                 });
 
-                                print("Mondays schedule " + getScheduleMapMonday());
+                                print("Mondays schedule " +
+                                    getScheduleMapMonday());
                               },
                             ),
                             DropdownButton<String>(
@@ -319,7 +311,8 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                       mondaySchedule["d"]);
                                 });
 
-                                print("Mondays schedule " + getScheduleMapMonday());
+                                print("Mondays schedule " +
+                                    getScheduleMapMonday());
                               },
                             ),
                             Text('   ',
@@ -372,7 +365,8 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                       mondaySchedule["d"]);
                                 });
 
-                                print("Mondays schedule " + getScheduleMapMonday());
+                                print("Mondays schedule " +
+                                    getScheduleMapMonday());
                               },
                             ),
                             DropdownButton<String>(
@@ -423,7 +417,8 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                       mondaySchedule["d"]);
                                 });
 
-                                print("Mondays schedule " + getScheduleMapMonday());
+                                print("Mondays schedule " +
+                                    getScheduleMapMonday());
                               },
                             ),
                           ],
@@ -504,11 +499,6 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                 setState(() {
                                   tuesdaySchedule["as"] = value;
                                   tuesdaySchedule["a"] = getNewTime(value);
-//                                  scheduleMap["tuesday"] =
-//                                      tuesdaySchedule["a"] +
-//                                          tuesdaySchedule["b"] +
-//                                          tuesdaySchedule["c"] +
-//                                          tuesdaySchedule["d"];
 
                                   setScheduleMapTuesday(
                                       tuesdaySchedule["a"],
@@ -517,7 +507,8 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                       tuesdaySchedule["d"]);
                                 });
 
-                                print("Tuesdays schedule " + getScheduleMapTuesday());
+                                print("Tuesdays schedule " +
+                                    getScheduleMapTuesday());
                               },
                             ),
                             DropdownButton<String>(
@@ -568,7 +559,8 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                       tuesdaySchedule["d"]);
                                 });
 
-                                print("Tuesdays schedule " + getScheduleMapTuesday());
+                                print("Tuesdays schedule " +
+                                    getScheduleMapTuesday());
                               },
                             ),
                             Text('   ',
@@ -621,7 +613,8 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                       tuesdaySchedule["d"]);
                                 });
 
-                                print("Tuesdays schedule " + getScheduleMapTuesday());
+                                print("Tuesdays schedule " +
+                                    getScheduleMapTuesday());
                               },
                             ),
                             DropdownButton<String>(
@@ -672,7 +665,8 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                       tuesdaySchedule["d"]);
                                 });
 
-                                print("Tuesdays schedule " + getScheduleMapTuesday());
+                                print("Tuesdays schedule " +
+                                    getScheduleMapTuesday());
                               },
                             ),
                           ],
@@ -754,11 +748,6 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                 setState(() {
                                   wednesdaySchedule["as"] = value;
                                   wednesdaySchedule["a"] = getNewTime(value);
-//                                  scheduleMap["wednesday"] =
-//                                      wednesdaySchedule["a"] +
-//                                          wednesdaySchedule["b"] +
-//                                          wednesdaySchedule["c"] +
-//                                          wednesdaySchedule["d"];
 
                                   setScheduleMapWednesday(
                                       wednesdaySchedule["a"],
@@ -767,7 +756,8 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                       wednesdaySchedule["d"]);
                                 });
 
-                                print("Wednesdays schedule " + getScheduleMapWednesday());
+                                print("Wednesdays schedule " +
+                                    getScheduleMapWednesday());
                               },
                             ),
                             DropdownButton<String>(
@@ -818,7 +808,8 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                       wednesdaySchedule["d"]);
                                 });
 
-                                print("Wednesdays schedule " + getScheduleMapWednesday());
+                                print("Wednesdays schedule " +
+                                    getScheduleMapWednesday());
                               },
                             ),
                             Text('   ',
@@ -871,7 +862,8 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                       wednesdaySchedule["d"]);
                                 });
 
-                                print("Wednesdays schedule " + getScheduleMapWednesday());
+                                print("Wednesdays schedule " +
+                                    getScheduleMapWednesday());
                               },
                             ),
                             DropdownButton<String>(
@@ -922,7 +914,8 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                       wednesdaySchedule["d"]);
                                 });
 
-                                print("Wednesdays schedule " + getScheduleMapWednesday());
+                                print("Wednesdays schedule " +
+                                    getScheduleMapWednesday());
                               },
                             ),
                           ],
@@ -1004,11 +997,6 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                 setState(() {
                                   thursdaySchedule["as"] = value;
                                   thursdaySchedule["a"] = getNewTime(value);
-//                                scheduleMap["thursday"] =
-//                                    thursdaySchedule["a"] +
-//                                        thursdaySchedule["b"] +
-//                                        thursdaySchedule["c"] +
-//                                        thursdaySchedule["d"];
 
                                   setScheduleMapThursday(
                                       thursdaySchedule["a"],
@@ -1017,7 +1005,8 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                       thursdaySchedule["d"]);
                                 });
 
-                                print("Thursdays schedule: " + getScheduleMapThursday());
+                                print("Thursdays schedule: " +
+                                    getScheduleMapThursday());
                               },
                             ),
                             DropdownButton<String>(
@@ -1068,7 +1057,8 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                       thursdaySchedule["d"]);
                                 });
 
-                                print("Thursdays schedule: " + getScheduleMapThursday());
+                                print("Thursdays schedule: " +
+                                    getScheduleMapThursday());
                               },
                             ),
                             Text('   ',
@@ -1121,7 +1111,8 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                       thursdaySchedule["d"]);
                                 });
 
-                                print("Thursdays schedule: " + getScheduleMapThursday());
+                                print("Thursdays schedule: " +
+                                    getScheduleMapThursday());
                               },
                             ),
                             DropdownButton<String>(
@@ -1172,7 +1163,8 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                       thursdaySchedule["d"]);
                                 });
 
-                                print("Thursdays schedule: " + getScheduleMapThursday());
+                                print("Thursdays schedule: " +
+                                    getScheduleMapThursday());
                               },
                             ),
                           ],
@@ -1254,10 +1246,6 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                 setState(() {
                                   fridaySchedule["as"] = value;
                                   fridaySchedule["a"] = getNewTime(value);
-//                                  scheduleMap["friday"] = fridaySchedule["a"] +
-//                                      fridaySchedule["b"] +
-//                                      fridaySchedule["c"] +
-//                                      fridaySchedule["d"];
 
                                   setScheduleMapFriday(
                                       thursdaySchedule["a"],
@@ -1266,7 +1254,8 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                       thursdaySchedule["d"]);
                                 });
 
-                                print("Fridays schedule: " + getScheduleMapFriday());
+                                print("Fridays schedule: " +
+                                    getScheduleMapFriday());
                               },
                             ),
                             DropdownButton<String>(
@@ -1317,7 +1306,8 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                       thursdaySchedule["d"]);
                                 });
 
-                                print("Fridays schedule: " + getScheduleMapFriday());
+                                print("Fridays schedule: " +
+                                    getScheduleMapFriday());
                               },
                             ),
                             Text('   ',
@@ -1370,7 +1360,8 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                       thursdaySchedule["d"]);
                                 });
 
-                                print("Fridays schedule: " + getScheduleMapFriday());
+                                print("Fridays schedule: " +
+                                    getScheduleMapFriday());
                               },
                             ),
                             DropdownButton<String>(
@@ -1421,7 +1412,8 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                       thursdaySchedule["d"]);
                                 });
 
-                                print("Fridays schedule: " + getScheduleMapFriday());
+                                print("Fridays schedule: " +
+                                    getScheduleMapFriday());
                               },
                             ),
                           ],
@@ -1430,6 +1422,7 @@ class _MyScheduleForm extends State<ScheduleForm> {
                     ))
                   ])
 
+                  // ================== FRIDAY END ==================== //
                   // ================== FRIDAY END ==================== //
                 ]),
             RaisedButton(
