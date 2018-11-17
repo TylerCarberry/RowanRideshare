@@ -86,7 +86,6 @@ public class RuberController {
     Optional<Address> getAddress(@PathVariable int profileID) {
         // Optional<>.get() returns the Profile object if it was obtained.
         Profile profile = getProfile(profileID).get();
-        // If Profile.Address is not nullable, Optional.of() is a better option.
         return Optional.ofNullable(profile.getAddress());
     }
 
@@ -133,6 +132,16 @@ public class RuberController {
     public @ResponseBody
     Address createUpdateAddress(@RequestBody Address address) {
         return addressRepository.save(address);
+    }
+
+    /* TODO - currently no other way to link an address to a profile - need the ProfileID from the front end */
+    @PostMapping(path = { "/profile/{profileID}/linkAddress/{addressID}"})
+    public @ResponseBody
+    Profile linkAddress(@PathVariable int profileID, @PathVariable int addressID) {
+        Profile profile = profileRepository.findById(profileID).get();
+        Address address = addressRepository.findById(addressID).get();
+        profile.setAddress(address);
+        return profileRepository.save(profile);
     }
 
     /**
@@ -184,7 +193,7 @@ public class RuberController {
     }
 
     /** 
-     * If attempt to create a schedule failed - there's a dupe, the scheduleID will still autoincrement  
+     * If attempt to create a schedule failed - i.e. there's a dupe, then scheduleID will still autoincrement  
      * 
      * If trying to create an already made schedule (i.e. "MONDAY" : "0600...") already exists, it will throw exception and stop
      * even if there are other days that have not been made -> for example if "TUESDAY" :"0700..." has not been made
@@ -214,6 +223,47 @@ public class RuberController {
         }
         return schedules;
     }
+
+    /**
+     * For some reason when there are new schedules in the map, the getSchedule response doesn't immediately reflect those,
+     * therefore another list is hold the schedules.
+     */
+    @PostMapping(path = "/profile/{profileID}/schedule/update")
+    public @ResponseBody 
+    List<Schedule> updateSchedule(@PathVariable int profileID, @RequestBody Map<String, String> map) {
+        List<Schedule> schedules = new LinkedList<Schedule>();
+        try {
+            Profile profile = profileRepository.findById(profileID).get();
+
+            /* Getting null pointer somewhere */
+            //update existing schedules and remove from map once processed
+            for(Schedule schedule : profile.getSchedules()) {
+                Day day = schedule.getDay();
+                String dayString = day.toString().trim().toLowerCase();
+                String scheduleString = map.get(dayString);
+                Schedule temp = extractSchedule(day, profile, scheduleString); //technically don't need new object
+
+                schedule.setGoingToStart(temp.getGoingToStart());
+                schedule.setGoingToEnd(temp.getGoingToEnd());
+                schedule.setLeavingStart(temp.getLeavingStart());
+                schedule.setLeavingEnd(temp.getLeavingEnd());
+                scheduleRepository.save(schedule);
+
+                map.remove(dayString);
+                schedules.add(schedule);
+            }
+
+            //The remaining ones are new schedules
+            for(Schedule newSchedule : createSchedule(profileID, map)) {
+                schedules.add(newSchedule);
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return schedules; 
+    }
+
 
     /**
      * Using try catch for testing phase, in a complete system the app shouldn't attempt to
