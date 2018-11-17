@@ -134,6 +134,16 @@ public class RuberController {
         return addressRepository.save(address);
     }
 
+    /* TODO - currently no other way to link an address to a profile - need the ProfileID from the front end */
+    @PostMapping(path = { "/profile/{profileID}/linkAddress/{addressID}"})
+    public @ResponseBody
+    Profile linkAddress(@PathVariable int profileID, @PathVariable int addressID) {
+        Profile profile = profileRepository.findById(profileID).get();
+        Address address = addressRepository.findById(addressID).get();
+        profile.setAddress(address);
+        return profileRepository.save(profile);
+    }
+
     /**
      * I decided to combine create chatroom and addProfileToChatroom.
      * Since we're manually taking care of createDate, a chatroom should consist of at least 1 user to start the chatroom
@@ -183,7 +193,7 @@ public class RuberController {
     }
 
     /** 
-     * If attempt to create a schedule failed - there's a dupe, the scheduleID will still autoincrement  
+     * If attempt to create a schedule failed - i.e. there's a dupe, then scheduleID will still autoincrement  
      * 
      * If trying to create an already made schedule (i.e. "MONDAY" : "0600...") already exists, it will throw exception and stop
      * even if there are other days that have not been made -> for example if "TUESDAY" :"0700..." has not been made
