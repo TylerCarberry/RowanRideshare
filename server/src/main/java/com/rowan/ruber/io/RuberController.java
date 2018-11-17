@@ -172,7 +172,7 @@ public class RuberController {
             //Checking the list in chatroom is better than checking sender b/c chatrooms have limited number of profiles
             if(! chatroom.getProfiles().contains(sender))
                 throw new Exception("This profile is not in this chatroom");
-;
+
             String text = map.get("text");
             Date timeSent = new Date();
             message = new Message(chatroom, senderID, text, timeSent);
@@ -183,9 +183,19 @@ public class RuberController {
         return messageRepository.save(message);
     }
 
+    /** 
+     * If attempt to create a schedule failed - there's a dupe, the scheduleID will still autoincrement  
+     * 
+     * If trying to create an already made schedule (i.e. "MONDAY" : "0600...") already exists, it will throw exception and stop
+     * even if there are other days that have not been made -> for example if "TUESDAY" :"0700..." has not been made
+     * but comes after "MONDAY" in the map.
+     * 
+     * //TODO FIX ABOVE 
+     * //
+     */
     @PostMapping(path = "/profile/{profileID}/schedule/new")
     public @ResponseBody 
-    List<Schedule> createUpdateSchedule(@PathVariable int profileID, @RequestBody Map<String, String> map) {
+    List<Schedule> createSchedule(@PathVariable int profileID, @RequestBody Map<String, String> map) {
         List<Schedule> schedules = new LinkedList<Schedule>();
         try {
             Profile profile = profileRepository.findById(profileID).get();
