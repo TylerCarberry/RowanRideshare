@@ -8,6 +8,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'initialaddaddress.dart';
 import 'dart:async' show Future;
 import 'UserModel.dart';
 
@@ -18,8 +19,8 @@ class AuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Firebase Auth Demo',
-      home: MyHomePage(title: 'Firebase Auth Demo'),
+      title: 'Sign into Rowan',
+      home: MyHomePage(title: 'Sign into Rowan', ),
     );
   }
 }
@@ -34,7 +35,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
   Future<String> _message = Future<String>.value('');
+
   String verificationId;
 
 
@@ -90,24 +93,23 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-
-          MaterialButton(
-              child: const Text('Sign In With Google'),
+          RaisedButton(
+              child: const Text('Sign in to Rowan'),
               onPressed: ()
               {
                 setState(() {
                   _message = _testSignInWithGoogle();
+
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (
+                          context) => InitialAddressForm())); // Should be changed to AuthScreen.dart which should go to InitialAddressForm.dart
                 });
-              }),
-//          FutureBuilder<String>(
-//              future: _message,
-//              builder: (_, AsyncSnapshot<String> snapshot) {
-//                return Text(snapshot.data ?? '',
-//                    style:
-//                        const TextStyle(color: Color.fromARGB(255, 0, 155, 0)));
-//              }),
+              },
+
+              ),
         ],
       ),
 

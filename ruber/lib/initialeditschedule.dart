@@ -1,9 +1,7 @@
 // TODO: Get the value from the drop down menu and make that into a map - to send it to the back end
 // TODO: The individial day schedules should pull directly from the database
-// TODO: Fix the huge error when the schedule button is pressed
 
 import 'package:flutter/material.dart';
-import 'AppDrawer.dart';
 import 'package:ruber/Main.dart';
 import 'Rest.dart';
 
@@ -63,7 +61,6 @@ setScheduleMapThursday(String a, String b, String c, String d) {
 setScheduleMapFriday(String a, String b, String c, String d) {
   scheduleMap["friday"] = a + b + c + d;
 }
-
 
 // The 'a' 'b' 'c' 'd' are the values for the hint text for the drop down
 // menus - they should be pulled from the database once there are values
@@ -153,12 +150,12 @@ String getNewTime(String selectedTime) {
   }
 }
 
-class ScheduleForm extends StatefulWidget {
+class InitialScheduleForm extends StatefulWidget {
   @override
   _MyScheduleForm createState() => _MyScheduleForm();
 }
 
-class _MyScheduleForm extends State<ScheduleForm> {
+class _MyScheduleForm extends State<InitialScheduleForm> {
   bool a = true;
   bool b = true;
   bool c = true;
@@ -172,7 +169,6 @@ class _MyScheduleForm extends State<ScheduleForm> {
           title: Text('Edit Schedule'),
           centerTitle: true,
         ),
-        drawer: launchAppDrawer(context),
         body: Center(
             child: Column(
           children: <Widget>[
@@ -1434,53 +1430,53 @@ class _MyScheduleForm extends State<ScheduleForm> {
                 ]),
             RaisedButton(
               child: Text("Submit"),
-                onPressed: () {
-                  if (getScheduleMapMonday().toString().contains("0000", 0) ||
-                      getScheduleMapMonday() == "") {
-                    a = false;
-                  } else {
-                    a = true;
-                  }
-
-                  if (getScheduleMapTuesday().toString().contains("0000", 0) ||
-                      getScheduleMapTuesday() == "") {
-                    b = false;
-                  } else {
-                    b = true;
-                  }
-
-                  if (getScheduleMapWednesday().toString().contains("0000", 0) ||
-                      getScheduleMapWednesday() == "") {
-                    c = false;
-                  } else {
-                    c = true;
-                  }
-
-                  if (getScheduleMapThursday().toString().contains("0000", 0) ||
-                      getScheduleMapThursday() == "") {
-                    d = false;
-                  } else {
-                    d = true;
-                  }
-
-                  if (getScheduleMapFriday().toString().contains("0000", 0) ||
-                      getScheduleMapFriday() == "") {
-                    e = false;
-                  } else {
-                    e = true;
-                  }
-
-                  if ((a || b || c || d || e) == true) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                MainScreen()) //Change this to AuthScreen()
-                    );
-                  } else {
-                    return null;
-                  }
+              onPressed: () {
+                if (getScheduleMapMonday().toString().contains("0000", 0) ||
+                    getScheduleMapMonday() == "") {
+                  a = false;
+                } else {
+                  a = true;
                 }
+
+                if (getScheduleMapTuesday().toString().contains("0000", 0) ||
+                    getScheduleMapTuesday() == "") {
+                  b = false;
+                } else {
+                  b = true;
+                }
+
+                if (getScheduleMapWednesday().toString().contains("0000", 0) ||
+                    getScheduleMapWednesday() == "") {
+                  c = false;
+                } else {
+                  c = true;
+                }
+
+                if (getScheduleMapThursday().toString().contains("0000", 0) ||
+                    getScheduleMapThursday() == "") {
+                  d = false;
+                } else {
+                  d = true;
+                }
+
+                if (getScheduleMapFriday().toString().contains("0000", 0) ||
+                    getScheduleMapFriday() == "") {
+                  e = false;
+                } else {
+                  e = true;
+                }
+
+                if ((a || b || c || d || e) == true) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              MainScreen()) //Change this to AuthScreen()
+                      );
+                } else {
+                  return null;
+                }
+              },
             )
           ],
         )));

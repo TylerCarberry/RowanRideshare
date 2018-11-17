@@ -8,6 +8,7 @@ import 'Messages_Screen.dart';
 import 'settings_Screen.dart';
 import 'editschedule.dart';
 import 'MapPage.dart';
+import 'initialaddaddress.dart';
 import 'package:map_view/map_view.dart';
 
 import 'AuthScreen.dart';
@@ -43,132 +44,6 @@ class RUber extends StatelessWidget {
   }
 }
 
-//class Storage {
-//  // Get the local path
-//  Future<String> get localPath async {
-//    final dir = await getApplicationDocumentsDirectory();
-//    return dir.path;
-//  }
-//
-//  // Get the local file
-//  Future<File> get localFile async {
-//    final path = await localPath;
-//    return File('$path/disclaimer.txt');
-//  }
-//
-//  // Read the data
-//  Future<String> readData() async {
-//    try {
-//      final file = await localFile;
-//      String body = await file.readAsString();
-//
-//      return body;
-//    } catch (e) {
-//      return e.toString();
-//    }
-//  }
-//
-//  // Write the data
-//  Future<File> writeData(String data) async {
-//    final file = await localFile;
-//    return file.writeAsString("$data");
-//  }
-//}
-//
-//class Home extends StatefulWidget {
-//  final Storage storage;
-//
-//  Home({Key key, @required this.storage}) : super(key: key);
-//
-//  @override
-//  HomeState createState() => HomeState();
-//}
-//
-//class HomeState extends State<Home> {
-//  String state;
-//
-//  @override
-//  void initState() {
-//    super.initState();
-//    widget.storage.readData().then((String value) {
-//      setState(() {
-//        state = value;
-//      });
-//    });
-//  }
-//
-//  Future<File> writeData() async {
-//    setState(() {
-//      state = "accepted";
-//    });
-//
-//    return widget.storage.writeData(state);
-//  }
-//
-//  void readData() {
-//    widget.storage.readData().then((String value) {
-//      setState(() {
-//        state = value.toString();
-//      });
-//    });
-//  }
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    readData();
-//
-//    if (state != "accepted") {
-//      // If state DOES NOT equal "accepted" - first time
-//      return Scaffold(
-//          appBar: AppBar(
-//            title: Text('Disclaimer'),
-//            centerTitle: true,
-//          ),
-//          body: Card(
-//            child: Center(
-//              child: Column(
-//                children: <Widget>[
-//                  const ListTile(
-//                    title: Text('End-User License Agreement (EULA) for RUber',
-//                        textAlign: TextAlign.center),
-//                    subtitle: Text(
-//                      'The development team of RUber is not responsible'
-//                          ' for  how the user (you) uses the app. All actions are made'
-//                          ' on behalf and by the user and the RUber team does not accept'
-//                          ' any penalties from your actions. You have to accept this'
-//                          ' agreement to use this application.',
-//                      textAlign: TextAlign.center,
-//                    ),
-//                  ),
-//                  Row(
-//                    mainAxisAlignment: MainAxisAlignment.center,
-//                    children: <Widget>[
-//                      RaisedButton(
-//                        child: Text('Accept'),
-//                        onPressed: () {
-//                          // Write the "accepted" to the file
-//                          writeData();
-//
-//                          Navigator.push(
-//                              context,
-//                              MaterialPageRoute(
-//                                  builder: (context) =>
-//                                      MainScreen()) //Change this to AuthScreen()
-//                              );
-//                        },
-//                      )
-//                    ],
-//                  )
-//                ],
-//              ),
-//            ),
-//          ));
-//    } else // If state EQUALS "accepted" -- after 1st time
-//    {
-//      return MainScreen();
-//    }
-//  }
-//}
 
 // ==================== WELCOME SCREEN ====================== //
 
@@ -197,7 +72,6 @@ class WelcomeScreen extends StatelessWidget {
     return 'signInWithGoogle succeeded: $user';
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold (
@@ -213,12 +87,14 @@ class WelcomeScreen extends StatelessWidget {
                 child: Text('RUber', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.orange, fontSize: 24.0),),
               ),
               RaisedButton(
-                child: Text("Sign In"),
+                child: Text("Start"),
                 onPressed: () {
-//                  _message = _testSignInWithGoogle();
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => MainScreen()));
+                // TODO - Grab all the info from the _message variable
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (
+                        context) => AuthScreen())); // Should be changed to AuthScreen.dart which should go to InitialAddressForm.dart
+
                 },
               )
             ],
@@ -226,6 +102,7 @@ class WelcomeScreen extends StatelessWidget {
         )
     );
   }
+
 }
 
 // =========================== END WELCOME SCREEN ====================== //
@@ -251,7 +128,7 @@ class MainScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => NewRideScreen()),
+                  MaterialPageRoute(builder: (context) => launchRideScreen()),
                 );
               },
             ),
@@ -404,15 +281,7 @@ class MessagesScreenState extends State<MessagesScreen> {
 
 // ======================== END MESSAGES SCREEN ====================== //
 
-class NewRideScreen extends StatelessWidget {
-  Widget build(context) {
-    return Scaffold(
-        appBar: AppBar(title: Text('New Ride'), centerTitle: true),
-        drawer: launchAppDrawer(context),
-        body:
-            DefaultTabController(length: 2, child: launchRideScreen(context)));
-  }
-}
+
 
 class SettingsScreen extends StatelessWidget {
   Widget build(context) {
