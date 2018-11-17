@@ -24,7 +24,7 @@ String allScheduleToJson(List<Schedule> data) {
 
 class Schedule {
   int id;
-  Post profile;
+  int profile;
   String day;
   var goingToRangeStart;
   var goingToRangeEnd;

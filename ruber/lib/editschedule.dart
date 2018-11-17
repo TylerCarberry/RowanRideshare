@@ -430,10 +430,19 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                 print("Mondays schedule " +
                                     getScheduleMapMonday());
 
-                                Schedule monday = new Schedule();
+                                //create response
+                                Schedule monday = new Schedule(
+                                  id:1,
+                                  profile:1,
+                                  day:"monday",
+                                  goingToRangeStart: mondaySchedule["a"],
+                                  goingToRangeEnd: mondaySchedule["b"],
+                                  leavingRangeEnd: mondaySchedule["c"],
+                                  leavingRangeStart: mondaySchedule["d"]
+                                );
 //                                Schedule monday = new Schedule(1,1,mondaySchedule["a"], mondaySchedule["b"], mondaySchedule["c"], mondaySchedule["d"]);
 
-                                //create response
+
                                 createSchedule(monday).then((response){
                                   if(response.statusCode > 200)
                                     print(response.body);
