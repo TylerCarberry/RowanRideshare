@@ -213,6 +213,47 @@ public class RuberController {
     }
 
     /**
+     * For some reason when there are new schedules in the map, the getSchedule response doesn't immediately reflect those,
+     * therefore another list is hold the schedules.
+     */
+    @PostMapping(path = "/profile/{profileID}/schedule/update")
+    public @ResponseBody 
+    List<Schedule> updateSchedule(@PathVariable int profileID, @RequestBody Map<String, String> map) {
+        List<Schedule> schedules = new LinkedList<Schedule>();
+        try {
+            Profile profile = profileRepository.findById(profileID).get();
+
+            /* Getting null pointer somewhere */
+            //update existing schedules and remove from map once processed
+            for(Schedule schedule : profile.getSchedules()) {
+                Day day = schedule.getDay();
+                String dayString = day.toString().trim().toLowerCase();
+                String scheduleString = map.get(dayString);
+                Schedule temp = extractSchedule(day, profile, scheduleString); //technically don't need new object
+
+                schedule.setGoingToStart(temp.getGoingToStart());
+                schedule.setGoingToEnd(temp.getGoingToEnd());
+                schedule.setLeavingStart(temp.getLeavingStart());
+                schedule.setLeavingEnd(temp.getLeavingEnd());
+                scheduleRepository.save(schedule);
+
+                map.remove(dayString);
+                schedules.add(schedule);
+            }
+
+            //The remaining ones are new schedules
+            for(Schedule newSchedule : createSchedule(profileID, map)) {
+                schedules.add(newSchedule);
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return schedules; 
+    }
+
+
+    /**
      * Using try catch for testing phase, in a complete system the app shouldn't attempt to
      * delete using a non-existing id.( boolean -> void, and remove try catch.)
      *
