@@ -1,31 +1,43 @@
 import 'package:flutter/material.dart';
+import 'AppDrawer.dart';
 import 'Rest.dart';
 
-Scaffold launchRideScreen(context) {
-  var textController = new TextEditingController();
-
-  return new Scaffold(
-      appBar: AppBar(
-        title: Text('Ride Screen'),
-      ),
-      body: new Row(
-        children: <Widget> [
-          new Column(
-              children: [
-                RaisedButton(
-                  child: Text('Ride to Rowan')
-                )
-              ]
-
-          ),
-          new Column(
-            children: [
-              RaisedButton(
-                child: Text('Get a Ride Home')
-              )
-            ]
-          ),
-      ],
-    ),
-  );
+class launchRideScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('New Ride'),
+          centerTitle: true,
+        ),
+        drawer: launchAppDrawer(context),
+        body: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Expanded(
+              child: Container(
+                child: RaisedButton(
+                  child: Text('Coming from Rowan'),
+                  onPressed: () {
+                    print("Coming from Rowan");
+                  },
+                  color: Colors.yellow,
+                ),
+              ),
+            ),
+            Expanded(
+              child: Container(
+                child: RaisedButton(
+                  child: Text("Going to Rowan"),
+                  onPressed: () {
+                    print("Going to Rowan");
+                  },
+                  color: Colors.lightBlueAccent,
+                ),
+              ),
+            )
+          ],
+        ));
+  }
 }

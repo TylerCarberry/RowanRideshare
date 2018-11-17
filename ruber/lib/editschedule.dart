@@ -64,6 +64,7 @@ setScheduleMapFriday(String a, String b, String c, String d) {
   scheduleMap["friday"] = a + b + c + d;
 }
 
+
 // The 'a' 'b' 'c' 'd' are the values for the hint text for the drop down
 // menus - they should be pulled from the database once there are values
 // in the database

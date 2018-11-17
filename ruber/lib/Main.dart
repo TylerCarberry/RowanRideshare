@@ -197,7 +197,6 @@ class WelcomeScreen extends StatelessWidget {
     return 'signInWithGoogle succeeded: $user';
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold (
@@ -226,6 +225,7 @@ class WelcomeScreen extends StatelessWidget {
         )
     );
   }
+
 }
 
 // =========================== END WELCOME SCREEN ====================== //
@@ -251,7 +251,7 @@ class MainScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => NewRideScreen()),
+                  MaterialPageRoute(builder: (context) => launchRideScreen()),
                 );
               },
             ),
@@ -404,15 +404,7 @@ class MessagesScreenState extends State<MessagesScreen> {
 
 // ======================== END MESSAGES SCREEN ====================== //
 
-class NewRideScreen extends StatelessWidget {
-  Widget build(context) {
-    return Scaffold(
-        appBar: AppBar(title: Text('New Ride'), centerTitle: true),
-        drawer: launchAppDrawer(context),
-        body:
-            DefaultTabController(length: 2, child: launchRideScreen(context)));
-  }
-}
+
 
 class SettingsScreen extends StatelessWidget {
   Widget build(context) {
