@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'main.dart';
 import 'profile.dart';
+import 'editschedule.dart';
 
 Drawer launchAppDrawer(context) {
   return Drawer(
@@ -40,6 +41,16 @@ Drawer launchAppDrawer(context) {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => ProfileScreen()),
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.schedule),
+            title: Text('Schedule'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ScheduleForm())
               );
             },
           ),

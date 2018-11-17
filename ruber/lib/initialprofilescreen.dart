@@ -1,24 +1,25 @@
+// TODO -- Work on the initial profile screen, and the schedule input
+// TODO -- require address, then only continue, then take them to schedule edit screen
+
 import 'package:flutter/material.dart';
 import 'AppDrawer.dart';
-import 'editschedule.dart';
 import 'Rest.dart';
 
-import 'package:http/http.dart' as http;
-import 'dart:async';
-import 'dart:async' show Future;
-import 'ProfileModel.dart';
-import 'AddressModel.dart';
-import 'dart:io';
+/***
+ * Need to pull all this information from the backend
+ */
 
-String profilePic;
-String streetName = "";
-String city = "";
-String zipCode = "";
-String state = "";
+String profilepic;
+String streetname = "1007 Mountain Drive";
+String city = "Gotham";
+String zip = "53540";
+String state = "CA";
+String schedule = "Working on this";
+String fullAddress =
+fullAddress = streetname + ", " + city + ", " + state + " " + zip;
 
-String email = "";
-
-String name = "";
+String email = "wayne@wayneenterprises.com";
+String name = "Bruce Wayne";
 
 // SETTERS
 
@@ -26,30 +27,37 @@ setName(String newName) {
   name = newName;
 }
 
+setFullAddress(String newFullAddress) {
+  fullAddress = newFullAddress;
+}
+
+setFullAddressWithParams(
+    String newStreetName, String newCity, String newZip, String newState) {
+  fullAddress = newStreetName + ", " + newCity + ", " + newState + " " + newZip;
+}
+
 setStreetName(String newStreetName) {
-  streetName = newStreetName;
+  streetname = newStreetName;
 }
 
 setCity(String newCity) {
   city = newCity;
+}
 
+setZip(String newZip) {
+  zip = newZip;
 }
 
 setNewState(String newState) {
   state = newState;
 }
 
-setZip(String newZip) {
-  zipCode = newZip;
-}
-
-
 setEmail(String newEmail) {
   email = newEmail;
 }
 
 setProfilePic(String picLocation) {
-  profilePic = picLocation;
+  profilepic = picLocation;
 }
 
 // GETTERS
@@ -58,8 +66,12 @@ getName() {
   return name;
 }
 
+getFullAddress() {
+  return fullAddress;
+}
+
 getStreetName() {
-  return streetName;
+  return streetname;
 }
 
 getCity() {
@@ -67,7 +79,7 @@ getCity() {
 }
 
 getZip() {
-  return zipCode;
+  return zip;
 }
 
 getState() {
@@ -79,10 +91,10 @@ getEmail() {
 }
 
 getProfilePic() {
-  return profilePic;
+  return profilepic;
 }
 
-class ProfileScreen extends StatelessWidget {
+class InitialProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     setProfilePic(
@@ -110,7 +122,7 @@ class ProfileScreen extends StatelessWidget {
                     image: new DecorationImage(
                         fit: BoxFit.fill,
                         // This is where we would retrieve the image from the data base
-                        image: NetworkImage(profilePic)))),
+                        image: NetworkImage(profilepic)))),
 
             // Full Name Heading & Text
 
@@ -124,22 +136,19 @@ class ProfileScreen extends StatelessWidget {
                         fontFamily: 'Helvetica',
                         color: Colors.blueAccent))),
             Container(
-                child: Center(
-                    child: FutureBuilder<Post>(
-                        future: getPost(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData)
-                            return Text(
-                                '${snapshot.data.name}');
-                          else
-                            return CircularProgressIndicator();
-                        }))),
+              margin: EdgeInsets.all(5.0),
+              child: Text(
+                getName(),
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16.0),
+              ),
+            ),
 
             // Email Heading & Text
 
             Container(
               margin: EdgeInsets.only(top: 15.0),
-              child: Text('Email:',
+              child: Text('Email',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -148,21 +157,19 @@ class ProfileScreen extends StatelessWidget {
                       color: Colors.deepOrange)),
             ),
             Container(
-                child: Center(
-                    child: FutureBuilder<Post>(
-                        future: getPost(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData)
-                            return Text(
-                                '${snapshot.data.email}');
-                          else
-                            return CircularProgressIndicator();
-                        }))),
+                margin: EdgeInsets.all(5.0),
+                child: Text(
+                  getEmail(),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16.0),
+                )),
+
+            // Address Heading & Text
 
             Container(
               margin: EdgeInsets.only(top: 15.0),
               child: Text(
-                'Joined Date',
+                'Home Address',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -174,136 +181,14 @@ class ProfileScreen extends StatelessWidget {
             ),
 
             Container(
-                child: Center(
-                    child: FutureBuilder<Post>(
-                        future: getPost(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return Text(
-                                '${snapshot.data.createdDate}');
-                          }
-                          else
-                            return CircularProgressIndicator();
-                        }))),
-            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            Container(
-              margin: EdgeInsets.only(top: 15.0),
-              child: Text(
-                'Street Name',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20.0,
-                  fontFamily: 'Helvetica',
-                  color: Colors.orange,
-                ),
-              ),
-            ),
+                margin: EdgeInsets.all(5.0),
+                child: Text(
+                  fullAddress,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16.0),
+                )),
 
-            Container(
-                child: Center(
-                    child: FutureBuilder<Address>(
-                        future: getAddressPost(),
-                        builder: (context2, snapshot2) {
-                          if (snapshot2.hasData) {
-                            String newStreetName = snapshot2.data.streetAddress
-                                .toString();
-                            setStreetName(newStreetName);
-                            return Text(
-                                '${snapshot2.data.streetAddress}');
-                          }
-                          else
-                            return CircularProgressIndicator();
-                        }))),
-            Container(
-              margin: EdgeInsets.only(top: 15.0),
-              child: Text(
-                'City',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20.0,
-                  fontFamily: 'Helvetica',
-                  color: Colors.pink,
-                ),
-              ),
-            ),
-
-            Container(
-                child: Center(
-                    child: FutureBuilder<Address>(
-                        future: getAddressPost(),
-                        builder: (context2, snapshot2) {
-                          if (snapshot2.hasData) {
-                            String newCity = snapshot2.data.city.toString();
-                            setCity(newCity);
-
-                            return Text(
-                                '${snapshot2.data.city}');
-                          }
-                          else
-                            return CircularProgressIndicator();
-                        }))),
-            Container(
-              margin: EdgeInsets.only(top: 15.0),
-              child: Text(
-                'State',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20.0,
-                  fontFamily: 'Helvetica',
-                  color: Colors.purple,
-                ),
-              ),
-            ),
-
-            Container(
-                child: Center(
-                    child: FutureBuilder<Address>(
-                        future: getAddressPost(),
-                        builder: (context2, snapshot2) {
-                          if (snapshot2.hasData) {
-                            String newState = snapshot2.data.state.toString();
-                            setNewState(newState);
-
-                            return Text(
-                                '${snapshot2.data.state}');
-                          }
-                          else
-                            return CircularProgressIndicator();
-                        }))),
-            Container(
-              margin: EdgeInsets.only(top: 15.0),
-              child: Text(
-                'Zip Code',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20.0,
-                  fontFamily: 'Helvetica',
-                  color: Colors.indigo,
-                ),
-              ),
-            ),
-
-            Container(
-                child: Center(
-                    child: FutureBuilder<Address>(
-                        future: getAddressPost(),
-                        builder: (context2, snapshot2) {
-                          if (snapshot2.hasData) {
-                            String newZipCode = snapshot2.data.zipCode.toString();
-                            setZip(newZipCode);
-
-                            return Text(
-                                '${snapshot2.data.zipCode}');
-                          }
-                          else
-                            return CircularProgressIndicator();
-                        }))),
-
-            // Edit buttons
+            // Edit address button
 
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -325,7 +210,6 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 }
-
 
 // ========================== EDIT ADDRESS =========================== //
 
@@ -388,12 +272,12 @@ class _MyAddressForm extends State<AddressForm> {
                 Container(
                     child: TextField(
                       textAlign: TextAlign.center,
-                      decoration: InputDecoration.collapsed(hintText: streetName),
+                      decoration: InputDecoration.collapsed(hintText: streetname),
                       controller: streetNameController,
                       onEditingComplete: () {
+                        // Make sure to write to Database
 
                         newStreet = streetNameController.text;
-
 
                         FocusScope.of(context).requestFocus(new FocusNode());
                       },
@@ -454,10 +338,11 @@ class _MyAddressForm extends State<AddressForm> {
                 Container(
                     child: TextField(
                       textAlign: TextAlign.center,
-                      decoration: InputDecoration.collapsed(hintText: zipCode),
+                      decoration: InputDecoration.collapsed(hintText: zip),
                       controller: zipController,
                       onEditingComplete: () {
                         // Make sure to write to Database
+
                         newZip = zipController.text;
 
                         FocusScope.of(context).requestFocus(new FocusNode());
@@ -468,47 +353,39 @@ class _MyAddressForm extends State<AddressForm> {
                     child: RaisedButton(
                       child: Text('Save Changes'),
                       onPressed: () {
+                        // Make sure to write to the database only
+                        // if the address has changed
+
+                        // TODO Make sure to write to the database
+                        // TODO ONLY INSIDE the if loops, only if the data changed
 
                         if (streetNameController.text.isEmpty != true) {
                           setStreetName(streetNameController.text);
+                          setFullAddressWithParams(
+                              getStreetName(), getCity(), getZip(), getState());
                         }
-                        if (stateController.text.isEmpty != true) {
-                          setNewState(stateController.text);
-                        }
+
                         if (cityController.text.isEmpty != true) {
                           setCity(cityController.text);
+                          setFullAddressWithParams(
+                              getStreetName(), getCity(), getZip(), getState());
                         }
+
                         if (zipController.text.isEmpty != true) {
                           setZip(zipController.text);
+                          setFullAddressWithParams(
+                              getStreetName(), getCity(), getZip(), getState());
                         }
 
-                          String streetNameEdit = getStreetName();
-                          String cityNameFinal = getCity();
-                          String zipCodeEdit = getZip();
-                          String stateEdit = getState();
-                          Address newAddress = Address(
-                              id: 1,
-                              streetAddress: streetNameEdit,
-                              city: cityNameFinal,
-                              zipCode: zipCodeEdit,
-                              state: stateEdit
-                          ); // creating a new Post object to send it to API
-
-                          createAddress(newAddress).then((response){
-                            if(response.statusCode > 200)
-                              print(response.body);
-                            else
-                              print(response.statusCode);
-                          }).catchError((error){
-                            print('error : $error');
-                          });
-
-                        print(newAddress.toString());
-
+                        if (stateController.text.isEmpty != true) {
+                          setNewState(stateController.text);
+                          setFullAddressWithParams(
+                              getStreetName(), getCity(), getZip(), getState());
+                        }
 
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => ProfileScreen()),
+                          MaterialPageRoute(builder: (context) => InitialProfileScreen()),
                         );
                       },
                     ))
@@ -517,31 +394,3 @@ class _MyAddressForm extends State<AddressForm> {
   }
 }
 
-
-Future<Post> getPost() async {
-  String postUrl = 'http://10.0.2.2:8080/rides/profile/1';
-  final response = await http.get(postUrl);
-  return postFromJson(response.body);
-}
-
-
-
-Future<Address> getAddressPost() async {
-  String addressUrl = 'http://10.0.2.2:8080/rides/address/1';
-  final response2 = await http.get(addressUrl);
-  return addressFromJson(response2.body);
-}
-
-
-
-Future<http.Response> createAddress(Address address) async{
-  String updateUrl = 'http://10.0.2.2:8080/rides/address/update';
-  final response = await http.post('$updateUrl',
-      headers: {
-        HttpHeaders.contentTypeHeader: 'application/json',
-        HttpHeaders.authorizationHeader : ''
-      },
-      body: addressToJson(address)
-  );
-  return response;
-}
