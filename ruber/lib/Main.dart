@@ -87,12 +87,14 @@ class WelcomeScreen extends StatelessWidget {
                 child: Text('RUber', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.orange, fontSize: 24.0),),
               ),
               RaisedButton(
-                child: Text("Sign In"),
+                child: Text("Start"),
                 onPressed: () {
-//                  _message = _testSignInWithGoogle();
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => InitialAddressForm())); // Should be changed to AuthScreen.dart which should go to InitialAddressForm.dart
+                // TODO - Grab all the info from the _message variable
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (
+                        context) => AuthScreen())); // Should be changed to AuthScreen.dart which should go to InitialAddressForm.dart
+
                 },
               )
             ],
