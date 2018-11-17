@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -21,17 +23,19 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Table(name="schedule")
 public class Schedule implements Serializable{
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="scheduleID")
+    private int id;
+    
     @ManyToOne
     @JsonBackReference
     @JoinColumn(name = "ProfileID")
     private Profile profile;
 
-    @Id
     @Enumerated(EnumType.STRING)
     @Column(name="Day")
     private Day day;
 
-    //Is it possible to use a Calendar object or something similar to abstract these?
     @Column(name="GoingToRangeStart")
     private LocalTime goingToStart;
 
@@ -83,12 +87,19 @@ public class Schedule implements Serializable{
      */
     public Schedule(Day day, LocalTime goingToRangeStart, LocalTime goingToRangeEnd,
                     LocalTime leavingRangeStart, LocalTime leavingRangeEnd) {
-        this.profile = profile;
         this.day = day;
         this.goingToStart = goingToRangeStart;
         this.goingToEnd = goingToRangeEnd;
         this.leavingStart = leavingRangeStart;
         this.leavingEnd = leavingRangeEnd;
+    }
+
+    /**
+     * Return the id associated with this profile
+     * @return profile id
+     */
+    public int getId() {
+        return id;
     }
 
     /**
