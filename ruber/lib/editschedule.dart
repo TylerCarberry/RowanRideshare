@@ -159,6 +159,12 @@ class ScheduleForm extends StatefulWidget {
 }
 
 class _MyScheduleForm extends State<ScheduleForm> {
+  bool a = true;
+  bool b = true;
+  bool c = true;
+  bool d = true;
+  bool e = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1428,14 +1434,53 @@ class _MyScheduleForm extends State<ScheduleForm> {
                 ]),
             RaisedButton(
               child: Text("Submit"),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            MainScreen()) //Change this to AuthScreen()
+                onPressed: () {
+                  if (getScheduleMapMonday().toString().contains("0000", 0) ||
+                      getScheduleMapMonday() == "") {
+                    a = false;
+                  } else {
+                    a = true;
+                  }
+
+                  if (getScheduleMapTuesday().toString().contains("0000", 0) ||
+                      getScheduleMapTuesday() == "") {
+                    b = false;
+                  } else {
+                    b = true;
+                  }
+
+                  if (getScheduleMapWednesday().toString().contains("0000", 0) ||
+                      getScheduleMapWednesday() == "") {
+                    c = false;
+                  } else {
+                    c = true;
+                  }
+
+                  if (getScheduleMapThursday().toString().contains("0000", 0) ||
+                      getScheduleMapThursday() == "") {
+                    d = false;
+                  } else {
+                    d = true;
+                  }
+
+                  if (getScheduleMapFriday().toString().contains("0000", 0) ||
+                      getScheduleMapFriday() == "") {
+                    e = false;
+                  } else {
+                    e = true;
+                  }
+
+                  if ((a || b || c || d || e) == true) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                MainScreen()) //Change this to AuthScreen()
                     );
-              },
+                  } else {
+                    return null;
+                  }
+                }
             )
           ],
         )));
