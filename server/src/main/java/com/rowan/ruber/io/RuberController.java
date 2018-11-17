@@ -81,7 +81,7 @@ public class RuberController {
         return chatroomRepository.findById(chatroomID);
     }
 
-    @GetMapping(path = "/address/{addressID}")
+    @GetMapping(path = "/address/{profileID}")
     public @ResponseBody
     Optional<Address> getAddress(@PathVariable int profileID) {
         // Optional<>.get() returns the Profile object if it was obtained.
