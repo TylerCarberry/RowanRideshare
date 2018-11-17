@@ -8,6 +8,7 @@ import 'Messages_Screen.dart';
 import 'settings_Screen.dart';
 import 'editschedule.dart';
 import 'MapPage.dart';
+import 'initialaddaddress.dart';
 import 'package:map_view/map_view.dart';
 
 import 'AuthScreen.dart';
@@ -91,7 +92,7 @@ class WelcomeScreen extends StatelessWidget {
 //                  _message = _testSignInWithGoogle();
                   Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => MainScreen()));
+                      MaterialPageRoute(builder: (context) => InitialAddressForm())); // Should be changed to AuthScreen.dart which should go to InitialAddressForm.dart
                 },
               )
             ],

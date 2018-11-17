@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'AppDrawer.dart';
-import 'editschedule.dart';
 import 'Rest.dart';
+import 'initialeditschedule.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:async';
@@ -9,7 +9,6 @@ import 'dart:async' show Future;
 import 'ProfileModel.dart';
 import 'AddressModel.dart';
 import 'dart:io';
-import 'editschedule.dart';
 
 String profilePic;
 String streetName = "";
@@ -95,6 +94,11 @@ class _MyAddressForm extends State<InitialAddressForm> {
   String newCity = "";
   String newZip = "";
   String newState = "";
+
+  bool a = false;
+  bool b = false;
+  bool c = false;
+  bool d = false;
 
   @override
   void dispose() {
@@ -217,45 +221,56 @@ class _MyAddressForm extends State<InitialAddressForm> {
                 child: RaisedButton(
                   child: Text('Save Changes'),
                   onPressed: () {
+                    // TODO: Fix the capture of fields -- current output is null201 mullica Hill roadglassboro08043NJ
+
                     if (streetNameController.text.isEmpty != true) {
                       setStreetName(streetNameController.text);
+                      a = true;
                     }
                     if (stateController.text.isEmpty != true) {
                       setNewState(stateController.text);
+                      b = true;
                     }
                     if (cityController.text.isEmpty != true) {
                       setCity(cityController.text);
+                      c = true;
                     }
                     if (zipController.text.isEmpty != true) {
                       setZip(zipController.text);
+                      d = true;
                     }
 
-                    String streetNameEdit = getStreetName();
-                    String cityNameFinal = getCity();
-                    String zipCodeEdit = getZip();
-                    String stateEdit = getState();
-                    Address newAddress = Address(
-                        streetAddress: streetNameEdit,
-                        city: cityNameFinal,
-                        zipCode: zipCodeEdit,
-                        state:
-                            stateEdit); // creating a new Post object to send it to API
+                    // Only activates after all the fields have information in them
+                    if ((a && b && c && d) == true) {
+                      String streetNameEdit = getStreetName();
+                      String cityNameFinal = getCity();
+                      String zipCodeEdit = getZip();
+                      String stateEdit = getState();
+                      Address newAddress = Address(
+                          streetAddress: streetNameEdit,
+                          city: cityNameFinal,
+                          zipCode: zipCodeEdit,
+                          state:
+                              stateEdit); // creating a new Post object to send it to API
 
-                    createAddress(newAddress).then((response) {
-                      if (response.statusCode > 200)
-                        print(response.body);
-                      else
-                        print(response.statusCode);
-                    }).catchError((error) {
-                      print('error : $error');
-                    });
+                      createAddress(newAddress).then((response) {
+                        if (response.statusCode > 200)
+                          print(response.body);
+                        else
+                          print(response.statusCode);
+                      }).catchError((error) {
+                        print('error : $error');
+                      });
 
-                    print(newAddress.toString());
+                      print(newAddress.toString());
 
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ScheduleForm()),
-                    );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => InitialScheduleForm()),
+                      );
+                    } else {
+                      return null;
+                    }
                   },
                 ))
           ],
