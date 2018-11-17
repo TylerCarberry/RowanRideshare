@@ -1,6 +1,7 @@
 package com.rowan.ruber.io;
 
 import com.rowan.ruber.Authenticator;
+import com.rowan.ruber.MapsManager;
 import com.rowan.ruber.Search;
 import com.rowan.ruber.model.*;
 import com.rowan.ruber.model.google_maps.GeoencodingResult;
@@ -131,6 +132,11 @@ public class RuberController {
     @PostMapping(path = {"/address/new", "/address/update"})
     public @ResponseBody
     Address createUpdateAddress(@RequestBody Address address) {
+        String formattedAddress = address.getStreetAddress() + " " + address.getCity() + " " + address.getState() + " " + address.getZipCode();
+        Location coordinates = MapsManager.getCoordinatesFromAddress(formattedAddress);
+        address.setLatitude(coordinates.getLat());
+        address.setLongitude(coordinates.getLng());
+
         return addressRepository.save(address);
     }
 
