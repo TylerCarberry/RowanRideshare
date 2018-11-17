@@ -23,14 +23,16 @@ String allScheduleToJson(List<Schedule> data) {
 }
 
 class Schedule {
-  Post profile;
-  Day day;
+  int id;
+  int profile;
+  String day;
   var goingToRangeStart;
   var goingToRangeEnd;
   var leavingRangeStart;
   var leavingRangeEnd;
 
   Schedule({
+    this.id,
     this.profile,
     this.day,
     this.goingToRangeStart,
@@ -42,6 +44,7 @@ class Schedule {
 
   factory Schedule.fromJson(Map<String, dynamic> parsedJson) {
     return Schedule(
+      id: parsedJson["id"],
       profile: parsedJson["profile"],
       day: parsedJson["day"],
       goingToRangeStart: parsedJson["goingToRangeStart"],
@@ -52,15 +55,12 @@ class Schedule {
 
   Map<String, dynamic> toJson() =>
       {
-        "profile": profile,
+        "id": id,
+        "profile":profile,
         "day": day,
         "goingToRangeStart": goingToRangeStart,
         "goingToRangeEnd": goingToRangeEnd,
         "leavingRangeStart": leavingRangeStart,
         "leavingRangeEnd": leavingRangeEnd,
       };
-
-}
-class Day{
-
 }

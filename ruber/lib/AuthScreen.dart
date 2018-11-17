@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'initialaddaddress.dart';
+import 'dart:async' show Future;
+import 'UserModel.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -51,11 +53,30 @@ class _MyHomePageState extends State<MyHomePage> {
     assert(user.displayName != null);
     assert(!user.isAnonymous);
     assert(await user.getIdToken() != null);
-    var now = new DateTime.now();
-    if(user.getIdToken() == null){
-      NewUser newUser = new NewUser(user.uid, user.displayName,user.email,now,null,null, null);
-      createPost(newUser);
-    }
+
+    /*
+    *This is where new users are created for first time logins
+    * this logic should work but might need to happen else where
+    * address schedule and chatroom are all null for now
+     */
+
+    //This if statement need to check for first time login
+
+      String tempName = user.displayName.toString();
+      print(tempName);
+      String tempEmail = user.email.toString();
+      print(tempEmail);
+      NewUser tempUser = NewUser(name: tempName, email: tempEmail);
+
+      createUser(tempUser).then((response){
+        if(response.statusCode > 200)
+          print(response.body);
+        else
+          print(response.statusCode);
+      }).catchError((error){
+        print('error : $error');
+      });
+
 
     final FirebaseUser currentUser = await _auth.currentUser();
     assert(user.uid == currentUser.uid);
@@ -94,61 +115,21 @@ class _MyHomePageState extends State<MyHomePage> {
 
     );
   }
-}
 
-class NewUser{
-  String id;
-  String name;
-  String email;
-  var createdDate;
-  var schedules;
-  var address;
-  var chatroom;
-//  var schedules;
-  NewUser(String id,String name, String email, var createdDate, var schedules, var address, var chatroom){
-    this.id = id;
-    this.name =name;
-    this.email =email;
-    this.createdDate = createdDate;
-    this.schedules = schedules;
-    this.address = address;
-    this.chatroom = chatroom;
+
+
+  Future<http.Response> createUser(NewUser user) async{
+    String updateUrl = 'http://10.0.2.2:8080/rides/address/new';
+    final response = await http.post('$updateUrl',
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader : ''
+        },
+        body: userToJson(user)
+    );
+    return response;
   }
 
-//  factory NewUser.fromJson(Map<String, dynamic> parsedJson) {
-//    return NewUser(
-//      id: parsedJson["id"],
-//      name: parsedJson["name"],
-//      email: parsedJson["email"],
-//      createdDate: parsedJson["createdDate"],
-//
-//    );}
-
-  Map<String, dynamic> toJson() =>
-      {
-        "id": id,
-        "name": name,
-        "email": email,
-        "createdDate": createdDate,
-        "schedules":schedules,
-        "address":address,
-        "chatroom":chatroom,
-      };
-
 
 }
 
-String postToJson(NewUser data) {
-  final dyn = data.toJson();
-  return json.encode(dyn);
-}
-String url = 'http://10.0.2.2:8080/rides/profile/new';
-Future<http.Response> createPost(NewUser post) async {
-  final response = await http.post('$url',
-      headers: {
-        HttpHeaders.contentTypeHeader: 'application/json',
-        HttpHeaders.authorizationHeader: ''
-      },
-      body: postToJson(post));
-  return response;
-}
