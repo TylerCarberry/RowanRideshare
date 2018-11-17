@@ -70,6 +70,12 @@ public class RuberController {
         return profileRepository.findById(profileID);
     }
 
+    @GetMapping(path = "/profile/email/{emailAddress}")
+    public @ResponseBody
+    Optional<Profile> getProfile(@PathVariable String emailAddress){
+        return profileRepository.findByEmailAddress(emailAddress);
+    }
+
     /**
      * Get the chatroom.
      *
@@ -141,11 +147,11 @@ public class RuberController {
     }
 
     /* TODO - currently no other way to link an address to a profile - need the ProfileID from the front end */
-    @PostMapping(path = { "/profile/{profileID}/linkAddress/{addressID}"})
+    @PostMapping(path = { "/profile/{profileID}/linkAddress"})
     public @ResponseBody
     Profile linkAddress(@PathVariable int profileID, @PathVariable int addressID) {
         Profile profile = profileRepository.findById(profileID).get();
-        Address address = addressRepository.findById(addressID).get();
+        Address address = addressRepository.findById(profileID).get();
         profile.setAddress(address);
         return profileRepository.save(profile);
     }
