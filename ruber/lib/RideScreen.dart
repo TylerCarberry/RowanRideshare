@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'AppDrawer.dart';
 import 'Rest.dart';
+import 'GoingToRowan.dart';
 
 class launchRideScreen extends StatelessWidget {
   @override
@@ -31,7 +32,9 @@ class launchRideScreen extends StatelessWidget {
                 child: RaisedButton(
                   child: Text("Going to Rowan"),
                   onPressed: () {
-                    print("Going to Rowan");
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => goingtorowan()));
                   },
                   color: Colors.lightBlueAccent,
                 ),
