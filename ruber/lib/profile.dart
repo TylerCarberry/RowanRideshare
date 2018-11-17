@@ -14,6 +14,7 @@ String zipCode = "";
 String state = "";
 
 String email = "";
+
 String name = "";
 
 // SETTERS
