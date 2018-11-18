@@ -28,7 +28,8 @@ class Post {
   String email;
   String createdDate;
   Address2 address;
-  List<Schedule> schedules;
+  ScheduleList schedules;
+//  List<Schedule> schedules;
 //  List<Map<String, dynamic>> schedules;
 
   Post({
@@ -53,7 +54,7 @@ class Post {
       createdDate: parsedJson["createdDate"],
       address: Address2.fromJsonAddress(parsedJson["address"]),
 
-      schedules: scheduleList,
+      schedules: parsedJson["schedules"],
     );}
 
   Map<String, dynamic> toJson() =>
@@ -176,4 +177,20 @@ class Schedule {
         "leavingRangeStart": leavingRangeStart,
         "leavingRangeEnd": leavingRangeEnd,
       };
+}
+
+class ScheduleList{
+  final List<Schedule> schedules;
+
+  ScheduleList({
+    this.schedules
+  });
+  factory ScheduleList.fromJson(List<dynamic> parsedJson) {
+
+    List<Schedule> schedules = new List<Schedule>();
+    schedules = parsedJson.map((i)=>Schedule.fromJsonSchedule(i)).toList();
+    return new ScheduleList(
+      schedules: schedules,
+    );
+  }
 }
