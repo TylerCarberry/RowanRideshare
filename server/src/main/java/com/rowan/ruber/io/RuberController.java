@@ -307,7 +307,6 @@ public class RuberController {
     List<Profile> getMatches(@PathVariable int profileID, @PathVariable int radius) {
         try {
             List<Profile> profiles = search.getMatches(profileRepository, profileID, radius);
-            System.out.println("test");
             return profiles;
         } catch (IllegalArgumentException e) {
             return null;
