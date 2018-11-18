@@ -18,6 +18,8 @@ class matchesScreen extends StatefulWidget {
 class matchesScreenState extends State<matchesScreen> {
   Future<String> getData() async {
     var response = await http.get(
+
+      /// Change the URL to the end point from the database
         Uri.encodeFull("https://jsonplaceholder.typicode.com/posts"),
         headers: {"Accept": "application/json"});
 
@@ -43,9 +45,35 @@ class matchesScreenState extends State<matchesScreen> {
         body: Center(
           child: ListView(
             children: <Widget>[
+              /// User image: avatar
               Container(
-                child: Text("Hello")
-              )
+                  margin: EdgeInsets.only(
+                      bottom: 0.0, left: 90.0, right: 90.0, top: 0.0),
+                  width: 190.0,
+                  height: 190.0,
+                  decoration: new BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: new DecorationImage(
+                          fit: BoxFit.fill,
+                          // This is where we would retrieve the image from the data base
+                          image: NetworkImage(
+                              "http://s3.amazonaws.com/nvest/Blank_Club_Website_Avatar_Gray.jpg")))),
+
+              /// Full Name
+
+              Container(
+                  margin: EdgeInsets.only(top: 15.0),
+                  child: Text('Full Name',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20.0,
+                          fontFamily: 'Helvetica',
+                          color: Colors.blueAccent))),
+
+
+
+
             ],
           ),
         ));
@@ -64,11 +92,12 @@ class matchesScreenState extends State<matchesScreen> {
                     backgroundImage: NetworkImage(
                         "http://s3.amazonaws.com/nvest/Blank_Club_Website_Avatar_Gray.jpg")),
                 title: Text("Firstname Lastname"),
-                subtitle: Text("4.3 miles away"),
+                subtitle: Text(profileMatches[index]["title"]),
                 onTap: () {
-//                  expandProfile(context, index);
-
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => expandProfile(context, index)));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => expandProfile(context, index)));
                 },
               );
             }));

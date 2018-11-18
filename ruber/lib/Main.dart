@@ -16,7 +16,6 @@ import 'AuthScreen.dart';
 import 'StaticMapPage.dart';
 import 'Rest.dart';
 
-
 import 'dart:async';
 import 'dart:io';
 
@@ -41,14 +40,12 @@ class RUber extends StatelessWidget {
   }
 }
 
-
 // ==================== WELCOME SCREEN ====================== //
 
 class WelcomeScreen extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold (
+    return Scaffold(
         appBar: AppBar(
           title: Text('Welcome to RUber'),
           centerTitle: true,
@@ -58,30 +55,33 @@ class WelcomeScreen extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Container(
-                child: Text('RUber', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.orange, fontSize: 24.0),),
+                child: Text(
+                  'RUber',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.orange,
+                      fontSize: 24.0),
+                ),
               ),
               RaisedButton(
                 child: Text("Start"),
                 onPressed: () {
-                // TODO - Grab all the info from the _message variable
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (
-                        context) => MainScreen())); // Should be changed to AuthScreen.dart which should go to InitialAddressForm.dart
-                    // TODO: Remember to change this back to AuthScreen()
-
+                  // TODO - Grab all the info from the _message variable
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              MainScreen())); // Should be changed to AuthScreen.dart which should go to InitialAddressForm.dart
+                  // TODO: Remember to change this back to AuthScreen()
                 },
               )
             ],
           ),
-        )
-    );
+        ));
   }
-
 }
 
 // =========================== END WELCOME SCREEN ====================== //
-
 
 class MainScreen extends StatelessWidget {
   final String title;
@@ -126,10 +126,8 @@ class MainScreen extends StatelessWidget {
             RaisedButton(
               child: Text('Schedule'),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ScheduleForm())
-                );
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ScheduleForm()));
               },
             ),
             RaisedButton(
@@ -160,9 +158,6 @@ class MainScreen extends StatelessWidget {
         ));
   }
 }
-
-
-
 
 // ==================== LOGIN SCREEN ======================== //
 
@@ -255,8 +250,6 @@ class MessagesScreenState extends State<MessagesScreen> {
 }
 
 // ======================== END MESSAGES SCREEN ====================== //
-
-
 
 class SettingsScreen extends StatelessWidget {
   Widget build(context) {
