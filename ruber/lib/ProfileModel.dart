@@ -28,7 +28,7 @@ class Post {
   String email;
   String createdDate;
   Address2 address;
-  var schedules;
+  List<Schedule> schedules;
 //  List<Map<String, dynamic>> schedules;
 
   Post({
@@ -40,15 +40,19 @@ class Post {
     this.schedules,
   });
 
+
   factory Post.fromJson(Map<String, dynamic> parsedJson) {
+    var list = parsedJson['schedules'] as List;
+    print(list.runtimeType);
+    List<Schedule> scheduleList = list.map((i) => Schedule.fromJsonSchedule(i)).toList();
     return Post(
       id: parsedJson["id"],
       name: parsedJson["name"],
       email: parsedJson["email"],
       createdDate: parsedJson["createdDate"],
-//      address: parsedJson["address"],
       address: Address2.fromJsonAddress(parsedJson["address"]),
-      schedules: parsedJson["schedules"],
+
+      schedules: scheduleList,
     );}
 
   Map<String, dynamic> toJson() =>
@@ -129,4 +133,46 @@ class Address2{
 //  String toString() {
 //    return id.toString() + streetAddress.toString() + city + zipCode + state;
 //  }
+}
+class Schedule {
+//  int id;
+//  int profile;
+  String day;
+  String goingToRangeStart;
+  String goingToRangeEnd;
+  String leavingRangeStart;
+  String leavingRangeEnd;
+
+  Schedule({
+//    this.id,
+//    this.profile,
+    this.day,
+    this.goingToRangeStart,
+    this.goingToRangeEnd,
+    this.leavingRangeStart,
+    this.leavingRangeEnd,
+  });
+
+
+  factory Schedule.fromJsonSchedule(Map<String, dynamic> json) {
+    return Schedule(
+//      id: json["id"],
+//      profile: json["profile"],
+      day: json["day"],
+      goingToRangeStart: json["goingToRangeStart"],
+      goingToRangeEnd: json["goingToRangeEnd"],
+      leavingRangeStart: json["leavingRangeStart"],
+      leavingRangeEnd: json["leavingRangeEnd"],
+    );}
+
+  Map<String, dynamic> toJsonSchedule() =>
+      {
+//        "id": id,
+//        "profile":profile,
+        "day": day,
+        "goingToRangeStart": goingToRangeStart,
+        "goingToRangeEnd": goingToRangeEnd,
+        "leavingRangeStart": leavingRangeStart,
+        "leavingRangeEnd": leavingRangeEnd,
+      };
 }

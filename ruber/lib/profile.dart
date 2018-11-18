@@ -154,7 +154,7 @@ class ProfileScreen extends StatelessWidget {
                         builder: (context, snapshot) {
                           if (snapshot.hasData)
                             return Text(
-                                '${snapshot.data.email}');
+                                '${snapshot.data.schedules.toString()}');
                           else
                             return CircularProgressIndicator();
                         }))),
@@ -532,7 +532,17 @@ Future<Address> getAddressPost() async {
   return addressFromJson(response2.body);
 }
 
-
+Future<http.Response> createPost(Post post) async{
+  String updateUrl = 'http://f3a172b6.ngrok.io/rides/address/update';
+  final response = await http.post('$updateUrl',
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.authorizationHeader : ''
+      },
+      body: postToJson(post)
+  );
+  return response;
+}
 
 Future<http.Response> createAddress(Address address) async{
   String updateUrl = 'http://f3a172b6.ngrok.io/rides/address/update';

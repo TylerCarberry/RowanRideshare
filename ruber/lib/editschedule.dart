@@ -452,15 +452,15 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                       }
                                     });
 
-                                Schedule monday = new Schedule(
-                                    id:1,
-                                    profile:7,
-                                    day:"monday",
-                                    goingToRangeStart: mondaySchedule["a"],
-                                    goingToRangeEnd: mondaySchedule["b"],
-                                    leavingRangeEnd: mondaySchedule["c"],
-                                    leavingRangeStart: mondaySchedule["d"]
-                                );
+//                                Schedule monday = new Schedule(
+//                                    id:1,
+//                                    profile:7,
+//                                    day:"monday",
+//                                    goingToRangeStart: mondaySchedule["a"],
+//                                    goingToRangeEnd: mondaySchedule["b"],
+//                                    leavingRangeEnd: mondaySchedule["c"],
+//                                    leavingRangeStart: mondaySchedule["d"]
+//                                );
 
                                 NewSchedule newMonday = new NewSchedule(
                                     profile:7,
@@ -482,14 +482,14 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                   });
                                 }
                                 else{
-                                  updateSchedule(monday).then((response){
-                                    if(response.statusCode > 200)
-                                      print(response.body);
-                                    else
-                                      print(response.statusCode);
-                                  }).catchError((error){
-                                    print('error : $error');
-                                  });
+//                                  updateSchedule(monday).then((response){
+//                                    if(response.statusCode > 200)
+//                                      print(response.body);
+//                                    else
+//                                      print(response.statusCode);
+//                                  }).catchError((error){
+//                                    print('error : $error');
+//                                  });
                                 }
                               },
                             ),
@@ -1560,25 +1560,25 @@ Future<Post> getPost() async {
 
 
 
-Future<Schedule> getSchedulePost() async {
-  String addressUrl = 'http://10.0.2.2:8080/rides/profile/7/schedule';
-  final response2 = await http.get(addressUrl);
-  return scheduleFromJson(response2.body);
-}
+//Future<Schedule> getSchedulePost() async {
+//  String addressUrl = 'http://10.0.2.2:8080/rides/profile/7/schedule';
+//  final response2 = await http.get(addressUrl);
+//  return scheduleFromJson(response2.body);
+//}
 
 
 
-Future<http.Response> updateSchedule(Schedule schedule) async{
-  String updateUrl = 'http://10.0.2.2:8080/rides/profile/7/schedule/update';
-  final response = await http.post('$updateUrl',
-      headers: {
-        HttpHeaders.contentTypeHeader: 'application/json',
-        HttpHeaders.authorizationHeader : ''
-      },
-      body: scheduleToJson(schedule)
-  );
-  return response;
-}
+//Future<http.Response> updateSchedule(Schedule schedule) async{
+//  String updateUrl = 'http://10.0.2.2:8080/rides/profile/7/schedule/update';
+//  final response = await http.post('$updateUrl',
+//      headers: {
+//        HttpHeaders.contentTypeHeader: 'application/json',
+//        HttpHeaders.authorizationHeader : ''
+//      },
+//      body: scheduleToJson(schedule)
+//  );
+//  return response;
+//}
 
 Future<http.Response> newSchedule(NewSchedule newSchedule) async{
   String updateUrl = 'http://10.0.2.2:8080/rides/profile/7/schedule/new';
