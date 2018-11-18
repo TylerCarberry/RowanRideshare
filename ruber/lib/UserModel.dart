@@ -6,7 +6,14 @@ String userToJson(NewUser data) {
   return json.encode(dyn);
 }
 
+
+NewUser userFromJson(String str) {
+  final jsonData = json.decode(str);
+  return NewUser.fromJson(jsonData);
+}
+
 class NewUser {
+
   String name;
   String email;
 

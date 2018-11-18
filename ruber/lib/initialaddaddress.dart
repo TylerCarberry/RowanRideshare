@@ -9,7 +9,10 @@ import 'dart:async' show Future;
 import 'ProfileModel.dart';
 import 'AddressModel.dart';
 import 'dart:io';
+import 'AuthScreen.dart';
+import 'AddressPostModel.dart';
 
+String id = "";
 String profilePic;
 String streetName = "";
 String city = "";
@@ -19,7 +22,15 @@ String state = "";
 String email = "";
 String name = "";
 
-// SETTERS
+getId() {
+  return id;
+}
+
+setId(String newId) {
+  id = newId;
+}
+
+
 
 setName(String newName) {
   name = newName;
@@ -85,6 +96,9 @@ class InitialAddressForm extends StatefulWidget {
 }
 
 class _MyAddressForm extends State<InitialAddressForm> {
+
+
+
   final streetNameController = TextEditingController();
   final cityController = TextEditingController();
   final zipController = TextEditingController();
@@ -246,12 +260,11 @@ class _MyAddressForm extends State<InitialAddressForm> {
                       String cityNameFinal = getCity();
                       String zipCodeEdit = getZip();
                       String stateEdit = getState();
-                      Address newAddress = Address(
+                      AddressPost newAddress = AddressPost(
                           streetAddress: streetNameEdit,
                           city: cityNameFinal,
                           zipCode: zipCodeEdit,
-                          state:
-                              stateEdit); // creating a new Post object to send it to API
+                          state: stateEdit); // creating a new Post object to send it to API
 
                       createAddress(newAddress).then((response) {
                         if (response.statusCode > 200)
@@ -272,31 +285,57 @@ class _MyAddressForm extends State<InitialAddressForm> {
                       return null;
                     }
                   },
-                ))
+                )),
+
+            Container(
+                child: Center(
+                    child: FutureBuilder<Post>(
+                        future: getMyId(),
+                        builder: (context2, snapshot2) {
+                          if (snapshot2.hasData) {
+                            String tempId = snapshot2.data.id.toString();
+                            print(tempId);
+                            setId(tempId);
+                            return Text(
+                                '${snapshot2.data.id.toString()}');
+                          }
+                          else
+                            return CircularProgressIndicator();
+                        }))),
+
           ],
         )));
   }
 }
 
-Future<Post> getPost() async {
-  String postUrl = 'http://10.0.2.2:8080/rides/profile/1';
-  final response = await http.get(postUrl);
-  return postFromJson(response.body);
-}
 
-Future<Address> getAddressPost() async {
-  String addressUrl = 'http://10.0.2.2:8080/rides/address/1';
+Future<Post> getMyId() async {
+  String emailUrl = getEmailAddress();  // Need to work on getting email from AuthScreen.dart
+  String addressUrl = 'http://10.0.2.2:8080/rides/profile/email/$emailUrl';
   final response2 = await http.get(addressUrl);
-  return addressFromJson(response2.body);
+  return postFromJson(response2.body);
 }
 
-Future<http.Response> createAddress(Address address) async {
-  String updateUrl = 'http://10.0.2.2:8080/rides/address/new';
+
+Future<http.Response> createAddress(AddressPost address) async {
+  String userId;
+  print(userId);
+  String updateUrl = 'http://10.0.2.2:8080/rides/address/$userId/new';
   final response = await http.post('$updateUrl',
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
         HttpHeaders.authorizationHeader: ''
       },
-      body: addressToJson(address));
+      body: addressPostToJson(address));
   return response;
 }
+
+/*
+Future<Post> getMyAddressId() async {
+  String emailUrl = getEmailAddress();
+  String addressUrl = 'http://10.0.2.2:8080/rides/profile/email/$emailUrl';
+  final response2 = await http.get(addressUrl);
+  return postFromJson(response2.body);
+}
+
+*/
