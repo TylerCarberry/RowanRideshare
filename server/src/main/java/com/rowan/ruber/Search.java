@@ -67,8 +67,8 @@ public class Search{
 
 	private double Round(double d)
     {
-        int i = (int)(d * 10);
-        return i/10;
+        int i = (int)(d * 100);
+        return (i + 0.0)/100;
     }
 
 	public class ProfileResultSetExtractor implements ResultSetExtractor {
@@ -83,7 +83,8 @@ public class Search{
                             rs.getDouble("Latitude"),
                             rs.getDouble("Longitude")
                     ),
-                    (double)((int)(rs.getDouble("Distance")*100)/100)
+                    rs.getDouble("Distance"),
+                    Round(rs.getDouble("Distance"))
             );
         }
     }
