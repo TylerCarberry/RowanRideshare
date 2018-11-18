@@ -1,17 +1,6 @@
 package com.rowan.ruber.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -52,6 +41,9 @@ public class Profile implements Serializable{
             inverseJoinColumns = { @JoinColumn(name = "ChatroomID") })
     private List<Chatroom> chatrooms = new ArrayList<Chatroom>(); //Profile is the "owner" side of the relationship
 
+    @Transient
+    private double distance;
+
     /** 
      *  Default constructor for JPA.
      *  It should not be used directly as no values will be initialized.
@@ -67,10 +59,18 @@ public class Profile implements Serializable{
         this.createdDate = createdDate;
     }
 
-    public Profile(String name, String email, Address address){
+    /**
+     * Constructor used when matching is done.
+     * @param name Name of the matched profile
+     * @param email Email Address of the matched profile
+     * @param address Address of the matched profile
+     * @param distance Distance of the matched profile
+     */
+    public Profile(String name, String email, Address address, double distance){
         this.name = name;
         this.emailAddress = email;
         this.address = address;
+        this.distance = distance;
     }
 
     /**
@@ -139,6 +139,11 @@ public class Profile implements Serializable{
     public List<Chatroom> getChatrooms() {
         return chatrooms;
     }
+
+    /**
+     *
+     */
+    public double getDistance() {return distance;}
 
     /**
      * Sets the address.
