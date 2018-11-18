@@ -43,6 +43,8 @@ public class Profile implements Serializable{
 
     @Transient
     private double distance;
+    @Transient
+    private double distanceRounded;
 
     /** 
      *  Default constructor for JPA.
@@ -66,11 +68,12 @@ public class Profile implements Serializable{
      * @param address Address of the matched profile
      * @param distance Distance of the matched profile
      */
-    public Profile(String name, String email, Address address, double distance){
+    public Profile(String name, String email, Address address, double distance, double distanceRounded){
         this.name = name;
         this.emailAddress = email;
         this.address = address;
         this.distance = distance;
+        this.distanceRounded = distanceRounded;
     }
 
     /**
@@ -145,6 +148,7 @@ public class Profile implements Serializable{
      */
     public double getDistance() {return distance;}
 
+    public double getDistanceRounded() {return distanceRounded;}
     /**
      * Sets the address.
      * @param address the address object to set to
