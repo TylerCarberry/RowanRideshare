@@ -1,6 +1,7 @@
 package com.rowan.ruber.io;
 
 import com.rowan.ruber.Authenticator;
+import com.rowan.ruber.MapsManager;
 import com.rowan.ruber.Search;
 import com.rowan.ruber.model.*;
 import com.rowan.ruber.model.google_maps.GeoencodingResult;
@@ -69,6 +70,12 @@ public class RuberController {
         return profileRepository.findById(profileID);
     }
 
+    @GetMapping(path = "/profile/email/{emailAddress}")
+    public @ResponseBody
+    Optional<Profile> getProfile(@PathVariable String emailAddress){
+        return profileRepository.findByEmailAddress(emailAddress);
+    }
+
     /**
      * Get the chatroom.
      *
@@ -131,15 +138,20 @@ public class RuberController {
     @PostMapping(path = {"/address/new", "/address/update"})
     public @ResponseBody
     Address createUpdateAddress(@RequestBody Address address) {
+        String formattedAddress = address.getStreetAddress() + " " + address.getCity() + " " + address.getState() + " " + address.getZipCode();
+        Location coordinates = MapsManager.getCoordinatesFromAddress(formattedAddress);
+        address.setLatitude(coordinates.getLat());
+        address.setLongitude(coordinates.getLng());
+
         return addressRepository.save(address);
     }
 
     /* TODO - currently no other way to link an address to a profile - need the ProfileID from the front end */
-    @PostMapping(path = { "/profile/{profileID}/linkAddress/{addressID}"})
+    @PostMapping(path = { "/profile/{profileID}/linkAddress"})
     public @ResponseBody
     Profile linkAddress(@PathVariable int profileID, @PathVariable int addressID) {
         Profile profile = profileRepository.findById(profileID).get();
-        Address address = addressRepository.findById(addressID).get();
+        Address address = addressRepository.findById(profileID).get();
         profile.setAddress(address);
         return profileRepository.save(profile);
     }

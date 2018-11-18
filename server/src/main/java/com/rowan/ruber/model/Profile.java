@@ -21,7 +21,7 @@ public class Profile implements Serializable{
     private String name;
 
     @Column(name="EmailAddress")
-    private String email;
+    private String emailAddress;
 
     // Refers to address table
     // ** Leaving out ON UPDATE ON DELETE for now since they are defined in MySQL - will add later if needed.
@@ -54,7 +54,7 @@ public class Profile implements Serializable{
 
     public Profile(String name, String email, Address address, Date createdDate){
         this.name = name;
-        this.email = email;
+        this.emailAddress = email;
         this.address = address;
         this.createdDate = createdDate;
     }
@@ -68,7 +68,7 @@ public class Profile implements Serializable{
      */
     public Profile(String name, String email, Address address, double distance){
         this.name = name;
-        this.email = email;
+        this.emailAddress = email;
         this.address = address;
         this.distance = distance;
     }
@@ -80,7 +80,7 @@ public class Profile implements Serializable{
     public String toString(){
         SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
         return String.format("Name: %s %n Email: %s %n AddressID: %d %n Created Date: %s %n", 
-                            name, email, address.toString(), sdf.format(createdDate));
+                            name, emailAddress, address.toString(), sdf.format(createdDate));
     }
 
     /**
@@ -104,7 +104,7 @@ public class Profile implements Serializable{
      * @return the email
      */
     public String getEmail() {
-        return email;
+        return emailAddress;
     }
 
     /**
@@ -158,7 +158,7 @@ public class Profile implements Serializable{
      * @param email the email to set
      */
     public void setEmail(String email) {
-        this.email = email;
+        this.emailAddress = email;
     }
 
     /**
