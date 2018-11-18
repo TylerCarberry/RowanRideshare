@@ -19,7 +19,7 @@ class matchesScreenState extends State<matchesScreen> {
   Future<String> getData() async {
     var response = await http.get(
 
-      /// Change the URL to the end point from the database
+        /// Change the URL to the end point from the database
         Uri.encodeFull("https://jsonplaceholder.typicode.com/posts"),
         headers: {"Accept": "application/json"});
 
@@ -49,7 +49,7 @@ class matchesScreenState extends State<matchesScreen> {
               Container(
                   margin: EdgeInsets.only(
                       bottom: 0.0, left: 90.0, right: 90.0, top: 0.0),
-                  width: 190.0,
+                  width: 180.0,
                   height: 190.0,
                   decoration: new BoxDecoration(
                       shape: BoxShape.circle,
@@ -71,9 +71,64 @@ class matchesScreenState extends State<matchesScreen> {
                           fontFamily: 'Helvetica',
                           color: Colors.blueAccent))),
 
+              Container(
+                child: Center(child: Text('Firstname Lastname')),
+              ),
 
+              Container(
+                margin: EdgeInsets.only(top: 15.0),
+                child: Text('Email',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0,
+                        fontFamily: 'Helvetica',
+                        color: Colors.deepOrange)),
+              ),
 
+              Container(child: Center(child: Text('blah@random.com'))),
 
+              Container(
+                margin: EdgeInsets.only(top: 15.0),
+                child: Text(
+                  'Joined Date',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0,
+                    fontFamily: 'Helvetica',
+                    color: Colors.teal,
+                  ),
+                ),
+              ),
+
+              Container(child: Center(child: Text('6/6/6'))),
+
+              Container(
+                margin: EdgeInsets.only(top: 15.0),
+                child: Text(
+                  'Distance',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0,
+                    fontFamily: 'Helvetica',
+                    color: Colors.deepPurpleAccent
+                  ),
+                )
+              ),
+
+              Container(child: Center(child: Text("4.34 miles"))),
+
+              Container(
+                margin: EdgeInsets.only(top: 20.0),
+                  child: Center(
+                      child: RaisedButton(
+                child: Text('Send Ride Request!'),
+                        onPressed: () {
+                  print("hello!");
+                        },
+              )))
             ],
           ),
         ));

@@ -136,7 +136,7 @@ class ProfileScreen extends StatelessWidget {
 
             Container(
               margin: EdgeInsets.only(top: 15.0),
-              child: Text('Email:',
+              child: Text('Email',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
