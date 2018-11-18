@@ -44,6 +44,7 @@ class Post {
   factory Post.fromJson(Map<String, dynamic> parsedJson) {
     var list = parsedJson['schedules'] as List;
     print(list.runtimeType);
+
     List<Schedule> scheduleList = list.map((i) => Schedule.fromJsonSchedule(i)).toList();
     return Post(
       id: parsedJson["id"],
@@ -135,17 +136,17 @@ class Address2{
 //  }
 }
 class Schedule {
-//  int id;
-//  int profile;
-  String day;
-  String goingToRangeStart;
-  String goingToRangeEnd;
-  String leavingRangeStart;
-  String leavingRangeEnd;
+  final int id;
+  final int profile;
+  final String day;
+  final String goingToRangeStart;
+  final String goingToRangeEnd;
+  final String leavingRangeStart;
+  final String leavingRangeEnd;
 
   Schedule({
-//    this.id,
-//    this.profile,
+    this.id,
+    this.profile,
     this.day,
     this.goingToRangeStart,
     this.goingToRangeEnd,
@@ -154,21 +155,21 @@ class Schedule {
   });
 
 
-  factory Schedule.fromJsonSchedule(Map<String, dynamic> json) {
+  factory Schedule.fromJsonSchedule(Map<String, dynamic> parsedJson) {
     return Schedule(
-//      id: json["id"],
-//      profile: json["profile"],
-      day: json["day"],
-      goingToRangeStart: json["goingToRangeStart"],
-      goingToRangeEnd: json["goingToRangeEnd"],
-      leavingRangeStart: json["leavingRangeStart"],
-      leavingRangeEnd: json["leavingRangeEnd"],
+      id: parsedJson["id"],
+      profile: parsedJson["profile"],
+      day: parsedJson["day"],
+      goingToRangeStart: parsedJson["goingToRangeStart"],
+      goingToRangeEnd: parsedJson["goingToRangeEnd"],
+      leavingRangeStart: parsedJson["leavingRangeStart"],
+      leavingRangeEnd: parsedJson["leavingRangeEnd"],
     );}
 
-  Map<String, dynamic> toJsonSchedule() =>
+  Map<String, dynamic> toJson() =>
       {
-//        "id": id,
-//        "profile":profile,
+        "id": id,
+        "profile":profile,
         "day": day,
         "goingToRangeStart": goingToRangeStart,
         "goingToRangeEnd": goingToRangeEnd,
