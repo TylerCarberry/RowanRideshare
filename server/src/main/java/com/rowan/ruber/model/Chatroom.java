@@ -2,19 +2,21 @@ package com.rowan.ruber.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,15 +35,12 @@ public class Chatroom implements Serializable{
     @JoinColumn(name="LastMessageID")
     private Message lastMessage;
 
-    @JsonManagedReference
-    @ManyToMany
-    @JoinTable(name = "chatroomProfile",
-            joinColumns = { @JoinColumn(name = "ChatroomID") },
-            inverseJoinColumns = { @JoinColumn(name = "ProfileID") })
+    @JsonBackReference
+    @ManyToMany(mappedBy="chatrooms")
     private List<Profile> profiles = new ArrayList<Profile>();
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "chatroom")
+    @OneToMany(mappedBy = "chatroom", cascade=CascadeType.REMOVE)
     private List<Message> messages = new ArrayList<Message>();
 
 
@@ -72,11 +71,12 @@ public class Chatroom implements Serializable{
     }
 
     /**
-     * Gets the created date of this chat room
-     * @return the createdDate
+     * Get the formatted date and time this profile was created.
+     * Avoid using SimpleDateFormat as it is not thread-safe.
+     * @return the createdDate as a formatted String.
      */
-    public Date getCreatedDate() {
-        return createdDate;
+    public String getCreatedDate() {
+        return String.format("%1$TD %1$TT", createdDate);
     }
 
     /**
@@ -94,4 +94,20 @@ public class Chatroom implements Serializable{
     public List<Message> getMessages() {
         return messages;
     }
+
+    /**
+     * Gets the profiles in this chatroom.
+     * @return a list of profiles
+     */
+    public List<Profile> getProfiles() {
+        return profiles;
+    }
+
+    /**
+     * Sets the last message.
+     */
+    public void setLastMessage(Message message) {
+        lastMessage = message;
+    }
+
 }

@@ -1,47 +1,70 @@
+/*
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'dart:async';
+import 'dart:async' show Future;
+import 'ProfileModel.dart';
+import 'dart:io';
+import 'AddressModel.dart';
+
+
+String hello = "hi";
+Address newAddress = new Address(id: 1, streetAddress: hello);
 
 class Rest extends StatelessWidget {
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
       home: new Scaffold(
-        body: new Container( //body of the scaffold is a container with a http pull
-          child: Center(
-          child: FutureBuilder(
-            future: fetchResponse(),
+        body: new Container(
+            child: Center(
+              child: FutureBuilder<Address>(
+                  future: getAddress(),
+                  builder: (context, snapshot) {
 
-            builder: (context, snapshot) {
-              //print(snapshot.data.title);
-              //print (snapshot.connectionState.toString());
-              if (snapshot.hasData) {
-                //return Text('${snapshot.data}');
-                print(snapshot.data.toString());
-                return Text(snapshot.data.toString());
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.data.toString()}");
-              }
-              return CircularProgressIndicator();
-            },
-          ),
-        ),
+
+
+                    if (snapshot.hasData)
+                      {
+
+
+                      return Text(
+                          'Created Date from Post JSON : ${snapshot.data.streetAddress}');
+                      }
+                    else
+                      return CircularProgressIndicator();
+                  })),
         ),
       ),
     );
   }
 
-  Future fetchResponse() async {
+  String url = 'http://10.0.2.2:8080/rides/address/1';
 
-    String responseList;
-    http.Response response = await http.get("http://10.0.2.2:8080/hello/greeting").catchError((resp) {});
-    responseList = response.body.toString();
-
-    return responseList;
-
-
+  Future<List<Post>> getAllPosts() async {
+    final response = await http.get(url);
+    print(response.body);
+    return allPostsFromJson(response.body);
   }
 
+  Future<Address> getAddress() async {
+    final response = await http.get(url);
+    return addressFromJson(response.body);
+  }
+
+  Future<http.Response> createAddress(Address address) async {
+    final response = await http.post('$url',
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: ''
+        },
+        body: addressToJson(address));
+    return response;
+  }
+
+
+
 }
+*/
