@@ -317,6 +317,14 @@ class ProfileScreen extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => AddressForm()));
                   },
                 ),
+                RaisedButton(
+                  padding: EdgeInsets.all(5.0),
+                  child: Text('Edit Schedule'),
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => ScheduleForm()));
+                  },
+                )
               ],
             )
           ],
