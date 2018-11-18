@@ -202,15 +202,15 @@ class ProfileScreen extends StatelessWidget {
 
             Container(
                 child: Center(
-                    child: FutureBuilder<Address>(
-                        future: getAddressPost(),
+                    child: FutureBuilder<Post>(
+                        future: getPost(),
                         builder: (context2, snapshot2) {
                           if (snapshot2.hasData) {
-                            String newStreetName = snapshot2.data.streetAddress
+                            String newStreetName = snapshot2.data.address.streetAddress
                                 .toString();
                             setStreetName(newStreetName);
                             return Text(
-                                '${snapshot2.data.streetAddress}');
+                                '${snapshot2.data.address.streetAddress}');
                           }
                           else
                             return CircularProgressIndicator();
@@ -231,15 +231,15 @@ class ProfileScreen extends StatelessWidget {
 
             Container(
                 child: Center(
-                    child: FutureBuilder<Address>(
-                        future: getAddressPost(),
+                    child: FutureBuilder<Post>(
+                        future: getPost(),
                         builder: (context2, snapshot2) {
                           if (snapshot2.hasData) {
-                            String newCity = snapshot2.data.city;
+                            String newCity = snapshot2.data.address.city;
                             setCity(newCity);
 
                             return Text(
-                                '${snapshot2.data.city}');
+                                '${snapshot2.data.address.city}');
                           }
                           else
                             return CircularProgressIndicator();
@@ -260,15 +260,15 @@ class ProfileScreen extends StatelessWidget {
 
             Container(
                 child: Center(
-                    child: FutureBuilder<Address>(
-                        future: getAddressPost(),
+                    child: FutureBuilder<Post>(
+                        future: getPost(),
                         builder: (context2, snapshot2) {
                           if (snapshot2.hasData) {
-                            String newState = snapshot2.data.state;
+                            String newState = snapshot2.data.address.state;
                             setNewState(newState);
 
                             return Text(
-                                '${snapshot2.data.state}');
+                                '${snapshot2.data.address.state}');
                           }
                           else
                             return CircularProgressIndicator();
@@ -289,15 +289,15 @@ class ProfileScreen extends StatelessWidget {
 
             Container(
                 child: Center(
-                    child: FutureBuilder<Address>(
-                        future: getAddressPost(),
+                    child: FutureBuilder<Post>(
+                        future: getPost(),
                         builder: (context2, snapshot2) {
                           if (snapshot2.hasData) {
-                            String newZipCode = snapshot2.data.zipCode;
+                            String newZipCode = snapshot2.data.address.zipCode;
                             setZip(newZipCode);
 
                             return Text(
-                                '${snapshot2.data.zipCode}');
+                                '${snapshot2.data.address.zipCode}');
                           }
                           else
                             return CircularProgressIndicator();
@@ -519,7 +519,7 @@ class _MyAddressForm extends State<AddressForm> {
 
 
 Future<Post> getPost() async {
-  String postUrl = 'http://10.0.2.2:8080/rides/profile/1';
+  String postUrl = 'http://f3a172b6.ngrok.io/rides/profile/1';
   final response = await http.get(postUrl);
   return postFromJson(response.body);
 }
@@ -527,7 +527,7 @@ Future<Post> getPost() async {
 
 
 Future<Address> getAddressPost() async {
-  String addressUrl = 'http://10.0.2.2:8080/rides/address/1';
+  String addressUrl = 'http://f3a172b6.ngrok.io/rides/address/1';
   final response2 = await http.get(addressUrl);
   return addressFromJson(response2.body);
 }
@@ -535,7 +535,7 @@ Future<Address> getAddressPost() async {
 
 
 Future<http.Response> createAddress(Address address) async{
-  String updateUrl = 'http://10.0.2.2:8080/rides/address/update';
+  String updateUrl = 'http://f3a172b6.ngrok.io/rides/address/update';
   final response = await http.post('$updateUrl',
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',

@@ -27,7 +27,7 @@ class Post {
   String name;
   String email;
   String createdDate;
-//  Address2 address;
+  Address2 address;
   var schedules;
 //  List<Map<String, dynamic>> schedules;
 
@@ -36,7 +36,7 @@ class Post {
     this.name,
     this.email,
     this.createdDate,
-//    this.address,
+    this.address,
     this.schedules,
   });
 
@@ -47,7 +47,7 @@ class Post {
       email: parsedJson["email"],
       createdDate: parsedJson["createdDate"],
 //      address: parsedJson["address"],
-//      address: Address2.fromJsonAddress(parsedJson["address"]),
+      address: Address2.fromJsonAddress(parsedJson["address"]),
       schedules: parsedJson["schedules"],
     );}
 
@@ -57,7 +57,7 @@ class Post {
         "name": name,
         "email": email,
         "createdDate": createdDate,
-//        "address": address,
+        "address": address,
         "schedules": schedules,
       };
 }
@@ -82,51 +82,51 @@ class Post {
 //  return json.encode(dyn);
 //}
 
-//class Address2{
-////  int id;
-//  String streetAddress;
-//  String city;
-//  String zipCode;
-//  String state;
-//  double latitude;
-//  double longitude;
-//
-//  Address2({
-////    this.id,
-//    this.streetAddress,
-//    this.city,
-//    this.zipCode,
-//    this.state,
-//    this.latitude,
-//    this.longitude,
-//  });
-//
-//
-//  factory Address2.fromJsonAddress(Map<String, dynamic> parsedJson) {
-//    return Address2(
-////      id: parsedJson["id"],
-//      streetAddress: parsedJson["streetAddress"],
-//      city: parsedJson["city"],
-//      zipCode: parsedJson["zipCode"],
-//      state: parsedJson["state"],
-//      latitude: parsedJson["latitude"],
-//      longitude: parsedJson["longitude"],
-//    );}
-//
-//  Map<String, dynamic> toJsonAddress() =>
-//      {
-////        "id": id,
-//        "streetAddress": streetAddress,
-//        "city": city,
-//        "zipCode": zipCode,
-//        "state": state,
-//        "latitude": latitude,
-//        "longitude": longitude,
-//      };
-//
-//
-////  @override
-////  String toString() {
-////    return id.toString() + streetAddress.toString() + city + zipCode + state;
-////  }
-//}
+class Address2{
+//  int id;
+  String streetAddress;
+  String city;
+  String zipCode;
+  String state;
+  double latitude;
+  double longitude;
+
+  Address2({
+//    this.id,
+    this.streetAddress,
+    this.city,
+    this.zipCode,
+    this.state,
+    this.latitude,
+    this.longitude,
+  });
+
+
+  factory Address2.fromJsonAddress(Map<String, dynamic> json) {
+    return Address2(
+//      id: parsedJson["id"],
+      streetAddress: json["streetAddress"],
+      city: json["city"],
+      zipCode: json["zipCode"],
+      state: json["state"],
+      latitude: json["latitude"],
+      longitude: json["longitude"],
+    );}
+
+  Map<String, dynamic> toJsonAddress() =>
+      {
+//        "id": id,
+        "streetAddress": streetAddress,
+        "city": city,
+        "zipCode": zipCode,
+        "state": state,
+        "latitude": latitude,
+        "longitude": longitude,
+      };
+
+
+//  @override
+//  String toString() {
+//    return id.toString() + streetAddress.toString() + city + zipCode + state;
+//  }
+}
