@@ -28,8 +28,8 @@ class Post {
   String email;
   String createdDate;
   Address2 address;
-  ScheduleList schedules;
-//  List<Schedule> schedules;
+//  ScheduleList schedules;
+  List<Schedule> schedules;
 //  List<Map<String, dynamic>> schedules;
 
   Post({
