@@ -125,24 +125,24 @@ class ProfileScreen extends StatelessWidget {
                         color: Colors.blueAccent))),
             Container(
                 child: Center(
-//                    child: FutureBuilder<List<Post>>(
-//                        future: getAllPost(),
-//                        builder: (context, snapshot) {
-//                          if (snapshot.hasData)
-//                            return Text(
-//                                '${snapshot.data[1].toString()}');
-//                          else
-//                            return CircularProgressIndicator();
-//                        }))),
-                    child: FutureBuilder<Post>(
-                        future: getPost(),
+                    child: FutureBuilder<List<Post>>(
+                        future: getAllPost(),
                         builder: (context, snapshot) {
                           if (snapshot.hasData)
                             return Text(
-                                '${snapshot.data.name}');
+                                'matched users ${snapshot.data[1].name}');
                           else
                             return CircularProgressIndicator();
                         }))),
+//                    child: FutureBuilder<Post>(
+//                        future: getPost(),
+//                        builder: (context, snapshot) {
+//                          if (snapshot.hasData)
+//                            return Text(
+//                                '${snapshot.data.name}');
+//                          else
+//                            return CircularProgressIndicator();
+//                        }))),
 
             // Email Heading & Text
 
