@@ -125,24 +125,24 @@ class ProfileScreen extends StatelessWidget {
                         color: Colors.blueAccent))),
             Container(
                 child: Center(
-                    child: FutureBuilder<List<Post>>(
-                        future: getAllPost(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData)
-                            return Text(
-                                'matched users ${snapshot.data[1].name}');
-                          else
-                            return CircularProgressIndicator();
-                        }))),
-//                    child: FutureBuilder<Post>(
-//                        future: getPost(),
+//                    child: FutureBuilder<List<Post>>(
+//                        future: getAllPost(),
 //                        builder: (context, snapshot) {
 //                          if (snapshot.hasData)
 //                            return Text(
-//                                '${snapshot.data.name}');
+//                                'matched users ${snapshot.data[1].name}');
 //                          else
 //                            return CircularProgressIndicator();
 //                        }))),
+                    child: FutureBuilder<Post>(
+                        future: getPost(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData)
+                            return Text(
+                                '${snapshot.data.name}');
+                          else
+                            return CircularProgressIndicator();
+                        }))),
 
             // Email Heading & Text
 
@@ -159,24 +159,24 @@ class ProfileScreen extends StatelessWidget {
             Container(
                 child: Center(
                     child: FutureBuilder<Post>(
-                        future: getPost(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData){
-                            print(snapshot.data.schedules);
-                            return Text(
-                                '${snapshot.data.schedules[0].day}');}
-                          else
-                            return CircularProgressIndicator();
-                        }))),
 //                        future: getPost(),
 //                        builder: (context, snapshot) {
 //                          if (snapshot.hasData){
-//
+//                            print(snapshot.data.schedules);
 //                            return Text(
-//                                '${snapshot.data.email}');}
+//                                '${snapshot.data.schedules[0].day}');}
 //                          else
 //                            return CircularProgressIndicator();
 //                        }))),
+                        future: getPost(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData){
+
+                            return Text(
+                                '${snapshot.data.email}');}
+                          else
+                            return CircularProgressIndicator();
+                        }))),
             Container(
               margin: EdgeInsets.only(top: 15.0),
               child: Text(
