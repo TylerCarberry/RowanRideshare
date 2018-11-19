@@ -1,13 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:ruber/AppDrawer.dart';
 import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-
 import 'dart:async' show Future;
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:ruber/AppDrawer.dart';
+
 import 'ProfileModel.dart';
 
-import 'dart:io';
 List profileMatches;
 
 getProfile() {
@@ -109,30 +109,28 @@ class matchesScreenState extends State<matchesScreen> {
               Container(child: Center(child: Text('6/6/6'))),
 
               Container(
-                margin: EdgeInsets.only(top: 15.0),
-                child: Text(
-                  'Distance',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                    fontFamily: 'Helvetica',
-                    color: Colors.deepPurpleAccent
-                  ),
-                )
-              ),
+                  margin: EdgeInsets.only(top: 15.0),
+                  child: Text(
+                    'Distance',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0,
+                        fontFamily: 'Helvetica',
+                        color: Colors.deepPurpleAccent),
+                  )),
 
               Container(child: Center(child: Text("4.34 miles"))),
 
               Container(
-                margin: EdgeInsets.only(top: 20.0),
+                  margin: EdgeInsets.only(top: 20.0),
                   child: Center(
                       child: RaisedButton(
-                child: Text('Send Ride Request!'),
-                        onPressed: () {
-                  print("hello!");
-                        },
-              )))
+                    child: Text('Send Ride Request!'),
+                    onPressed: () {
+                      print("hello!");
+                    },
+                  )))
             ],
           ),
         ));
@@ -151,7 +149,9 @@ class matchesScreenState extends State<matchesScreen> {
                     backgroundImage: NetworkImage(
                         "http://s3.amazonaws.com/nvest/Blank_Club_Website_Avatar_Gray.jpg")),
                 title: Text(profileMatches[index]["name"]),
-                subtitle: Text(profileMatches[index]["distanceRounded"].toString() +" miles"),
+                subtitle: Text(
+                    profileMatches[index]["distanceRounded"].toString() +
+                        " miles"),
                 onTap: () {
                   Navigator.push(
                       context,

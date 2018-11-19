@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-
 Message messageFromJson(String str) {
   final jsonData = json.decode(str);
   return Message.fromJson(jsonData);
@@ -43,10 +42,10 @@ class Message {
       senderID: parsedJson["senderID"],
       text: parsedJson["text"],
       timeSent: parsedJson["timeSent"],
-    );}
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "chatroom": chatroom,
         "senderID": senderID,

@@ -2,17 +2,17 @@
 // TODO: The individial day schedules should pull directly from the database
 // TODO: Fix the huge error when the schedule button is pressed
 
-import 'package:flutter/material.dart';
-import 'AppDrawer.dart';
-import 'package:ruber/Main.dart';
-import 'Rest.dart';
-import 'ScheduleModel.dart';
-import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:async' show Future;
-import 'ProfileModel.dart';
-import 'NewScheduleModel.dart';
 import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:ruber/Main.dart';
+
+import 'AppDrawer.dart';
+import 'NewScheduleModel.dart';
+import 'ProfileModel.dart';
 
 // This is the map that is to be sent to the database
 // If any of the 4 blocks are 0000 - that means that the user didn't
@@ -1558,15 +1558,11 @@ Future<Post> getPost() async {
   return postFromJson(response.body);
 }
 
-
-
 //Future<Schedule> getSchedulePost() async {
 //  String addressUrl = 'http://10.0.2.2:8080/rides/profile/7/schedule';
 //  final response2 = await http.get(addressUrl);
 //  return scheduleFromJson(response2.body);
 //}
-
-
 
 //Future<http.Response> updateSchedule(Schedule schedule) async{
 //  String updateUrl = 'http://10.0.2.2:8080/rides/profile/7/schedule/update';
@@ -1580,14 +1576,13 @@ Future<Post> getPost() async {
 //  return response;
 //}
 
-Future<http.Response> newSchedule(NewSchedule newSchedule) async{
+Future<http.Response> newSchedule(NewSchedule newSchedule) async {
   String updateUrl = 'http://10.0.2.2:8080/rides/profile/1/schedule/new';
   final response = await http.post('$updateUrl',
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
-        HttpHeaders.authorizationHeader : ''
+        HttpHeaders.authorizationHeader: ''
       },
-      body: newScheduleToJson(newSchedule)
-  );
+      body: newScheduleToJson(newSchedule));
   return response;
 }

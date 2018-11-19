@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'AddressModel.dart';
-
 
 Post postFromJson(String str) {
   final jsonData = json.decode(str);
@@ -29,26 +27,27 @@ class Post {
   String email;
   String createdDate;
   Address2 address;
+
 //  ScheduleList schedules;
   List<Schedule2> schedules;
   double distanceRounded;
+
 //  List<Map<String, dynamic>> schedules;
 
-  Post({
-    this.id,
-    this.name,
-    this.email,
-    this.createdDate,
-    this.address,
-    this.schedules,
-    this.distanceRounded
-  });
-
+  Post(
+      {this.id,
+      this.name,
+      this.email,
+      this.createdDate,
+      this.address,
+      this.schedules,
+      this.distanceRounded});
 
   factory Post.fromJson(Map<String, dynamic> parsedJson) {
     var list = parsedJson['schedules'] as List;
 //    print(list);
-    List<Schedule2> scheduleList = list.map((i) => Schedule2.fromJsonSchedule(i)).toList();
+    List<Schedule2> scheduleList =
+        list.map((i) => Schedule2.fromJsonSchedule(i)).toList();
 
 //    Iterable l = json.decode('scedules');
 //    List<Schedule> scheduleList = l.map((Map schedules)=> Schedule.fromJsonSchedule(i)).toList();
@@ -62,10 +61,10 @@ class Post {
       schedules: scheduleList,
       distanceRounded: parsedJson["distanceRounded"],
 //      schedules: json.decode(scheduleList.toString()),
-    );}
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
         "email": email,
@@ -96,7 +95,7 @@ class Post {
 //  return json.encode(dyn);
 //}
 
-class Address2{
+class Address2 {
 //  int id;
   String streetAddress;
   String city;
@@ -115,7 +114,6 @@ class Address2{
     this.longitude,
   });
 
-
   factory Address2.fromJsonAddress(Map<String, dynamic> json) {
     return Address2(
 //      id: parsedJson["id"],
@@ -125,10 +123,10 @@ class Address2{
       state: json["state"],
       latitude: json["latitude"],
       longitude: json["longitude"],
-    );}
+    );
+  }
 
-  Map<String, dynamic> toJsonAddress() =>
-      {
+  Map<String, dynamic> toJsonAddress() => {
 //        "id": id,
         "streetAddress": streetAddress,
         "city": city,
@@ -138,12 +136,12 @@ class Address2{
         "longitude": longitude,
       };
 
-
 //  @override
 //  String toString() {
 //    return id.toString() + streetAddress.toString() + city + zipCode + state;
 //  }
 }
+
 class Schedule2 {
   int id;
   int profile;
@@ -152,7 +150,6 @@ class Schedule2 {
   String goingToRangeEnd;
   String leavingRangeStart;
   String leavingRangeEnd;
-
 
   Schedule2({
     this.id,
@@ -164,7 +161,6 @@ class Schedule2 {
     this.leavingRangeEnd,
   });
 
-
   factory Schedule2.fromJsonSchedule(Map<String, dynamic> parsedJson) {
     return Schedule2(
       id: parsedJson['id'],
@@ -174,12 +170,12 @@ class Schedule2 {
       goingToRangeEnd: parsedJson['goingToRangeEnd'],
       leavingRangeStart: parsedJson['leavingRangeStart'],
       leavingRangeEnd: parsedJson['leavingRangeEnd'],
-    );}
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "id": id,
-        "profile":profile,
+        "profile": profile,
         "day": day,
         "goingToRangeStart": goingToRangeStart,
         "goingToRangeEnd": goingToRangeEnd,

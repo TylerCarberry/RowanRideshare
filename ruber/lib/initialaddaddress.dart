@@ -1,17 +1,15 @@
-import 'package:flutter/material.dart';
-import 'AppDrawer.dart';
-import 'Rest.dart';
-import 'initialeditschedule.dart';
-
-import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:async' show Future;
-import 'ProfileModel.dart';
-import 'AddressModel.dart';
 import 'dart:io';
-import 'AuthScreen.dart';
-import 'AddressPostModel.dart';
+
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'AddressPostModel.dart';
+import 'AppDrawer.dart';
+import 'ProfileModel.dart';
+import 'initialeditschedule.dart';
 
 int id;
 String profilePic;
@@ -24,11 +22,11 @@ String email = "";
 String name = "";
 
 getId() async {
-  if(id == 0 || id == null)
-    {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      id = prefs.getInt("id");
-    };
+  if (id == 0 || id == null) {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    id = prefs.getInt("id");
+  }
+  ;
   return id;
 }
 
@@ -39,8 +37,6 @@ setId(int newId) async {
     id = newId;
   }
 }
-
-
 
 setName(String newName) {
   name = newName;
@@ -88,25 +84,20 @@ getState() {
   return state;
 }
 
-
 getProfilePic() {
   return profilePic;
 }
 
 class InitialAddressForm extends StatefulWidget {
   final String emailAddress;
+
   InitialAddressForm(this.emailAddress);
-
-
 
   @override
   _MyAddressForm createState() => _MyAddressForm();
-
 }
 
 class _MyAddressForm extends State<InitialAddressForm> {
-
-
   final streetNameController = TextEditingController();
   final cityController = TextEditingController();
   final zipController = TextEditingController();
@@ -273,7 +264,8 @@ class _MyAddressForm extends State<InitialAddressForm> {
                           streetAddress: streetNameEdit,
                           city: cityNameFinal,
                           zipCode: zipCodeEdit,
-                          state: stateEdit); // creating a new Post object to send it to API
+                          state:
+                              stateEdit); // creating a new Post object to send it to API
 
                       createAddress(newAddress).then((response) {
                         if (response.statusCode > 200)
@@ -288,7 +280,8 @@ class _MyAddressForm extends State<InitialAddressForm> {
 
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => InitialScheduleForm()),
+                        MaterialPageRoute(
+                            builder: (context) => InitialScheduleForm()),
                       );
                     } else {
                       return null;
@@ -306,18 +299,14 @@ class _MyAddressForm extends State<InitialAddressForm> {
 
                             print(tempId);
                             setId(tempId);
-                            return Text(
-                                '${snapshot2.data.id.toString()}');
-                          }
-                          else
+                            return Text('${snapshot2.data.id.toString()}');
+                          } else
                             return CircularProgressIndicator();
                         }))),
-
           ],
         )));
   }
 }
-
 
 Future<Post> getMyId() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -328,7 +317,6 @@ Future<Post> getMyId() async {
   final response2 = await http.get(addressUrl);
   return postFromJson(response2.body);
 }
-
 
 Future<http.Response> createAddress(AddressPost address) async {
   int userId = await getId();

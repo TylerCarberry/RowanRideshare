@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-
 String newScheduleToJson(NewSchedule data) {
   final dyn = data.toJson();
   return json.encode(dyn);
@@ -15,8 +14,6 @@ class NewSchedule {
   String leavingRangeStart;
   String leavingRangeEnd;
 
-
-
   NewSchedule({
     this.id,
     this.profile,
@@ -25,7 +22,6 @@ class NewSchedule {
     this.goingToRangeEnd,
     this.leavingRangeStart,
     this.leavingRangeEnd,
-
   });
 
   factory NewSchedule.fromJson(Map<String, dynamic> parsedJson) {
@@ -37,10 +33,10 @@ class NewSchedule {
       goingToRangeEnd: parsedJson["goingToRangeEnd"],
       leavingRangeStart: parsedJson["leavingRangeStart"],
       leavingRangeEnd: parsedJson["leavingRangeEnd"],
-    );}
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "profile": profile,
         "day": day,

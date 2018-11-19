@@ -1,29 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:ruber/AuthScreen.dart';
-import 'Login.dart';
-import 'RideScreen.dart';
-import 'AppDrawer.dart';
-import 'profile.dart';
-import 'Messages_Screen.dart';
-import 'settings_Screen.dart';
-import 'editschedule.dart';
-import 'MapPage.dart';
-import 'initialaddaddress.dart';
-import 'package:map_view/map_view.dart';
 
 import 'AuthScreen.dart';
-
-import 'StaticMapPage.dart';
-import 'Rest.dart';
-
-import 'dart:async';
-import 'dart:io';
-
-import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-
-import 'package:flutter/foundation.dart';
+import 'Login.dart';
+import 'Messages_Screen.dart';
+import 'RideScreen.dart';
+import 'editschedule.dart';
+import 'profile.dart';
+import 'settings_Screen.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -56,12 +43,20 @@ class WelcomeScreen extends StatelessWidget {
             children: <Widget>[
               Container(
                 margin: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                child: Text('RUber', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.orange, fontSize: 48.0),),
+                child: Text(
+                  'RUber',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.orange,
+                      fontSize: 48.0),
+                ),
               ),
               Container(
                 margin: EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
-                child: Text('• Find people to carpool with that have similar class schedules and who live nearby.\n\n• Only available to Rowan University students.\n\n• More schools coming soon.', style: TextStyle(color: Colors.black, fontSize: 18.0),),
-
+                child: Text(
+                  '• Find people to carpool with that have similar class schedules and who live nearby.\n\n• Only available to Rowan University students.\n\n• More schools coming soon.',
+                  style: TextStyle(color: Colors.black, fontSize: 18.0),
+                ),
               ),
               RaisedButton(
                 child: Text("Start"),

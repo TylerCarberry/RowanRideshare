@@ -3,8 +3,8 @@
 // TODO: Make the user mandatorily enter the schedule and the edit address - might need new screen for edit schedule with just changing the submit button
 
 import 'package:flutter/material.dart';
+
 import 'AppDrawer.dart';
-import 'Rest.dart';
 import 'GoingToRowan.dart';
 import 'matches_screen.dart';
 
