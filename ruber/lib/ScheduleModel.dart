@@ -23,22 +23,34 @@ String allScheduleToJson(List<Schedule> data) {
 }
 
 class Schedule {
+
+
   int id;
   int profile;
-  String day;
-  var goingToRangeStart;
-  var goingToRangeEnd;
-  var leavingRangeStart;
-  var leavingRangeEnd;
+  String monday;
+  String tuesday;
+  String wednesday;
+  String thursday;
+  String friday;
+//  String day;
+//  String goingToRangeStart;
+//  String goingToRangeEnd;
+//  String leavingRangeStart;
+//  String leavingRangeEnd;
 
   Schedule({
     this.id,
     this.profile,
-    this.day,
-    this.goingToRangeStart,
-    this.goingToRangeEnd,
-    this.leavingRangeStart,
-    this.leavingRangeEnd,
+    this.monday,
+    this.tuesday,
+    this.wednesday,
+    this.thursday,
+    this.friday,
+//    this.day,
+//    this.goingToRangeStart,
+//    this.goingToRangeEnd,
+//    this.leavingRangeStart,
+//    this.leavingRangeEnd,
   });
 
 
@@ -46,21 +58,31 @@ class Schedule {
     return Schedule(
       id: parsedJson["id"],
       profile: parsedJson["profile"],
-      day: parsedJson["day"],
-      goingToRangeStart: parsedJson["goingToRangeStart"],
-      goingToRangeEnd: parsedJson["goingToRangeEnd"],
-      leavingRangeStart: parsedJson["leavingRangeStart"],
-      leavingRangeEnd: parsedJson["leavingRangeEnd"],
+      monday: parsedJson["monday"],
+      tuesday: parsedJson["tuesday"],
+      wednesday: parsedJson["wednesday"],
+      thursday: parsedJson["thursday"],
+      friday: parsedJson["friday"],
+//      day: parsedJson["day"],
+//      goingToRangeStart: parsedJson["goingToRangeStart"],
+//      goingToRangeEnd: parsedJson["goingToRangeEnd"],
+//      leavingRangeStart: parsedJson["leavingRangeStart"],
+//      leavingRangeEnd: parsedJson["leavingRangeEnd"],
     );}
 
   Map<String, dynamic> toJson() =>
       {
         "id": id,
         "profile":profile,
-        "day": day,
-        "goingToRangeStart": goingToRangeStart,
-        "goingToRangeEnd": goingToRangeEnd,
-        "leavingRangeStart": leavingRangeStart,
-        "leavingRangeEnd": leavingRangeEnd,
+        "monday":monday,
+        "tuesday":tuesday,
+        "wednesday":wednesday,
+        "thursday":thursday,
+        "friday":friday
+//        "day": day,
+//        "goingToRangeStart": goingToRangeStart,
+//        "goingToRangeEnd": goingToRangeEnd,
+//        "leavingRangeStart": leavingRangeStart,
+//        "leavingRangeEnd": leavingRangeEnd,
       };
 }

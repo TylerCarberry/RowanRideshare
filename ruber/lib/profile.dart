@@ -123,6 +123,15 @@ class ProfileScreen extends StatelessWidget {
                         color: Colors.blueAccent))),
             Container(
                 child: Center(
+//                    child: FutureBuilder<List<Post>>(
+//                        future: getAllPost(),
+//                        builder: (context, snapshot) {
+//                          if (snapshot.hasData)
+//                            return Text(
+//                                'matched users ${snapshot.data[1].name}');
+//                          else
+//                            return CircularProgressIndicator();
+//                        }))),
                     child: FutureBuilder<Post>(
                         future: getPost(),
                         builder: (context, snapshot) {
@@ -147,14 +156,24 @@ class ProfileScreen extends StatelessWidget {
             Container(
                 child: Center(
                     child: FutureBuilder<Post>(
+//                        future: getPost(),
+//                        builder: (context, snapshot) {
+//                          if (snapshot.hasData){
+//                            print(snapshot.data.schedules);
+//                            return Text(
+//                                '${snapshot.data.schedules[0].day}');}
+//                          else
+//                            return CircularProgressIndicator();
+//                        }))),
                         future: getPost(),
                         builder: (context, snapshot) {
-                          if (snapshot.hasData)
-                            return Text('${snapshot.data.email}');
+                          if (snapshot.hasData){
+
+                            return Text(
+                                '${snapshot.data.email}');}
                           else
                             return CircularProgressIndicator();
                         }))),
-
             Container(
               margin: EdgeInsets.only(top: 15.0),
               child: Text(
@@ -196,15 +215,17 @@ class ProfileScreen extends StatelessWidget {
 
             Container(
                 child: Center(
-                    child: FutureBuilder<Address>(
-                        future: getAddressPost(),
+                    child: FutureBuilder<Post>(
+                        future: getPost(),
                         builder: (context2, snapshot2) {
                           if (snapshot2.hasData) {
-                            String newStreetName =
-                                snapshot2.data.streetAddress.toString();
+                            String newStreetName = snapshot2.data.address.streetAddress
+                                .toString();
                             setStreetName(newStreetName);
-                            return Text('${snapshot2.data.streetAddress}');
-                          } else
+                            return Text(
+                                '${snapshot2.data.address.streetAddress}');
+                          }
+                          else
                             return CircularProgressIndicator();
                         }))),
             Container(
@@ -223,15 +244,17 @@ class ProfileScreen extends StatelessWidget {
 
             Container(
                 child: Center(
-                    child: FutureBuilder<Address>(
-                        future: getAddressPost(),
+                    child: FutureBuilder<Post>(
+                        future: getPost(),
                         builder: (context2, snapshot2) {
                           if (snapshot2.hasData) {
-                            String newCity = snapshot2.data.city.toString();
+                            String newCity = snapshot2.data.address.city;
                             setCity(newCity);
 
-                            return Text('${snapshot2.data.city}');
-                          } else
+                            return Text(
+                                '${snapshot2.data.address.city}');
+                          }
+                          else
                             return CircularProgressIndicator();
                         }))),
             Container(
@@ -250,15 +273,17 @@ class ProfileScreen extends StatelessWidget {
 
             Container(
                 child: Center(
-                    child: FutureBuilder<Address>(
-                        future: getAddressPost(),
+                    child: FutureBuilder<Post>(
+                        future: getPost(),
                         builder: (context2, snapshot2) {
                           if (snapshot2.hasData) {
-                            String newState = snapshot2.data.state.toString();
+                            String newState = snapshot2.data.address.state;
                             setNewState(newState);
 
-                            return Text('${snapshot2.data.state}');
-                          } else
+                            return Text(
+                                '${snapshot2.data.address.state}');
+                          }
+                          else
                             return CircularProgressIndicator();
                         }))),
             Container(
@@ -277,16 +302,17 @@ class ProfileScreen extends StatelessWidget {
 
             Container(
                 child: Center(
-                    child: FutureBuilder<Address>(
-                        future: getAddressPost(),
+                    child: FutureBuilder<Post>(
+                        future: getPost(),
                         builder: (context2, snapshot2) {
                           if (snapshot2.hasData) {
-                            String newZipCode =
-                                snapshot2.data.zipCode.toString();
+                            String newZipCode = snapshot2.data.address.zipCode;
                             setZip(newZipCode);
 
-                            return Text('${snapshot2.data.zipCode}');
-                          } else
+                            return Text(
+                                '${snapshot2.data.address.zipCode}');
+                          }
+                          else
                             return CircularProgressIndicator();
                         }))),
 
@@ -521,7 +547,19 @@ Future<Address> getAddressPost() async {
   return addressFromJson(response2.body);
 }
 
-Future<http.Response> createAddress(Address address) async {
+Future<http.Response> createPost(Post post) async{
+  String updateUrl = 'http://10.0.2.2:8080/rides/address/update';
+  final response = await http.post('$updateUrl',
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.authorizationHeader : ''
+      },
+      body: postToJson(post)
+  );
+  return response;
+}
+
+Future<http.Response> createAddress(Address address) async{
   String updateUrl = 'http://10.0.2.2:8080/rides/address/update';
   final response = await http.post('$updateUrl',
       headers: {
@@ -530,4 +568,10 @@ Future<http.Response> createAddress(Address address) async {
       },
       body: addressToJson(address));
   return response;
+}
+
+Future<List<Post>> getAllPost() async {
+  String postUrl = 'http://10.0.2.2:8080/rides/matching/3/20';
+  final response = await http.get(postUrl);
+  return allPostsFromJson(response.body);
 }
