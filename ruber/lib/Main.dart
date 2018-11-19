@@ -55,13 +55,13 @@ class WelcomeScreen extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Container(
-                child: Text(
-                  'RUber',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.orange,
-                      fontSize: 24.0),
-                ),
+                margin: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                child: Text('RUber', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.orange, fontSize: 48.0),),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
+                child: Text('• Find people to carpool with that have similar class schedules and who live nearby.\n\n• Only available to Rowan University students.\n\n• More schools coming soon.', style: TextStyle(color: Colors.black, fontSize: 18.0),),
+
               ),
               RaisedButton(
                 child: Text("Start"),
