@@ -35,7 +35,7 @@ class Map extends StatelessWidget {
   Future fetchResponse() async {
     String responseList;
     http.Response response = await http
-        .get("http://bcdca256.ngrok.io/hello/greeting")
+        .get("http://10.0.2.2:8080/hello/greeting")
         .catchError((resp) {});
     responseList = response.body.toString();
 

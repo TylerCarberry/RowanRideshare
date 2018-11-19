@@ -145,7 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
   Future<http.Response> createUser(NewUser user) async{
-    String updateUrl = 'http://bcdca256.ngrok.io/rides/profile/new';
+    String updateUrl = 'http://10.0.2.2:8080/rides/profile/new';
     final response = await http.post('$updateUrl',
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
@@ -161,7 +161,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<http.Response> createAddress(AddressPost address) async {
     String userId = getId();
     print(userId);
-    String updateUrl = 'http://bcdca256.ngrok.io/rides/address/$userId/new';
+    String updateUrl = 'http://10.0.2.2:8080/rides/address/$userId/new';
     final response = await http.post('$updateUrl',
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
