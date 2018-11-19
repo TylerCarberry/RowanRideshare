@@ -1591,7 +1591,7 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
 }
 
 Future<Post> getPost() async {
-  String postUrl = 'http://e7dfbe04.ngrok.io/rides/profile/1';
+  String postUrl = 'http://10.0.2.2:8080/rides/profile/1';
   final response = await http.get(postUrl);
   return postFromJson(response.body);
 }
@@ -1607,7 +1607,7 @@ Future<Post> getPost() async {
 
 
 Future<http.Response> updateSchedule(Schedule schedule) async{
-  String updateUrl = 'http://e7dfbe04.ngrok.io/rides/profile/1/schedule/update';
+  String updateUrl = 'http://10.0.2.2:8080/rides/profile/1/schedule/update';
   final response = await http.post('$updateUrl',
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
@@ -1619,7 +1619,7 @@ Future<http.Response> updateSchedule(Schedule schedule) async{
 }
 
 Future<http.Response> newSchedule(Schedule newSchedule) async{
-  String updateUrl = 'http://e7dfbe04.ngrok.io/rides/profile/42/schedule/new';
+  String updateUrl = 'http://10.0.2.2:8080/rides/profile/42/schedule/new';
   final response = await http.post('$updateUrl',
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
