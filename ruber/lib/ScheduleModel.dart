@@ -26,10 +26,10 @@ class Schedule {
   int id;
   int profile;
   String day;
-  var goingToRangeStart;
-  var goingToRangeEnd;
-  var leavingRangeStart;
-  var leavingRangeEnd;
+  String goingToRangeStart;
+  String goingToRangeEnd;
+  String leavingRangeStart;
+  String leavingRangeEnd;
 
   Schedule({
     this.id,

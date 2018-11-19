@@ -1581,7 +1581,7 @@ Future<Post> getPost() async {
 //}
 
 Future<http.Response> newSchedule(NewSchedule newSchedule) async{
-  String updateUrl = 'http://10.0.2.2:8080/rides/profile/7/schedule/new';
+  String updateUrl = 'http://10.0.2.2:8080/rides/profile/1/schedule/new';
   final response = await http.post('$updateUrl',
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',

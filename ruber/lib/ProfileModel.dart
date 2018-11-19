@@ -4,6 +4,7 @@ import 'AddressModel.dart';
 
 Post postFromJson(String str) {
   final jsonData = json.decode(str);
+  print(jsonData.toString());
   return Post.fromJson(jsonData);
 }
 
@@ -29,7 +30,7 @@ class Post {
   String createdDate;
   Address2 address;
 //  ScheduleList schedules;
-  List<Schedule> schedules;
+  List<Schedule2> schedules;
 //  List<Map<String, dynamic>> schedules;
 
   Post({
@@ -44,17 +45,20 @@ class Post {
 
   factory Post.fromJson(Map<String, dynamic> parsedJson) {
     var list = parsedJson['schedules'] as List;
-    print(list.runtimeType);
+    print(list);
+    List<Schedule2> scheduleList = list.map((i) => Schedule2.fromJsonSchedule(i)).toList();
 
-    List<Schedule> scheduleList = list.map((i) => Schedule.fromJsonSchedule(i)).toList();
+//    Iterable l = json.decode('scedules');
+//    List<Schedule> scheduleList = l.map((Map schedules)=> Schedule.fromJsonSchedule(i)).toList();
+
     return Post(
       id: parsedJson["id"],
       name: parsedJson["name"],
       email: parsedJson["email"],
       createdDate: parsedJson["createdDate"],
       address: Address2.fromJsonAddress(parsedJson["address"]),
-
-      schedules: parsedJson["schedules"],
+      schedules: scheduleList,
+//      schedules: json.decode(scheduleList.toString()),
     );}
 
   Map<String, dynamic> toJson() =>
@@ -136,16 +140,16 @@ class Address2{
 //    return id.toString() + streetAddress.toString() + city + zipCode + state;
 //  }
 }
-class Schedule {
-  final int id;
-  final int profile;
-  final String day;
-  final String goingToRangeStart;
-  final String goingToRangeEnd;
-  final String leavingRangeStart;
-  final String leavingRangeEnd;
+class Schedule2 {
+  int id;
+  int profile;
+  String day;
+  String goingToRangeStart;
+  String goingToRangeEnd;
+  String leavingRangeStart;
+  String leavingRangeEnd;
 
-  Schedule({
+  Schedule2({
     this.id,
     this.profile,
     this.day,
@@ -156,15 +160,15 @@ class Schedule {
   });
 
 
-  factory Schedule.fromJsonSchedule(Map<String, dynamic> parsedJson) {
-    return Schedule(
-      id: parsedJson["id"],
-      profile: parsedJson["profile"],
-      day: parsedJson["day"],
-      goingToRangeStart: parsedJson["goingToRangeStart"],
-      goingToRangeEnd: parsedJson["goingToRangeEnd"],
-      leavingRangeStart: parsedJson["leavingRangeStart"],
-      leavingRangeEnd: parsedJson["leavingRangeEnd"],
+  factory Schedule2.fromJsonSchedule(Map<String, dynamic> parsedJson) {
+    return Schedule2(
+      id: parsedJson['id'],
+      profile: parsedJson['profile'],
+      day: parsedJson['day'],
+      goingToRangeStart: parsedJson['goingToRangeStart'],
+      goingToRangeEnd: parsedJson['goingToRangeEnd'],
+      leavingRangeStart: parsedJson['leavingRangeStart'],
+      leavingRangeEnd: parsedJson['leavingRangeEnd'],
     );}
 
   Map<String, dynamic> toJson() =>
@@ -179,18 +183,19 @@ class Schedule {
       };
 }
 
-class ScheduleList{
-  final List<Schedule> schedules;
-
-  ScheduleList({
-    this.schedules
-  });
-  factory ScheduleList.fromJson(List<dynamic> parsedJson) {
-
-    List<Schedule> schedules = new List<Schedule>();
-    schedules = parsedJson.map((i)=>Schedule.fromJsonSchedule(i)).toList();
-    return new ScheduleList(
-      schedules: schedules,
-    );
-  }
-}
+//class ScheduleList{
+//  final List<Schedule> schedules;
+//
+//  ScheduleList({
+//    this.schedules
+//  });
+//
+//  factory ScheduleList.fromJson(List<dynamic> parsedJson) {
+//
+//    List<Schedule> schedules = new List<Schedule>();
+//    schedules = parsedJson.map((i)=>Schedule.fromJsonSchedule(i)).toList();
+//    return new ScheduleList(
+//      schedules: schedules,
+//    );
+//  }
+//}

@@ -4,7 +4,13 @@
 import 'package:flutter/material.dart';
 import 'package:ruber/Main.dart';
 import 'Rest.dart';
-
+import 'NewScheduleModel.dart';
+import 'ScheduleModel.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:async' show Future;
+import 'ProfileModel.dart';
+import 'dart:io';
 // This is the map that is to be sent to the database
 // If any of the 4 blocks are 0000 - that means that the user didn't
 // put in a time for that block and that entire day is invalid
@@ -422,6 +428,58 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
 
                                 print("Mondays schedule " +
                                     getScheduleMapMonday());
+
+                                bool update = true;
+                                int prof = 0;
+//                                FutureBuilder<Post>(
+//                                    future: getPost(),
+//                                    builder: (context, snapshot){
+//                                      print(snapshot.data.schedules);
+//                                      prof = snapshot.data.id;
+//                                      if(snapshot.data.schedules[1] == []) {
+//                                        update = false;
+//                                      }
+//                                      else{
+//                                        update = true;
+//                                      }
+//                                    });
+
+                                Schedule monday = new Schedule(
+                                    day:"monday",
+                                    goingToRangeStart: mondaySchedule["a"].toString(),
+                                    goingToRangeEnd: mondaySchedule["b"].toString(),
+                                    leavingRangeEnd: mondaySchedule["c"].toString(),
+                                    leavingRangeStart: mondaySchedule["d"].toString()
+                                );
+                                print(monday.leavingRangeStart);
+                                NewSchedule newMonday = new NewSchedule(
+                                    day:"monday",
+                                    goingToRangeStart: mondaySchedule["a"],
+                                    goingToRangeEnd: mondaySchedule["b"],
+                                    leavingRangeEnd: mondaySchedule["c"],
+                                    leavingRangeStart: mondaySchedule["d"]
+                                );
+
+//                                if(!update){
+//                                newSchedule(newMonday).then((response){
+//                                  if(response.statusCode > 200)
+//                                    print(response.body);
+//                                  else
+//                                    print(response.statusCode);
+//                                }).catchError((error){
+//                                  print('error : $error');
+//                                });
+//                                }
+//                                else{
+                                updateSchedule(monday).then((response){
+                                  if(response.statusCode > 200)
+                                    print(response.body);
+                                  else
+                                    print(response.statusCode);
+                                }).catchError((error){
+                                  print('error : $error');
+                                });
+//                                }
                               },
                             ),
                           ],
@@ -1481,4 +1539,44 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
           ],
         )));
   }
+}
+
+Future<Post> getPost() async {
+  String postUrl = 'http://e7dfbe04.ngrok.io/rides/profile/1';
+  final response = await http.get(postUrl);
+  return postFromJson(response.body);
+}
+
+
+
+//Future<Schedule> getSchedulePost() async {
+//  String addressUrl = 'http://10.0.2.2:8080/rides/profile/7/schedule';
+//  final response2 = await http.get(addressUrl);
+//  return scheduleFromJson(response2.body);
+//}
+
+
+
+Future<http.Response> updateSchedule(Schedule schedule) async{
+  String updateUrl = 'http://e7dfbe04.ngrok.io/rides/profile/1/schedule/update';
+  final response = await http.post('$updateUrl',
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.authorizationHeader : ''
+      },
+      body: scheduleToJson(schedule)
+  );
+  return response;
+}
+
+Future<http.Response> newSchedule(NewSchedule newSchedule) async{
+  String updateUrl = 'http://e7dfbe04.ngrok.io/rides/profile/1/schedule/new';
+  final response = await http.post('$updateUrl',
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.authorizationHeader : ''
+      },
+      body: newScheduleToJson(newSchedule)
+  );
+  return response;
 }

@@ -125,6 +125,15 @@ class ProfileScreen extends StatelessWidget {
                         color: Colors.blueAccent))),
             Container(
                 child: Center(
+//                    child: FutureBuilder<List<Post>>(
+//                        future: getAllPost(),
+//                        builder: (context, snapshot) {
+//                          if (snapshot.hasData)
+//                            return Text(
+//                                '${snapshot.data[1].toString()}');
+//                          else
+//                            return CircularProgressIndicator();
+//                        }))),
                     child: FutureBuilder<Post>(
                         future: getPost(),
                         builder: (context, snapshot) {
@@ -152,9 +161,10 @@ class ProfileScreen extends StatelessWidget {
                     child: FutureBuilder<Post>(
                         future: getPost(),
                         builder: (context, snapshot) {
-                          if (snapshot.hasData)
+                          if (snapshot.hasData){
+                            print(snapshot.data.schedules);
                             return Text(
-                                '${snapshot.data.schedules.toString()}');
+                                '${snapshot.data.schedules[0].day}');}
                           else
                             return CircularProgressIndicator();
                         }))),
@@ -519,7 +529,7 @@ class _MyAddressForm extends State<AddressForm> {
 
 
 Future<Post> getPost() async {
-  String postUrl = 'http://10.0.2.2:8080/rides/profile/1';
+  String postUrl = 'http://e7dfbe04.ngrok.io/rides/profile/1';
   final response = await http.get(postUrl);
   return postFromJson(response.body);
 }
@@ -527,13 +537,13 @@ Future<Post> getPost() async {
 
 
 Future<Address> getAddressPost() async {
-  String addressUrl = 'http://10.0.2.2:8080/rides/address/1';
+  String addressUrl = 'http://e7dfbe04.ngrok.io/rides/address/1';
   final response2 = await http.get(addressUrl);
   return addressFromJson(response2.body);
 }
 
 Future<http.Response> createPost(Post post) async{
-  String updateUrl = 'http://10.0.2.2:8080/rides/address/update';
+  String updateUrl = 'http://e7dfbe04.ngrok.io/rides/address/update';
   final response = await http.post('$updateUrl',
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
@@ -545,7 +555,7 @@ Future<http.Response> createPost(Post post) async{
 }
 
 Future<http.Response> createAddress(Address address) async{
-  String updateUrl = 'http://10.0.2.2:8080/rides/address/update';
+  String updateUrl = 'http://e7dfbe04.ngrok.io/rides/address/update';
   final response = await http.post('$updateUrl',
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
@@ -554,4 +564,10 @@ Future<http.Response> createAddress(Address address) async{
       body: addressToJson(address)
   );
   return response;
+}
+
+Future<List<Post>> getAllPost() async {
+  String postUrl = 'http://e7dfbe04.ngrok.io/rides/matching/3/20';
+  final response = await http.get(postUrl);
+  return allPostsFromJson(response.body);
 }
