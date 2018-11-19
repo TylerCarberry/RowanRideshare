@@ -429,8 +429,8 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
                                 print("Mondays schedule " +
                                     getScheduleMapMonday());
 
-                                bool update = true;
-                                int prof = 0;
+//                                bool update = true;
+//                                int prof = 0;
 //                                FutureBuilder<Post>(
 //                                    future: getPost(),
 //                                    builder: (context, snapshot){
@@ -445,33 +445,23 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
 //                                    });
 
                                 Schedule monday = new Schedule(
-                                    day:"monday",
-                                    goingToRangeStart: mondaySchedule["a"].toString(),
-                                    goingToRangeEnd: mondaySchedule["b"].toString(),
-                                    leavingRangeEnd: mondaySchedule["c"].toString(),
-                                    leavingRangeStart: mondaySchedule["d"].toString()
+                                    monday:getScheduleMapMonday(),
+//                                    goingToRangeStart: mondaySchedule["a"].toString(),
+//                                    goingToRangeEnd: mondaySchedule["b"].toString(),
+//                                    leavingRangeEnd: mondaySchedule["c"].toString(),
+//                                    leavingRangeStart: mondaySchedule["d"].toString()
                                 );
-                                print(monday.leavingRangeStart);
-                                NewSchedule newMonday = new NewSchedule(
-                                    day:"monday",
-                                    goingToRangeStart: mondaySchedule["a"],
-                                    goingToRangeEnd: mondaySchedule["b"],
-                                    leavingRangeEnd: mondaySchedule["c"],
-                                    leavingRangeStart: mondaySchedule["d"]
-                                );
+//                                print(monday.leavingRangeStart);
+//                                NewSchedule newMonday = new NewSchedule(
+//                                    day:"monday",
+//                                    goingToRangeStart: mondaySchedule["a"],
+//                                    goingToRangeEnd: mondaySchedule["b"],
+//                                    leavingRangeEnd: mondaySchedule["c"],
+//                                    leavingRangeStart: mondaySchedule["d"]
+//                                );
 
 //                                if(!update){
-//                                newSchedule(newMonday).then((response){
-//                                  if(response.statusCode > 200)
-//                                    print(response.body);
-//                                  else
-//                                    print(response.statusCode);
-//                                }).catchError((error){
-//                                  print('error : $error');
-//                                });
-//                                }
-//                                else{
-                                updateSchedule(monday).then((response){
+                                newSchedule(monday).then((response){
                                   if(response.statusCode > 200)
                                     print(response.body);
                                   else
@@ -479,6 +469,16 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
                                 }).catchError((error){
                                   print('error : $error');
                                 });
+////                                }
+//                                else{
+//                                updateSchedule(monday).then((response){
+//                                  if(response.statusCode > 200)
+//                                    print(response.body);
+//                                  else
+//                                    print(response.statusCode);
+//                                }).catchError((error){
+//                                  print('error : $error');
+//                                });
 //                                }
                               },
                             ),
@@ -728,6 +728,19 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
 
                                 print("Tuesdays schedule " +
                                     getScheduleMapTuesday());
+
+                                Schedule tuesday = new Schedule(
+                                  tuesday:getScheduleMapTuesday(),
+                                );
+                                newSchedule(tuesday).then((response){
+                                  if(response.statusCode > 200)
+                                    print(response.body);
+                                  else
+                                    print(response.statusCode);
+                                }).catchError((error){
+                                  print('error : $error');
+                                });
+
                               },
                             ),
                           ],
@@ -977,6 +990,18 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
 
                                 print("Wednesdays schedule " +
                                     getScheduleMapWednesday());
+
+                                Schedule wednesday = new Schedule(
+                                  wednesday:getScheduleMapWednesday(),
+                                );
+                                newSchedule(wednesday).then((response){
+                                  if(response.statusCode > 200)
+                                    print(response.body);
+                                  else
+                                    print(response.statusCode);
+                                }).catchError((error){
+                                  print('error : $error');
+                                });
                               },
                             ),
                           ],
@@ -1226,6 +1251,18 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
 
                                 print("Thursdays schedule: " +
                                     getScheduleMapThursday());
+
+                                Schedule thursday = new Schedule(
+                                  thursday:getScheduleMapThursday(),
+                                );
+                                newSchedule(thursday).then((response){
+                                  if(response.statusCode > 200)
+                                    print(response.body);
+                                  else
+                                    print(response.statusCode);
+                                }).catchError((error){
+                                  print('error : $error');
+                                });
                               },
                             ),
                           ],
@@ -1309,10 +1346,10 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
                                   fridaySchedule["a"] = getNewTime(value);
 
                                   setScheduleMapFriday(
-                                      thursdaySchedule["a"],
-                                      thursdaySchedule["b"],
-                                      thursdaySchedule["c"],
-                                      thursdaySchedule["d"]);
+                                      fridaySchedule["a"],
+                                      fridaySchedule["b"],
+                                      fridaySchedule["c"],
+                                      fridaySchedule["d"]);
                                 });
 
                                 print("Fridays schedule: " +
@@ -1361,10 +1398,10 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
                                   fridaySchedule["ae"] = value;
                                   fridaySchedule["b"] = getNewTime(value);
                                   setScheduleMapFriday(
-                                      thursdaySchedule["a"],
-                                      thursdaySchedule["b"],
-                                      thursdaySchedule["c"],
-                                      thursdaySchedule["d"]);
+                                      fridaySchedule["a"],
+                                      fridaySchedule["b"],
+                                      fridaySchedule["c"],
+                                      fridaySchedule["d"]);
                                 });
 
                                 print("Fridays schedule: " +
@@ -1415,10 +1452,10 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
                                   fridaySchedule["ls"] = value;
                                   fridaySchedule["c"] = getNewTime(value);
                                   setScheduleMapFriday(
-                                      thursdaySchedule["a"],
-                                      thursdaySchedule["b"],
-                                      thursdaySchedule["c"],
-                                      thursdaySchedule["d"]);
+                                      fridaySchedule["a"],
+                                      fridaySchedule["b"],
+                                      fridaySchedule["c"],
+                                      fridaySchedule["d"]);
                                 });
 
                                 print("Fridays schedule: " +
@@ -1475,6 +1512,18 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
 
                                 print("Fridays schedule: " +
                                     getScheduleMapFriday());
+
+                                Schedule friday = new Schedule(
+                                  friday:getScheduleMapFriday(),
+                                );
+                                newSchedule(friday).then((response){
+                                  if(response.statusCode > 200)
+                                    print(response.body);
+                                  else
+                                    print(response.statusCode);
+                                }).catchError((error){
+                                  print('error : $error');
+                                });
                               },
                             ),
                           ],
@@ -1569,14 +1618,14 @@ Future<http.Response> updateSchedule(Schedule schedule) async{
   return response;
 }
 
-Future<http.Response> newSchedule(NewSchedule newSchedule) async{
-  String updateUrl = 'http://e7dfbe04.ngrok.io/rides/profile/1/schedule/new';
+Future<http.Response> newSchedule(Schedule newSchedule) async{
+  String updateUrl = 'http://e7dfbe04.ngrok.io/rides/profile/42/schedule/new';
   final response = await http.post('$updateUrl',
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
         HttpHeaders.authorizationHeader : ''
       },
-      body: newScheduleToJson(newSchedule)
+      body: scheduleToJson(newSchedule)
   );
   return response;
 }

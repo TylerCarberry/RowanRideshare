@@ -437,20 +437,20 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                 //create response
 
 //                                Schedule monday = new Schedule(1,1,mondaySchedule["a"], mondaySchedule["b"], mondaySchedule["c"], mondaySchedule["d"]);
-                                bool update = true;
-                                int prof = 0;
-                                FutureBuilder<Post>(
-                                    future: getPost(),
-                                    builder: (context, snapshot){
-                                      print(snapshot.data.schedules);
-                                      prof = snapshot.data.id;
-                                      if(snapshot.data.schedules == []) {
-                                        update = false;
-                                      }
-                                      else{
-                                        update = true;
-                                      }
-                                    });
+//                                bool update = true;
+//                                int prof = 0;
+//                                FutureBuilder<Post>(
+//                                    future: getPost(),
+//                                    builder: (context, snapshot){
+//                                      print(snapshot.data.schedules);
+//                                      prof = snapshot.data.id;
+//                                      if(snapshot.data.schedules == []) {
+//                                        update = false;
+//                                      }
+//                                      else{
+//                                        update = true;
+//                                      }
+//                                    });
 
 //                                Schedule monday = new Schedule(
 //                                    id:1,
@@ -462,26 +462,26 @@ class _MyScheduleForm extends State<ScheduleForm> {
 //                                    leavingRangeStart: mondaySchedule["d"]
 //                                );
 
-                                NewSchedule newMonday = new NewSchedule(
-                                    profile:7,
-                                    day:"monday",
-                                    goingToRangeStart: mondaySchedule["a"],
-                                    goingToRangeEnd: mondaySchedule["b"],
-                                    leavingRangeEnd: mondaySchedule["c"],
-                                    leavingRangeStart: mondaySchedule["d"]
-                                );
+//                                NewSchedule newMonday = new NewSchedule(
+//                                    profile:7,
+//                                    day:"monday",
+//                                    goingToRangeStart: mondaySchedule["a"],
+//                                    goingToRangeEnd: mondaySchedule["b"],
+//                                    leavingRangeEnd: mondaySchedule["c"],
+//                                    leavingRangeStart: mondaySchedule["d"]
+//                                );
 
-                                if(!update){
-                                  newSchedule(newMonday).then((response){
-                                    if(response.statusCode > 200)
-                                      print(response.body);
-                                    else
-                                      print(response.statusCode);
-                                  }).catchError((error){
-                                    print('error : $error');
-                                  });
-                                }
-                                else{
+//                                if(!update){
+//                                  newSchedule(newMonday).then((response){
+//                                    if(response.statusCode > 200)
+//                                      print(response.body);
+//                                    else
+//                                      print(response.statusCode);
+//                                  }).catchError((error){
+//                                    print('error : $error');
+//                                  });
+//                                }
+//                                else{
 //                                  updateSchedule(monday).then((response){
 //                                    if(response.statusCode > 200)
 //                                      print(response.body);
@@ -490,7 +490,7 @@ class _MyScheduleForm extends State<ScheduleForm> {
 //                                  }).catchError((error){
 //                                    print('error : $error');
 //                                  });
-                                }
+//                                }
                               },
                             ),
                           ],
