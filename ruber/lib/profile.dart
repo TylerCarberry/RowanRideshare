@@ -510,19 +510,19 @@ class _MyAddressForm extends State<AddressForm> {
 }
 
 Future<Post> getPost() async {
-  String postUrl = 'http://10.0.2.2:8080/rides/profile/1';
+  String postUrl = 'http://e7dfbe04.ngrok.io/rides/profile/1';
   final response = await http.get(postUrl);
   return postFromJson(response.body);
 }
 
 Future<Address> getAddressPost() async {
-  String addressUrl = 'http://10.0.2.2:8080/rides/address/1';
+  String addressUrl = 'http://e7dfbe04.ngrok.io/rides/address/1';
   final response2 = await http.get(addressUrl);
   return addressFromJson(response2.body);
 }
 
 Future<http.Response> createAddress(Address address) async {
-  String updateUrl = 'http://10.0.2.2:8080/rides/address/update';
+  String updateUrl = 'http://e7dfbe04.ngrok.io/rides/address/update';
   final response = await http.post('$updateUrl',
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',

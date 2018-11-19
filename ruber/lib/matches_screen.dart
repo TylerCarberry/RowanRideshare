@@ -20,18 +20,18 @@ class matchesScreen extends StatefulWidget {
 }
 
 class matchesScreenState extends State<matchesScreen> {
-  Future<String> getData() async {
+  Future<List<Post>> getData() async {
     var response = await http.get(
 
         /// Change the URL to the end point from the database
-        Uri.encodeFull("https://jsonplaceholder.typicode.com/posts"),
+        Uri.encodeFull('http://e7dfbe04.ngrok.io/rides/matching/3/20'),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
       profileMatches = json.decode(response.body);
     });
 
-    return "Success!";
+    return allPostsFromJson(response.body);
   }
 
   @override
@@ -150,8 +150,8 @@ class matchesScreenState extends State<matchesScreen> {
                 leading: CircleAvatar(
                     backgroundImage: NetworkImage(
                         "http://s3.amazonaws.com/nvest/Blank_Club_Website_Avatar_Gray.jpg")),
-                title: Text("Firstname Lastname"),
-                subtitle: Text(profileMatches[index]["title"]),
+                title: Text(profileMatches[index]["name"]),
+                subtitle: Text(profileMatches[index]["email"]),
                 onTap: () {
                   Navigator.push(
                       context,
