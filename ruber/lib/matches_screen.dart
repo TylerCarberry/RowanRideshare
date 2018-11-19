@@ -4,6 +4,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+import 'dart:async' show Future;
+import 'ProfileModel.dart';
+
+import 'dart:io';
 List profileMatches;
 
 getProfile() {
@@ -157,4 +161,10 @@ class matchesScreenState extends State<matchesScreen> {
               );
             }));
   }
+}
+
+Future<List<Post>> getAllPost() async {
+  String postUrl = 'http://e7dfbe04.ngrok.io/rides/matching/3/20';
+  final response = await http.get(postUrl);
+  return allPostsFromJson(response.body);
 }
