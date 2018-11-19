@@ -103,6 +103,12 @@ class _MyHomePageState extends State<MyHomePage> {
     final FirebaseUser currentUser = await _auth.currentUser();
     assert(user.uid == currentUser.uid);
 
+    Navigator.push(
+        context,
+        MaterialPageRoute(builder: (
+            context) => InitialAddressForm(emailAddress))); // Should be changed to AuthScreen.dart which should go to InitialAddressForm.dart
+
+
     return 'signInWithGoogle succeeded: $user';
   }
 
@@ -124,12 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 setState(() {
                   _message = _testSignInWithGoogle();
                   emailAddress = getEmailAddress();
-
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (
-                          context) => InitialAddressForm(emailAddress))); // Should be changed to AuthScreen.dart which should go to InitialAddressForm.dart
-                });
+                  });
               },
 
               ),
