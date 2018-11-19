@@ -6,9 +6,20 @@ import 'package:http/http.dart' as http;
 
 import 'dart:async' show Future;
 import 'ProfileModel.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 List profileMatches;
+
+getId() async {
+  int id;
+  if(id == 0 || id == null)
+  {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    id = prefs.getInt("id");
+  };
+  return id;
+}
+
 
 getProfile() {
   return profileMatches;
@@ -21,10 +32,13 @@ class matchesScreen extends StatefulWidget {
 
 class matchesScreenState extends State<matchesScreen> {
   Future<List<Post>> getData() async {
+    int userId = await getId();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int radius = prefs.get("radius");
     var response = await http.get(
 
         /// Change the URL to the end point from the database
-        Uri.encodeFull('http://10.0.2.2:8080/rides/matching/3/20'),
+        Uri.encodeFull('http://10.0.2.2:8080/rides/matching/$userId/$radius'),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
