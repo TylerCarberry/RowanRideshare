@@ -324,7 +324,7 @@ Future<Post> getMyId() async {
   String emailUrl = prefs.getString("email");
 
   //String emailUrl = ;  // Need to work on getting email from AuthScreen.dart
-  String addressUrl = 'https://10.0.2.2:8080/rides/profile/email/$emailUrl';
+  String addressUrl = 'http://10.0.2.2:8080/rides/profile/email/$emailUrl';
   final response2 = await http.get(addressUrl);
   return postFromJson(response2.body);
 }
@@ -332,7 +332,7 @@ Future<Post> getMyId() async {
 
 Future<http.Response> createAddress(AddressPost address) async {
   int userId = await getId();
-  String updateUrl = 'https://10.0.2.2:8080/rides/address/$userId/new';
+  String updateUrl = 'http://10.0.2.2:8080/rides/address/$userId/new';
   final response = await http.post('$updateUrl',
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
