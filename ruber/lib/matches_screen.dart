@@ -24,7 +24,7 @@ class matchesScreenState extends State<matchesScreen> {
     var response = await http.get(
 
         /// Change the URL to the end point from the database
-        Uri.encodeFull('http://e4325b2b.ngrok.io/rides/matching/3/20'),
+        Uri.encodeFull('http://10.0.2.2:8080/rides/matching/3/20'),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
@@ -164,7 +164,7 @@ class matchesScreenState extends State<matchesScreen> {
 }
 
 Future<List<Post>> getAllPost() async {
-  String postUrl = 'http://e4325b2b.ngrok.io/rides/matching/3/20';
+  String postUrl = 'http://10.0.2.2:8080/rides/matching/3/20';
   final response = await http.get(postUrl);
   return allPostsFromJson(response.body);
 }
