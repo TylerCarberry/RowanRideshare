@@ -168,7 +168,15 @@ class ProfileScreen extends StatelessWidget {
                           else
                             return CircularProgressIndicator();
                         }))),
-
+//                        future: getPost(),
+//                        builder: (context, snapshot) {
+//                          if (snapshot.hasData){
+//
+//                            return Text(
+//                                '${snapshot.data.email}');}
+//                          else
+//                            return CircularProgressIndicator();
+//                        }))),
             Container(
               margin: EdgeInsets.only(top: 15.0),
               child: Text(
