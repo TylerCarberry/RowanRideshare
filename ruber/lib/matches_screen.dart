@@ -4,6 +4,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+import 'dart:async' show Future;
+import 'ProfileModel.dart';
+
+import 'dart:io';
 List profileMatches;
 
 getProfile() {
@@ -16,18 +20,18 @@ class matchesScreen extends StatefulWidget {
 }
 
 class matchesScreenState extends State<matchesScreen> {
-  Future<String> getData() async {
+  Future<List<Post>> getData() async {
     var response = await http.get(
 
         /// Change the URL to the end point from the database
-        Uri.encodeFull("https://jsonplaceholder.typicode.com/posts"),
+        Uri.encodeFull('http://10.0.2.2:8080/rides/matching/3/20'),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
       profileMatches = json.decode(response.body);
     });
 
-    return "Success!";
+    return allPostsFromJson(response.body);
   }
 
   @override
@@ -146,8 +150,8 @@ class matchesScreenState extends State<matchesScreen> {
                 leading: CircleAvatar(
                     backgroundImage: NetworkImage(
                         "http://s3.amazonaws.com/nvest/Blank_Club_Website_Avatar_Gray.jpg")),
-                title: Text("Firstname Lastname"),
-                subtitle: Text(profileMatches[index]["title"]),
+                title: Text(profileMatches[index]["name"]),
+                subtitle: Text(profileMatches[index]["distanceRounded"].toString() +" miles"),
                 onTap: () {
                   Navigator.push(
                       context,
@@ -157,4 +161,10 @@ class matchesScreenState extends State<matchesScreen> {
               );
             }));
   }
+}
+
+Future<List<Post>> getAllPost() async {
+  String postUrl = 'http://10.0.2.2:8080/rides/matching/3/20';
+  final response = await http.get(postUrl);
+  return allPostsFromJson(response.body);
 }
