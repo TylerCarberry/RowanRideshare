@@ -142,8 +142,6 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-
-
   Future<http.Response> createUser(NewUser user) async{
     String updateUrl = 'http://10.0.2.2:8080/rides/profile/new';
     final response = await http.post('$updateUrl',

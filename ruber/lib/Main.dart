@@ -16,7 +16,6 @@ import 'AuthScreen.dart';
 import 'StaticMapPage.dart';
 import 'Rest.dart';
 
-
 import 'dart:async';
 import 'dart:io';
 
@@ -24,9 +23,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import 'dart:io';
-import 'dart:async';
-import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -44,37 +40,12 @@ class RUber extends StatelessWidget {
   }
 }
 
-
 // ==================== WELCOME SCREEN ====================== //
 
 class WelcomeScreen extends StatelessWidget {
-
-  Future<String> _message = Future<String>.value('');
-  String verificationId;
-
-
-  Future<String> _testSignInWithGoogle() async {
-    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-    final GoogleSignInAuthentication googleAuth =
-    await googleUser.authentication;
-    final FirebaseUser user = await _auth.signInWithGoogle(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-    assert(user.email != null);
-    assert(user.displayName != null);
-    assert(!user.isAnonymous);
-    assert(await user.getIdToken() != null);
-
-    final FirebaseUser currentUser = await _auth.currentUser();
-    assert(user.uid == currentUser.uid);
-
-    return 'signInWithGoogle succeeded: $user';
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold (
+    return Scaffold(
         appBar: AppBar(
           title: Text('Welcome to RUber'),
           centerTitle: true,
@@ -90,28 +61,27 @@ class WelcomeScreen extends StatelessWidget {
               Container(
                 margin: EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
                 child: Text('• Find people to carpool with that have similar class schedules and who live nearby.\n\n• Only available to Rowan University students.\n\n• More schools coming soon.', style: TextStyle(color: Colors.black, fontSize: 18.0),),
+
               ),
               RaisedButton(
                 child: Text("Start"),
                 onPressed: () {
-                // TODO - Grab all the info from the _message variable
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (
-                        context) => AuthScreen())); // Should be changed to AuthScreen.dart which should go to InitialAddressForm.dart
-
+                  // TODO - Grab all the info from the _message variable
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              MainScreen())); // Should be changed to AuthScreen.dart which should go to InitialAddressForm.dart
+                  // TODO: Remember to change this back to AuthScreen()
                 },
               )
             ],
           ),
-        )
-    );
+        ));
   }
-
 }
 
 // =========================== END WELCOME SCREEN ====================== //
-
 
 class MainScreen extends StatelessWidget {
   final String title;
@@ -156,10 +126,8 @@ class MainScreen extends StatelessWidget {
             RaisedButton(
               child: Text('Schedule'),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ScheduleForm())
-                );
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ScheduleForm()));
               },
             ),
             RaisedButton(
@@ -190,9 +158,6 @@ class MainScreen extends StatelessWidget {
         ));
   }
 }
-
-
-
 
 // ==================== LOGIN SCREEN ======================== //
 
@@ -285,8 +250,6 @@ class MessagesScreenState extends State<MessagesScreen> {
 }
 
 // ======================== END MESSAGES SCREEN ====================== //
-
-
 
 class SettingsScreen extends StatelessWidget {
   Widget build(context) {
