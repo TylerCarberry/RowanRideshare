@@ -13,12 +13,15 @@ import 'dart:async' show Future;
 import 'UserModel.dart';
 import 'ProfileModel.dart';
 import 'AddressPostModel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn _googleSignIn = GoogleSignIn();
 
 
 class AuthScreen extends StatelessWidget {
   @override
+
+
 
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -47,8 +50,10 @@ class _MyHomePageState extends State<MyHomePage> {
     return emailAddress;
   }
 
-  setEmailAddress(String newEmail) {
+  setEmailAddress(String newEmail) async {
     emailAddress = newEmail;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("email", newEmail);
   }
 
 
@@ -82,10 +87,12 @@ class _MyHomePageState extends State<MyHomePage> {
       String tempEmail = user.email.toString();
 
       NewUser tempUser = NewUser(name: tempName, email: tempEmail);
-
+      setEmailAddress(tempEmail);
       createUser(tempUser).then((response){
-        if(response.statusCode > 200)
+        if(response.statusCode > 200) {
+          print(tempEmail);
           print(response.body);
+        }
         else
           print(response.statusCode);
       }).catchError((error){
@@ -116,11 +123,12 @@ class _MyHomePageState extends State<MyHomePage> {
               {
                 setState(() {
                   _message = _testSignInWithGoogle();
+                  emailAddress = getEmailAddress();
 
                   Navigator.push(
                       context,
                       MaterialPageRoute(builder: (
-                          context) => InitialAddressForm())); // Should be changed to AuthScreen.dart which should go to InitialAddressForm.dart
+                          context) => InitialAddressForm(emailAddress))); // Should be changed to AuthScreen.dart which should go to InitialAddressForm.dart
                 });
               },
 
@@ -137,7 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
   Future<http.Response> createUser(NewUser user) async{
-    String updateUrl = 'http://10.0.2.2:8080/rides/profile/new';
+    String updateUrl = 'http://bcdca256.ngrok.io/rides/profile/new';
     final response = await http.post('$updateUrl',
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
@@ -153,7 +161,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<http.Response> createAddress(AddressPost address) async {
     String userId = getId();
     print(userId);
-    String updateUrl = 'http://10.0.2.2:8080/rides/address/$userId/new';
+    String updateUrl = 'http://bcdca256.ngrok.io/rides/address/$userId/new';
     final response = await http.post('$updateUrl',
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',

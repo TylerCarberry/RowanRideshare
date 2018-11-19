@@ -11,8 +11,9 @@ import 'AddressModel.dart';
 import 'dart:io';
 import 'AuthScreen.dart';
 import 'AddressPostModel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-String id = "";
+int id;
 String profilePic;
 String streetName = "";
 String city = "";
@@ -22,12 +23,21 @@ String state = "";
 String email = "";
 String name = "";
 
-getId() {
+getId() async {
+  if(id == 0 || id == null)
+    {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      id = prefs.getInt("id");
+    };
   return id;
 }
 
-setId(String newId) {
-  id = newId;
+setId(int newId) async {
+  if (newId != null && newId != 0) {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt("id", newId);
+    id = newId;
+  }
 }
 
 
@@ -50,10 +60,6 @@ setNewState(String newState) {
 
 setZip(String newZip) {
   zipCode = newZip;
-}
-
-setEmail(String newEmail) {
-  email = newEmail;
 }
 
 setProfilePic(String picLocation) {
@@ -82,21 +88,23 @@ getState() {
   return state;
 }
 
-getEmail() {
-  return email;
-}
 
 getProfilePic() {
   return profilePic;
 }
 
 class InitialAddressForm extends StatefulWidget {
+  final String emailAddress;
+  InitialAddressForm(this.emailAddress);
+
+
+
   @override
   _MyAddressForm createState() => _MyAddressForm();
+
 }
 
 class _MyAddressForm extends State<InitialAddressForm> {
-
 
 
   final streetNameController = TextEditingController();
@@ -126,6 +134,7 @@ class _MyAddressForm extends State<InitialAddressForm> {
 
   @override
   Widget build(BuildContext context) {
+    print(email);
     return Scaffold(
         appBar: AppBar(
             title: Text('Edit your address'),
@@ -255,7 +264,7 @@ class _MyAddressForm extends State<InitialAddressForm> {
                     }
 
                     // Only activates after all the fields have information in them
-                    if ((a && b && c && d) == true) {
+                    if (true || (a && b && c && d) == true) {
                       String streetNameEdit = getStreetName();
                       String cityNameFinal = getCity();
                       String zipCodeEdit = getZip();
@@ -293,7 +302,8 @@ class _MyAddressForm extends State<InitialAddressForm> {
                         future: getMyId(),
                         builder: (context2, snapshot2) {
                           if (snapshot2.hasData) {
-                            String tempId = snapshot2.data.id.toString();
+                            int tempId = snapshot2.data.id;
+
                             print(tempId);
                             setId(tempId);
                             return Text(
@@ -310,17 +320,19 @@ class _MyAddressForm extends State<InitialAddressForm> {
 
 
 Future<Post> getMyId() async {
-  String emailUrl = getEmailAddress();  // Need to work on getting email from AuthScreen.dart
-  String addressUrl = 'http://10.0.2.2:8080/rides/profile/email/$emailUrl';
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String emailUrl = prefs.getString("email");
+
+  //String emailUrl = ;  // Need to work on getting email from AuthScreen.dart
+  String addressUrl = 'https://bcdca256.ngrok.io/rides/profile/email/$emailUrl';
   final response2 = await http.get(addressUrl);
   return postFromJson(response2.body);
 }
 
 
 Future<http.Response> createAddress(AddressPost address) async {
-  String userId;
-  print(userId);
-  String updateUrl = 'http://10.0.2.2:8080/rides/address/$userId/new';
+  int userId = await getId();
+  String updateUrl = 'https://bcdca256.ngrok.io/rides/address/$userId/new';
   final response = await http.post('$updateUrl',
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
@@ -333,7 +345,7 @@ Future<http.Response> createAddress(AddressPost address) async {
 /*
 Future<Post> getMyAddressId() async {
   String emailUrl = getEmailAddress();
-  String addressUrl = 'http://10.0.2.2:8080/rides/profile/email/$emailUrl';
+  String addressUrl = 'http://bcdca256.ngrok.io/rides/profile/email/$emailUrl';
   final response2 = await http.get(addressUrl);
   return postFromJson(response2.body);
 }
