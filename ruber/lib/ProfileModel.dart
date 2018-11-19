@@ -31,6 +31,7 @@ class Post {
   Address2 address;
 //  ScheduleList schedules;
   List<Schedule2> schedules;
+  double distanceRounded;
 //  List<Map<String, dynamic>> schedules;
 
   Post({
@@ -40,12 +41,13 @@ class Post {
     this.createdDate,
     this.address,
     this.schedules,
+    this.distanceRounded
   });
 
 
   factory Post.fromJson(Map<String, dynamic> parsedJson) {
     var list = parsedJson['schedules'] as List;
-    print(list);
+//    print(list);
     List<Schedule2> scheduleList = list.map((i) => Schedule2.fromJsonSchedule(i)).toList();
 
 //    Iterable l = json.decode('scedules');
@@ -58,6 +60,7 @@ class Post {
       createdDate: parsedJson["createdDate"],
       address: Address2.fromJsonAddress(parsedJson["address"]),
       schedules: scheduleList,
+      distanceRounded: parsedJson["distanceRounded"],
 //      schedules: json.decode(scheduleList.toString()),
     );}
 
@@ -69,6 +72,7 @@ class Post {
         "createdDate": createdDate,
         "address": address,
         "schedules": schedules,
+        "distanceRounded": distanceRounded
       };
 }
 
@@ -148,6 +152,7 @@ class Schedule2 {
   String goingToRangeEnd;
   String leavingRangeStart;
   String leavingRangeEnd;
+
 
   Schedule2({
     this.id,
