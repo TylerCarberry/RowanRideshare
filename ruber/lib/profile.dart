@@ -9,6 +9,7 @@ import 'dart:async' show Future;
 import 'ProfileModel.dart';
 import 'AddressModel.dart';
 import 'dart:io';
+import 'package:shared_preferences/shared_preferences.dart';
 
 String profilePic;
 String streetName = "";
@@ -78,6 +79,16 @@ getEmail() {
 
 getProfilePic() {
   return profilePic;
+}
+
+getId() async {
+  int id;
+  if(id == 0 || id == null)
+  {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    id = prefs.getInt("id");
+  };
+  return id;
 }
 
 class ProfileScreen extends StatelessWidget {
@@ -536,13 +547,15 @@ class _MyAddressForm extends State<AddressForm> {
 }
 
 Future<Post> getPost() async {
-  String postUrl = 'http://10.0.2.2:8080/rides/profile/1';
+  int id = await getId();
+  String postUrl = 'http://10.0.2.2:8080/rides/profile/' + id.toString();
   final response = await http.get(postUrl);
   return postFromJson(response.body);
 }
 
 Future<Address> getAddressPost() async {
-  String addressUrl = 'http://10.0.2.2:8080/rides/address/1';
+  int id = await getId();
+  String addressUrl = 'http://10.0.2.2:8080/rides/address/' + id.toString();
   final response2 = await http.get(addressUrl);
   return addressFromJson(response2.body);
 }
