@@ -39,7 +39,6 @@ class Address {
     this.longitude,
   });
 
-
   factory Address.fromJson(Map<String, dynamic> parsedJson) {
     return Address(
       id: parsedJson["id"],
@@ -49,10 +48,10 @@ class Address {
       state: parsedJson["state"],
       latitude: parsedJson["latitude"],
       longitude: parsedJson["longitude"],
-    );}
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "streetAddress": streetAddress,
         "city": city,
@@ -61,7 +60,6 @@ class Address {
         "latitude": latitude,
         "longitude": longitude,
       };
-
 
   @override
   String toString() {

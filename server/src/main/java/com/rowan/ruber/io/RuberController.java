@@ -76,6 +76,12 @@ public class RuberController {
         return profileRepository.findByEmailAddress(emailAddress);
     }
 
+    @GetMapping(path = "/profile/getmyid/{emailAddress}")
+    public @ResponseBody
+    int getMyId(@PathVariable String emailAddress) {
+        return profileRepository.findByEmailAddress(emailAddress).get().getId();
+    }
+
     /**
      * Get the chatroom.
      *
@@ -156,12 +162,26 @@ public class RuberController {
         return profileRepository.save(profile);
     }
 
+    @PostMapping(path = {"/address/{profileID}/new"})
+    public @ResponseBody
+    Address createAddress(@RequestBody Address address, @PathVariable int profileID) {
+        String formattedAddress = address.getStreetAddress() + " " + address.getCity() + " " + address.getState() + " " + address.getZipCode();
+        Location coordinates = MapsManager.getCoordinatesFromAddress(formattedAddress);
+        address.setLatitude(coordinates.getLat());
+        address.setLongitude(coordinates.getLng());
+        Profile profile = profileRepository.findById(profileID).get();
+        address = addressRepository.save(address);
+        profile.setAddress(address);
+        profileRepository.save(profile);
+        return address;
+    }
+
     /**
      * I decided to combine create chatroom and addProfileToChatroom.
      * Since we're manually taking care of createDate, a chatroom should consist of at least 1 user to start the chatroom
      * otherwise a chatroom is just hanging around not attached to any profiles.
      */
-    @PostMapping(path = {"/profile/{profileID}/chatroom/new", "/profile/{profileID}/chatroom/update"})
+        @PostMapping(path = {"/profile/{profileID}/chatroom/new", "/profile/{profileID}/chatroom/update"})
     public @ResponseBody
     Profile addProfileToChatroom(@PathVariable int profileID, @RequestBody Map<String, String> map) {
         Profile profile = null;
@@ -319,7 +339,6 @@ public class RuberController {
     List<Profile> getMatches(@PathVariable int profileID, @PathVariable int radius) {
         try {
             List<Profile> profiles = search.getMatches(profileRepository, profileID, radius);
-            System.out.println("test");
             return profiles;
         } catch (IllegalArgumentException e) {
             return null;

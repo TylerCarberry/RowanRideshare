@@ -3,55 +3,20 @@
 // TODO: Make the user mandatorily enter the schedule and the edit address - might need new screen for edit schedule with just changing the submit button
 
 import 'package:flutter/material.dart';
-import 'AppDrawer.dart';
-import 'Rest.dart';
-import 'GoingToRowan.dart';
 
-//class launchRideScreen extends StatelessWidget {
-//  @override
-//  Widget build(BuildContext context) {
-//    // TODO: implement build
-//    return Scaffold(
-//        appBar: AppBar(
-//          title: Text('New Ride'),
-//          centerTitle: true,
-//        ),
-//        drawer: launchAppDrawer(context),
-//        body: Row(
-//          crossAxisAlignment: CrossAxisAlignment.stretch,
-//          children: <Widget>[
-//            Expanded(
-//              child: Container(
-//                child: RaisedButton(
-//                  child: Text('Coming from Rowan'),
-//                  onPressed: () {
-//                    print("Coming from Rowan");
-//                  },
-//                  color: Colors.yellow,
-//                ),
-//              ),
-//            ),
-//            Expanded(
-//              child: Container(
-//                child: RaisedButton(
-//                  child: Text("Going to Rowan"),
-//                  onPressed: () {
-//                    Navigator.push(
-//                        context,
-//                        MaterialPageRoute(builder: (context) => goingtorowan()));
-//                  },
-//                  color: Colors.lightBlueAccent,
-//                ),
-//              ),
-//            )
-//          ],
-//        ));
-//  }
-//}
+import 'AppDrawer.dart';
+import 'GoingToRowan.dart';
+import 'matches_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class launchRideScreen extends StatefulWidget {
   @override
   _gtr createState() => new _gtr();
+}
+
+saveRadius(double radius) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setInt("radius", radius.toInt());
 }
 
 class _gtr extends State<launchRideScreen> {
@@ -62,7 +27,7 @@ class _gtr extends State<launchRideScreen> {
     // TODO: implement build
     return Scaffold(
         appBar: AppBar(
-          title: Text("Going to Rowan"),
+          title: Text("New Ride"),
           centerTitle: true,
         ),
         drawer: launchAppDrawer(context),
@@ -87,7 +52,12 @@ class _gtr extends State<launchRideScreen> {
             RaisedButton(
               child: Text('Find Rides!'),
               onPressed: () {
-                print("Hello");
+                saveRadius(radius);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            matchesScreen())); // Should be changed to Au
               },
             )
           ],

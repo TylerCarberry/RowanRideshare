@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'AppDrawer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 double radius = 0;
 
@@ -10,6 +12,11 @@ getRadius() {
 class goingtorowan extends StatefulWidget {
   @override
   _gtr createState() => new _gtr();
+}
+
+setRadius(int radius) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setInt("radius", radius);
 }
 
 class _gtr extends State<goingtorowan> {

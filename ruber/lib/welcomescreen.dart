@@ -9,8 +9,6 @@ class SplashScreen extends StatefulWidget {
 class _MySplashScreen extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
-    return new SplashScreen(
-      
-    );
+    return new SplashScreen();
   }
 }
