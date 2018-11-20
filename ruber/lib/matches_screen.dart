@@ -3,7 +3,7 @@ import 'package:ruber/AppDrawer.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
+import 'main.dart';
 import 'dart:async' show Future;
 import 'ProfileModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -57,7 +57,7 @@ class matchesScreenState extends State<matchesScreen> {
   Widget expandProfile(BuildContext context, int index) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(profileMatches[index]["title"]), // Name of the person
+          title: Text(profileMatches[index]["name"]), // Name of the person
           centerTitle: true,
         ),
         body: Center(
@@ -90,7 +90,7 @@ class matchesScreenState extends State<matchesScreen> {
                           color: Colors.blueAccent))),
 
               Container(
-                child: Center(child: Text('Firstname Lastname')),
+                child: Center(child: Text(profileMatches[index]["name"])),
               ),
 
               Container(
@@ -104,23 +104,7 @@ class matchesScreenState extends State<matchesScreen> {
                         color: Colors.deepOrange)),
               ),
 
-              Container(child: Center(child: Text('blah@random.com'))),
-
-              Container(
-                margin: EdgeInsets.only(top: 15.0),
-                child: Text(
-                  'Joined Date',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                    fontFamily: 'Helvetica',
-                    color: Colors.teal,
-                  ),
-                ),
-              ),
-
-              Container(child: Center(child: Text('6/6/6'))),
+              Container(child: Center(child: Text(profileMatches[index]["email"]))),
 
               Container(
                 margin: EdgeInsets.only(top: 15.0),
@@ -136,7 +120,7 @@ class matchesScreenState extends State<matchesScreen> {
                 )
               ),
 
-              Container(child: Center(child: Text("4.34 miles"))),
+              Container(child: Center(child: Text(profileMatches[index]["distanceRounded"].toString() + " miles"))),
 
               Container(
                 margin: EdgeInsets.only(top: 20.0),
@@ -144,7 +128,10 @@ class matchesScreenState extends State<matchesScreen> {
                       child: RaisedButton(
                 child: Text('Send Ride Request!'),
                         onPressed: () {
-                  print("hello!");
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MessagesScreen()));
                         },
               )))
             ],

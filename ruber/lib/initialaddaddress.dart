@@ -24,11 +24,14 @@ String email = "";
 String name = "";
 
 getId() async {
-  if(id == 0 || id == null)
-    {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      id = prefs.getInt("id");
-    };
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  int tempId = prefs.getInt("id");
+  if (tempId != 0 && tempId != null) {
+    id = tempId;
+  }
+
+
   return id;
 }
 
@@ -298,16 +301,16 @@ class _MyAddressForm extends State<InitialAddressForm> {
 
             Container(
                 child: Center(
-                    child: FutureBuilder<Post>(
+                    child: FutureBuilder<int>(
                         future: getMyId(),
                         builder: (context2, snapshot2) {
                           if (snapshot2.hasData) {
-                            int tempId = snapshot2.data.id;
+                            int tempId = snapshot2.data;
 
                             print(tempId);
                             setId(tempId);
                             return Text(
-                                '${snapshot2.data.id.toString()}');
+                                '${snapshot2.data.toString()}');
                           }
                           else
                             return CircularProgressIndicator();
@@ -319,14 +322,17 @@ class _MyAddressForm extends State<InitialAddressForm> {
 }
 
 
-Future<Post> getMyId() async {
+Future<int> getMyId() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String emailUrl = prefs.getString("email");
 
   //String emailUrl = ;  // Need to work on getting email from AuthScreen.dart
-  String addressUrl = 'http://10.0.2.2:8080/rides/profile/email/$emailUrl';
+  String addressUrl = 'http://10.0.2.2:8080/rides/profile/getmyid/$emailUrl';
   final response2 = await http.get(addressUrl);
-  return postFromJson(response2.body);
+  var res = response2.body;
+  await setId(int.parse(res));
+  print(res);
+  return int.parse(res);
 }
 
 
