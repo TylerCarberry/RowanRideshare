@@ -11,7 +11,7 @@ import 'package:ruber/Main.dart';
 
 import 'ProfileModel.dart';
 import 'ScheduleModel.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 // This is the map that is to be sent to the database
 // If any of the 4 blocks are 0000 - that means that the user didn't
 // put in a time for that block and that entire day is invalid
@@ -22,6 +22,19 @@ var scheduleMap = {
   "thursday": "",
   "friday": ""
 };
+
+
+
+getId() async {
+  int id;
+  if(id == 0 || id == null)
+  {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    id = prefs.getInt("id");
+  };
+  return id;
+}
+
 
 /// Getter methods for the scheduleMap variable
 getScheduleMapMonday() {
@@ -1613,8 +1626,9 @@ Future<http.Response> updateSchedule(Schedule schedule) async {
   return response;
 }
 
-Future<http.Response> newSchedule(Schedule newSchedule) async {
-  String updateUrl = 'http://10.0.2.2:8080/rides/profile/42/schedule/new';
+Future<http.Response> newSchedule(Schedule newSchedule) async{
+  int userId = await getId();
+  String updateUrl = 'http://10.0.2.2:8080/rides/profile/$userId/schedule/new';
   final response = await http.post('$updateUrl',
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',

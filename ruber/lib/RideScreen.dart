@@ -7,10 +7,16 @@ import 'package:flutter/material.dart';
 import 'AppDrawer.dart';
 import 'GoingToRowan.dart';
 import 'matches_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class launchRideScreen extends StatefulWidget {
   @override
   _gtr createState() => new _gtr();
+}
+
+saveRadius(double radius) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setInt("radius", radius.toInt());
 }
 
 class _gtr extends State<launchRideScreen> {
@@ -46,6 +52,7 @@ class _gtr extends State<launchRideScreen> {
             RaisedButton(
               child: Text('Find Rides!'),
               onPressed: () {
+                saveRadius(radius);
                 Navigator.push(
                     context,
                     MaterialPageRoute(

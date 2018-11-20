@@ -133,16 +133,8 @@ class MainScreen extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => SettingsScreen()),
                   );
                 }),
-            RaisedButton(
+           RaisedButton(
                 child: Text('Login'),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => TextForm()),
-                  );
-                }),
-            RaisedButton(
-                child: Text('Login (V2)'),
                 onPressed: () {
                   Navigator.push(
                     context,

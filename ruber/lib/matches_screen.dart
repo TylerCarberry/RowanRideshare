@@ -8,7 +8,23 @@ import 'package:ruber/AppDrawer.dart';
 
 import 'ProfileModel.dart';
 
+import 'main.dart';
+import 'dart:async' show Future;
+import 'ProfileModel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:io';
 List profileMatches;
+
+getId() async {
+  int id;
+  if(id == 0 || id == null)
+  {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    id = prefs.getInt("id");
+  };
+  return id;
+}
+
 
 getProfile() {
   return profileMatches;
@@ -21,10 +37,13 @@ class matchesScreen extends StatefulWidget {
 
 class matchesScreenState extends State<matchesScreen> {
   Future<List<Post>> getData() async {
+    int userId = await getId();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int radius = prefs.get("radius");
     var response = await http.get(
 
         /// Change the URL to the end point from the database
-        Uri.encodeFull('http://10.0.2.2:8080/rides/matching/3/20'),
+        Uri.encodeFull('http://10.0.2.2:8080/rides/matching/$userId/$radius'),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
@@ -43,7 +62,7 @@ class matchesScreenState extends State<matchesScreen> {
   Widget expandProfile(BuildContext context, int index) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(profileMatches[index]["title"]), // Name of the person
+          title: Text(profileMatches[index]["name"]), // Name of the person
           centerTitle: true,
         ),
         body: Center(
@@ -76,7 +95,7 @@ class matchesScreenState extends State<matchesScreen> {
                           color: Colors.blueAccent))),
 
               Container(
-                child: Center(child: Text('Firstname Lastname')),
+                child: Center(child: Text(profileMatches[index]["name"])),
               ),
 
               Container(
@@ -90,23 +109,7 @@ class matchesScreenState extends State<matchesScreen> {
                         color: Colors.deepOrange)),
               ),
 
-              Container(child: Center(child: Text('blah@random.com'))),
-
-              Container(
-                margin: EdgeInsets.only(top: 15.0),
-                child: Text(
-                  'Joined Date',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                    fontFamily: 'Helvetica',
-                    color: Colors.teal,
-                  ),
-                ),
-              ),
-
-              Container(child: Center(child: Text('6/6/6'))),
+              Container(child: Center(child: Text(profileMatches[index]["email"]))),
 
               Container(
                   margin: EdgeInsets.only(top: 15.0),
@@ -120,17 +123,20 @@ class matchesScreenState extends State<matchesScreen> {
                         color: Colors.deepPurpleAccent),
                   )),
 
-              Container(child: Center(child: Text("4.34 miles"))),
+              Container(child: Center(child: Text(profileMatches[index]["distanceRounded"].toString() + " miles"))),
 
               Container(
                   margin: EdgeInsets.only(top: 20.0),
                   child: Center(
                       child: RaisedButton(
-                    child: Text('Send Ride Request!'),
-                    onPressed: () {
-                      print("hello!");
-                    },
-                  )))
+                child: Text('Send Ride Request!'),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MessagesScreen()));
+                        },
+              )))
             ],
           ),
         ));
