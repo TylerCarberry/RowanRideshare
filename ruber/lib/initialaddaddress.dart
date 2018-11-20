@@ -1,17 +1,15 @@
-import 'package:flutter/material.dart';
-import 'AppDrawer.dart';
-import 'Rest.dart';
-import 'initialeditschedule.dart';
-
-import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:async' show Future;
-import 'ProfileModel.dart';
-import 'AddressModel.dart';
 import 'dart:io';
-import 'AuthScreen.dart';
-import 'AddressPostModel.dart';
+
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'AddressPostModel.dart';
+import 'AppDrawer.dart';
+import 'ProfileModel.dart';
+import 'initialeditschedule.dart';
 
 int id;
 String profilePic;
@@ -31,7 +29,6 @@ getId() async {
     id = tempId;
   }
 
-
   return id;
 }
 
@@ -42,8 +39,6 @@ setId(int newId) async {
     id = newId;
   }
 }
-
-
 
 setName(String newName) {
   name = newName;
@@ -91,25 +86,20 @@ getState() {
   return state;
 }
 
-
 getProfilePic() {
   return profilePic;
 }
 
 class InitialAddressForm extends StatefulWidget {
   final String emailAddress;
+
   InitialAddressForm(this.emailAddress);
-
-
 
   @override
   _MyAddressForm createState() => _MyAddressForm();
-
 }
 
 class _MyAddressForm extends State<InitialAddressForm> {
-
-
   final streetNameController = TextEditingController();
   final cityController = TextEditingController();
   final zipController = TextEditingController();
@@ -276,7 +266,8 @@ class _MyAddressForm extends State<InitialAddressForm> {
                           streetAddress: streetNameEdit,
                           city: cityNameFinal,
                           zipCode: zipCodeEdit,
-                          state: stateEdit); // creating a new Post object to send it to API
+                          state:
+                              stateEdit); // creating a new Post object to send it to API
 
                       createAddress(newAddress).then((response) {
                         if (response.statusCode > 200)
@@ -291,7 +282,8 @@ class _MyAddressForm extends State<InitialAddressForm> {
 
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => InitialScheduleForm()),
+                        MaterialPageRoute(
+                            builder: (context) => InitialScheduleForm()),
                       );
                     } else {
                       return null;
@@ -315,7 +307,6 @@ class _MyAddressForm extends State<InitialAddressForm> {
                           else
                             return CircularProgressIndicator();
                         }))),
-
           ],
         )));
   }
@@ -334,7 +325,6 @@ Future<int> getMyId() async {
   print(res);
   return int.parse(res);
 }
-
 
 Future<http.Response> createAddress(AddressPost address) async {
   int userId = await getId();

@@ -1,8 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:ruber/AppDrawer.dart';
 import 'dart:async';
+import 'dart:async' show Future;
 import 'dart:convert';
+
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:ruber/AppDrawer.dart';
+
+import 'ProfileModel.dart';
+
 import 'main.dart';
 import 'dart:async' show Future;
 import 'ProfileModel.dart';
@@ -107,23 +112,21 @@ class matchesScreenState extends State<matchesScreen> {
               Container(child: Center(child: Text(profileMatches[index]["email"]))),
 
               Container(
-                margin: EdgeInsets.only(top: 15.0),
-                child: Text(
-                  'Distance',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                    fontFamily: 'Helvetica',
-                    color: Colors.deepPurpleAccent
-                  ),
-                )
-              ),
+                  margin: EdgeInsets.only(top: 15.0),
+                  child: Text(
+                    'Distance',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0,
+                        fontFamily: 'Helvetica',
+                        color: Colors.deepPurpleAccent),
+                  )),
 
               Container(child: Center(child: Text(profileMatches[index]["distanceRounded"].toString() + " miles"))),
 
               Container(
-                margin: EdgeInsets.only(top: 20.0),
+                  margin: EdgeInsets.only(top: 20.0),
                   child: Center(
                       child: RaisedButton(
                 child: Text('Send Ride Request!'),
@@ -152,7 +155,9 @@ class matchesScreenState extends State<matchesScreen> {
                     backgroundImage: NetworkImage(
                         "http://s3.amazonaws.com/nvest/Blank_Club_Website_Avatar_Gray.jpg")),
                 title: Text(profileMatches[index]["name"]),
-                subtitle: Text(profileMatches[index]["distanceRounded"].toString() +" miles"),
+                subtitle: Text(
+                    profileMatches[index]["distanceRounded"].toString() +
+                        " miles"),
                 onTap: () {
                   Navigator.push(
                       context,

@@ -4,32 +4,26 @@ import 'package:map_view/map_view.dart';
 var api_key = "AIzaSyDrHKl8IxB4cGXIoELXQOzzZwiH1xtsRf4";
 
 class StaticMapPage extends StatefulWidget {
-
   @override
   _MapPageState createState() => new _MapPageState();
 }
 
 class _MapPageState extends State<StaticMapPage> {
-
   MapView mapView = new MapView();
   CameraPosition cameraPosition;
   var staticMapProvider = new StaticMapProvider(api_key);
   Uri staticMapUri;
 
-
-
   List<Marker> markers = <Marker>[
-    new Marker("1", "My Location",39.70036, -75.1243,
-        color: Colors.blue),
-    new Marker("2", "Nick's Location",39.7099, -75.1189,
-        color: Colors.amber),
-
+    new Marker("1", "My Location", 39.70036, -75.1243, color: Colors.blue),
+    new Marker("2", "Nick's Location", 39.7099, -75.1189, color: Colors.amber),
   ];
 
   showMap() {
     mapView.show(new MapOptions(
         mapViewType: MapViewType.normal,
-        initialCameraPosition: new CameraPosition(new Location(39.7099, -75.1189), 15.0),
+        initialCameraPosition:
+            new CameraPosition(new Location(39.7099, -75.1189), 15.0),
         showUserLocation: true,
         title: "RUber "));
 
@@ -37,21 +31,17 @@ class _MapPageState extends State<StaticMapPage> {
       setState(() {
         mapView.setMarkers(markers);
         mapView.zoomToFit(padding: 100);
-
-
       });
     });
-
-
   }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    cameraPosition =
-    new CameraPosition(new Location(39.7099, -75.1189), 15.0);
+    cameraPosition = new CameraPosition(new Location(39.7099, -75.1189), 15.0);
     staticMapUri = staticMapProvider.getStaticUri(
-        new Location(39.7099, -75.1189), 15 ,
+        new Location(39.7099, -75.1189), 15,
         height: 400, width: 900, mapType: StaticMapViewType.roadmap);
   }
 
@@ -69,7 +59,6 @@ class _MapPageState extends State<StaticMapPage> {
             ),
           ),
           new Container(
-
             height: 300.0,
             child: new Stack(
               children: <Widget>[

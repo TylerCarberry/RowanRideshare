@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'AppDrawer.dart';
 
 Container launchChatMessageContainer(context, text, _name) {
@@ -26,11 +27,9 @@ Container launchChatMessageContainer(context, text, _name) {
   );
 }
 
-Scaffold launchMessagesScreen(context, _messages,_buildTextComposer) {
+Scaffold launchMessagesScreen(context, _messages, _buildTextComposer) {
   return new Scaffold(
-    appBar: new AppBar(
-        title: new Text("Messages")
-    ),
+    appBar: new AppBar(title: new Text("Messages")),
     drawer: launchAppDrawer(context),
     body: new Column(
       children: <Widget>[
@@ -44,8 +43,7 @@ Scaffold launchMessagesScreen(context, _messages,_buildTextComposer) {
         ),
         new Divider(height: 1.0),
         new Container(
-          decoration: new BoxDecoration(
-              color: Theme.of(context).cardColor),
+          decoration: new BoxDecoration(color: Theme.of(context).cardColor),
           child: _buildTextComposer(),
         ),
       ],

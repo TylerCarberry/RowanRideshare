@@ -12,12 +12,11 @@ String addressPostToJson(AddressPost data) {
 
 List<AddressPost> allAddressesFromJson(String str) {
   final jsonData = json.decode(str);
-  return new List<AddressPost>.from(jsonData.map((x) => AddressPost.fromJson(x)));
+  return new List<AddressPost>.from(
+      jsonData.map((x) => AddressPost.fromJson(x)));
 }
 
-
 class AddressPost {
-
   String streetAddress;
   String city;
   String zipCode;
@@ -28,9 +27,7 @@ class AddressPost {
     this.city,
     this.zipCode,
     this.state,
-
   });
-
 
   factory AddressPost.fromJson(Map<String, dynamic> parsedJson) {
     return AddressPost(
@@ -38,14 +35,13 @@ class AddressPost {
       city: parsedJson["city"],
       zipCode: parsedJson["zipCode"],
       state: parsedJson["state"],
-    );}
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "streetAddress": streetAddress,
         "city": city,
         "zipCode": zipCode,
         "state": state,
-
       };
 }

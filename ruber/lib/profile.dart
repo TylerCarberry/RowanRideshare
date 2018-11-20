@@ -1,15 +1,15 @@
-import 'package:flutter/material.dart';
-import 'AppDrawer.dart';
-import 'editschedule.dart';
-import 'Rest.dart';
-
-import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:async' show Future;
-import 'ProfileModel.dart';
-import 'AddressModel.dart';
 import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+import 'AddressModel.dart';
+import 'AppDrawer.dart';
+import 'ProfileModel.dart';
+import 'editschedule.dart';
 
 String profilePic;
 String streetName = "";
@@ -178,11 +178,9 @@ class ProfileScreen extends StatelessWidget {
 //                        }))),
                         future: getPost(),
                         builder: (context, snapshot) {
-                          if (snapshot.hasData){
-
-                            return Text(
-                                '${snapshot.data.email}');}
-                          else
+                          if (snapshot.hasData) {
+                            return Text('${snapshot.data.email}');
+                          } else
                             return CircularProgressIndicator();
                         }))),
             Container(
@@ -230,13 +228,12 @@ class ProfileScreen extends StatelessWidget {
                         future: getPost(),
                         builder: (context2, snapshot2) {
                           if (snapshot2.hasData) {
-                            String newStreetName = snapshot2.data.address.streetAddress
-                                .toString();
+                            String newStreetName =
+                                snapshot2.data.address.streetAddress.toString();
                             setStreetName(newStreetName);
                             return Text(
                                 '${snapshot2.data.address.streetAddress}');
-                          }
-                          else
+                          } else
                             return CircularProgressIndicator();
                         }))),
             Container(
@@ -262,10 +259,8 @@ class ProfileScreen extends StatelessWidget {
                             String newCity = snapshot2.data.address.city;
                             setCity(newCity);
 
-                            return Text(
-                                '${snapshot2.data.address.city}');
-                          }
-                          else
+                            return Text('${snapshot2.data.address.city}');
+                          } else
                             return CircularProgressIndicator();
                         }))),
             Container(
@@ -291,10 +286,8 @@ class ProfileScreen extends StatelessWidget {
                             String newState = snapshot2.data.address.state;
                             setNewState(newState);
 
-                            return Text(
-                                '${snapshot2.data.address.state}');
-                          }
-                          else
+                            return Text('${snapshot2.data.address.state}');
+                          } else
                             return CircularProgressIndicator();
                         }))),
             Container(
@@ -320,10 +313,8 @@ class ProfileScreen extends StatelessWidget {
                             String newZipCode = snapshot2.data.address.zipCode;
                             setZip(newZipCode);
 
-                            return Text(
-                                '${snapshot2.data.address.zipCode}');
-                          }
-                          else
+                            return Text('${snapshot2.data.address.zipCode}');
+                          } else
                             return CircularProgressIndicator();
                         }))),
 
@@ -560,19 +551,18 @@ Future<Address> getAddressPost() async {
   return addressFromJson(response2.body);
 }
 
-Future<http.Response> createPost(Post post) async{
+Future<http.Response> createPost(Post post) async {
   String updateUrl = 'http://10.0.2.2:8080/rides/address/update';
   final response = await http.post('$updateUrl',
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
-        HttpHeaders.authorizationHeader : ''
+        HttpHeaders.authorizationHeader: ''
       },
-      body: postToJson(post)
-  );
+      body: postToJson(post));
   return response;
 }
 
-Future<http.Response> createAddress(Address address) async{
+Future<http.Response> createAddress(Address address) async {
   String updateUrl = 'http://10.0.2.2:8080/rides/address/update';
   final response = await http.post('$updateUrl',
       headers: {

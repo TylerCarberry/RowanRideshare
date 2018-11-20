@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+
+import 'RideScreen.dart';
+import 'editschedule.dart';
 import 'main.dart';
 import 'profile.dart';
-import 'editschedule.dart';
-import 'RideScreen.dart';
 
 Drawer launchAppDrawer(context) {
   return Drawer(

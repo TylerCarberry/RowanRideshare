@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'ProfileModel.dart';
-
 
 Schedule scheduleFromJson(String str) {
   final jsonData = json.decode(str);
@@ -23,8 +21,6 @@ String allScheduleToJson(List<Schedule> data) {
 }
 
 class Schedule {
-
-
   int id;
   int profile;
   String monday;
@@ -32,6 +28,7 @@ class Schedule {
   String wednesday;
   String thursday;
   String friday;
+
 //  String day;
 //  String goingToRangeStart;
 //  String goingToRangeEnd;
@@ -53,7 +50,6 @@ class Schedule {
 //    this.leavingRangeEnd,
   });
 
-
   factory Schedule.fromJson(Map<String, dynamic> parsedJson) {
     return Schedule(
       id: parsedJson["id"],
@@ -68,17 +64,17 @@ class Schedule {
 //      goingToRangeEnd: parsedJson["goingToRangeEnd"],
 //      leavingRangeStart: parsedJson["leavingRangeStart"],
 //      leavingRangeEnd: parsedJson["leavingRangeEnd"],
-    );}
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "id": id,
-        "profile":profile,
-        "monday":monday,
-        "tuesday":tuesday,
-        "wednesday":wednesday,
-        "thursday":thursday,
-        "friday":friday
+        "profile": profile,
+        "monday": monday,
+        "tuesday": tuesday,
+        "wednesday": wednesday,
+        "thursday": thursday,
+        "friday": friday
 //        "day": day,
 //        "goingToRangeStart": goingToRangeStart,
 //        "goingToRangeEnd": goingToRangeEnd,
