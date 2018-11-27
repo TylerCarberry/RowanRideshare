@@ -27,6 +27,7 @@ public class Search{
 		while(profileIterator.hasNext()) {
             Profile checkProfile = profileIterator.next();
             boolean foundMatchedProfile = false;
+            String matchedSchedulesString = "";
             Iterator<Schedule> scheduleIterator = checkProfile.getSchedules().iterator();
             while(scheduleIterator.hasNext())
             {
@@ -39,11 +40,16 @@ public class Search{
                         foundMatchedProfile = true;
                     }
                 }
-                if(!foundMatchedSchedule)
+                if(foundMatchedSchedule)
+                    matchedSchedulesString += Day.toCharacter(checkSchedule.getDay()) + " ";
+                else
                     scheduleIterator.remove();
             }
-            if(!foundMatchedProfile)
+            if(foundMatchedProfile)
+                checkProfile.setSchedulesString(matchedSchedulesString.trim());
+            else
                 profileIterator.remove();
+
         }
 		return matchedProfiles;
 	}
@@ -58,8 +64,11 @@ public class Search{
                     "SELECT * FROM schedule JOIN profile USING (ProfileID) WHERE EmailAddress = ?;",
                     new Object[]{profile.getEmail()},
                     new ScheduleRowMapper());
+            schedules.sort(new SortByDay());
             for (Schedule schedule : schedules)
+            {
                 schedule.setProfile(profile);
+            }
             profile.setSchedules(schedules);
         }
         return matchedProfiles;
