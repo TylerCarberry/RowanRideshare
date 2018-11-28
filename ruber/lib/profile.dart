@@ -507,8 +507,9 @@ class _MyAddressForm extends State<AddressForm> {
                     String cityNameFinal = getCity();
                     String zipCodeEdit = getZip();
                     String stateEdit = getState();
+                    int userId = getId();
                     Address newAddress = Address(
-                        id: 1,
+                        id: userId,
                         streetAddress: streetNameEdit,
                         city: cityNameFinal,
                         zipCode: zipCodeEdit,
