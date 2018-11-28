@@ -28,4 +28,27 @@ public enum Day implements Serializable {
                 return null;
         }
     }
+
+    public static char toCharacter(Day d)
+    {
+        switch(d){
+            case MONDAY:
+                return 'M';
+            case TUESDAY:
+                return 'T';
+            case WEDNESDAY:
+                return 'W';
+            case THURSDAY:
+                return 'R';
+            case FRIDAY:
+                return 'F';
+            case SATURDAY:
+                return 'S';
+            case SUNDAY:
+                return 'U';
+            default:
+                return ' ';
+
+        }
+    }
 }

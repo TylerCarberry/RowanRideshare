@@ -45,6 +45,8 @@ public class Profile implements Serializable{
     private double distance;
     @Transient
     private double distanceRounded;
+    @Transient
+    private String schedulesString;
 
     /** 
      *  Default constructor for JPA.
@@ -144,11 +146,23 @@ public class Profile implements Serializable{
     }
 
     /**
-     *
+     * Gets the un-rounded distance to another profile.
+     * @return the un-rounded distance.
      */
     public double getDistance() {return distance;}
 
+    /**
+     * Gets the rounded distance to another profile.
+     * @return the rounded distance.
+     */
     public double getDistanceRounded() {return distanceRounded;}
+
+    /**
+     * Gets a string that represents the list of schedules
+     * @return a string that represents the list of schedules.
+     */
+    public String getSchedulesString() {return schedulesString;}
+
     /**
      * Sets the address.
      * @param address the address object to set to
@@ -183,4 +197,10 @@ public class Profile implements Serializable{
     public void setSchedules(List<Schedule> schedules) {
         this.schedules = schedules;
     }
+
+    /**
+     * Sets the string that represents a list of schedules.
+     * @param string represents the list of schedules.
+     */
+    public void setSchedulesString(String string) {this.schedulesString = string;}
 }
