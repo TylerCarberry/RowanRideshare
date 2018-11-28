@@ -2,10 +2,17 @@
 // TODO: The individial day schedules should pull directly from the database
 // TODO: Fix the huge error when the schedule button is pressed
 
+import 'dart:async';
+import 'dart:async' show Future;
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'AppDrawer.dart';
+import 'package:http/http.dart' as http;
 import 'package:ruber/Main.dart';
-import 'Rest.dart';
+
+import 'AppDrawer.dart';
+import 'NewScheduleModel.dart';
+import 'ProfileModel.dart';
 
 // This is the map that is to be sent to the database
 // If any of the 4 blocks are 0000 - that means that the user didn't
@@ -63,7 +70,6 @@ setScheduleMapThursday(String a, String b, String c, String d) {
 setScheduleMapFriday(String a, String b, String c, String d) {
   scheduleMap["friday"] = a + b + c + d;
 }
-
 
 // The 'a' 'b' 'c' 'd' are the values for the hint text for the drop down
 // menus - they should be pulled from the database once there are values
@@ -426,6 +432,64 @@ class _MyScheduleForm extends State<ScheduleForm> {
 
                                 print("Mondays schedule " +
                                     getScheduleMapMonday());
+
+                                //create response
+
+//                                Schedule monday = new Schedule(1,1,mondaySchedule["a"], mondaySchedule["b"], mondaySchedule["c"], mondaySchedule["d"]);
+//                                bool update = true;
+//                                int prof = 0;
+//                                FutureBuilder<Post>(
+//                                    future: getPost(),
+//                                    builder: (context, snapshot){
+//                                      print(snapshot.data.schedules);
+//                                      prof = snapshot.data.id;
+//                                      if(snapshot.data.schedules == []) {
+//                                        update = false;
+//                                      }
+//                                      else{
+//                                        update = true;
+//                                      }
+//                                    });
+
+//                                Schedule monday = new Schedule(
+//                                    id:1,
+//                                    profile:7,
+//                                    day:"monday",
+//                                    goingToRangeStart: mondaySchedule["a"],
+//                                    goingToRangeEnd: mondaySchedule["b"],
+//                                    leavingRangeEnd: mondaySchedule["c"],
+//                                    leavingRangeStart: mondaySchedule["d"]
+//                                );
+
+//                                NewSchedule newMonday = new NewSchedule(
+//                                    profile:7,
+//                                    day:"monday",
+//                                    goingToRangeStart: mondaySchedule["a"],
+//                                    goingToRangeEnd: mondaySchedule["b"],
+//                                    leavingRangeEnd: mondaySchedule["c"],
+//                                    leavingRangeStart: mondaySchedule["d"]
+//                                );
+
+//                                if(!update){
+//                                  newSchedule(newMonday).then((response){
+//                                    if(response.statusCode > 200)
+//                                      print(response.body);
+//                                    else
+//                                      print(response.statusCode);
+//                                  }).catchError((error){
+//                                    print('error : $error');
+//                                  });
+//                                }
+//                                else{
+//                                  updateSchedule(monday).then((response){
+//                                    if(response.statusCode > 200)
+//                                      print(response.body);
+//                                    else
+//                                      print(response.statusCode);
+//                                  }).catchError((error){
+//                                    print('error : $error');
+//                                  });
+//                                }
                               },
                             ),
                           ],
@@ -1433,7 +1497,7 @@ class _MyScheduleForm extends State<ScheduleForm> {
                   // ================== FRIDAY END ==================== //
                 ]),
             RaisedButton(
-              child: Text("Submit"),
+                child: Text("Submit"),
                 onPressed: () {
                   if (getScheduleMapMonday().toString().contains("0000", 0) ||
                       getScheduleMapMonday() == "") {
@@ -1449,7 +1513,9 @@ class _MyScheduleForm extends State<ScheduleForm> {
                     b = true;
                   }
 
-                  if (getScheduleMapWednesday().toString().contains("0000", 0) ||
+                  if (getScheduleMapWednesday()
+                          .toString()
+                          .contains("0000", 0) ||
                       getScheduleMapWednesday() == "") {
                     c = false;
                   } else {
@@ -1476,13 +1542,47 @@ class _MyScheduleForm extends State<ScheduleForm> {
                         MaterialPageRoute(
                             builder: (context) =>
                                 MainScreen()) //Change this to AuthScreen()
-                    );
+                        );
                   } else {
                     return null;
                   }
-                }
-            )
+                })
           ],
         )));
   }
+}
+
+Future<Post> getPost() async {
+  String postUrl = 'http://10.0.2.2:8080/rides/profile/7';
+  final response = await http.get(postUrl);
+  return postFromJson(response.body);
+}
+
+//Future<Schedule> getSchedulePost() async {
+//  String addressUrl = 'http://10.0.2.2:8080/rides/profile/7/schedule';
+//  final response2 = await http.get(addressUrl);
+//  return scheduleFromJson(response2.body);
+//}
+
+//Future<http.Response> updateSchedule(Schedule schedule) async{
+//  String updateUrl = 'http://10.0.2.2:8080/rides/profile/7/schedule/update';
+//  final response = await http.post('$updateUrl',
+//      headers: {
+//        HttpHeaders.contentTypeHeader: 'application/json',
+//        HttpHeaders.authorizationHeader : ''
+//      },
+//      body: scheduleToJson(schedule)
+//  );
+//  return response;
+//}
+
+Future<http.Response> newSchedule(NewSchedule newSchedule) async {
+  String updateUrl = 'http://10.0.2.2:8080/rides/profile/1/schedule/new';
+  final response = await http.post('$updateUrl',
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.authorizationHeader: ''
+      },
+      body: newScheduleToJson(newSchedule));
+  return response;
 }
