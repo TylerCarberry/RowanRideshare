@@ -455,10 +455,7 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                                 print(snapshot.data.schedules[0].day);
                                                 update = true;
                                               }
-                                              else{
-                                                print(snapshot.data.schedules[0].day);
-                                                update = false;
-                                              }
+
                                             });
                                         print(update);
                                         Schedule updateMonday = new Schedule(
@@ -744,9 +741,8 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                               if(snapshot.data.schedules[0].day == "TUESDAY" || snapshot.data.schedules[1].day == "TUESDAY") {
                                                 update = true;
                                               }
-                                              else{
-                                                update = false;
-                                              }
+
+
                                             });
                                         print(update);
                                         Schedule updateTuesday = new Schedule(
@@ -1034,9 +1030,7 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                               if(snapshot.data.schedules[0].day == "WEDNESDAY" || snapshot.data.schedules[1].day == "WEDNESDAY"|| snapshot.data.schedules[2].day == "WEDNESDAY") {
                                                 update = true;
                                               }
-                                              else{
-                                                update = false;
-                                              }
+
                                             });
                                         print(update);
                                         Schedule updateWednesday = new Schedule(
@@ -1322,9 +1316,7 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                               if(snapshot.data.schedules[0].day == "THURSDAY" || snapshot.data.schedules[1].day == "THURSDAY"|| snapshot.data.schedules[2].day == "THURSDAY" || snapshot.data.schedules[3].day == "THURSDAY") {
                                                 update = true;
                                               }
-                                              else{
-                                                update = false;
-                                              }
+
                                             });
                                         print(update);
                                         Schedule updateThursday = new Schedule(
@@ -1611,9 +1603,7 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                               if(snapshot.data.schedules[0].day == "FRIDAY" || snapshot.data.schedules[1].day == "FRIDAY"|| snapshot.data.schedules[2].day == "FRIDAY" || snapshot.data.schedules[3].day == "FRIDAY"|| snapshot.data.schedules[4].day == "FRIDAY") {
                                                 update = true;
                                               }
-                                              else{
-                                                update = false;
-                                              }
+
                                             });
                                         print(update);
                                         Schedule updateFriday = new Schedule(
