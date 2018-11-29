@@ -43,7 +43,7 @@ class matchesScreenState extends State<matchesScreen> {
     var response = await http.get(
 
         /// Change the URL to the end point from the database
-        Uri.encodeFull('http://680285ec.ngrok.io/rides/matching/$userId/$radius'),
+        Uri.encodeFull('http://f59db4e1.ngrok.io/rides/matching/1/20'),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
@@ -157,7 +157,7 @@ class matchesScreenState extends State<matchesScreen> {
                 title: Text(profileMatches[index]["name"]),
                 subtitle: Text(
                     profileMatches[index]["distanceRounded"].toString() +
-                        " miles" + ["schedulesString"].toString()),
+                        " miles                    " + profileMatches[index]["schedulesString"].toString()),
                 onTap: () {
                   Navigator.push(
                       context,
