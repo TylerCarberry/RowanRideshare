@@ -10,6 +10,7 @@ import 'AddressModel.dart';
 import 'AppDrawer.dart';
 import 'ProfileModel.dart';
 import 'editschedule.dart';
+import 'AuthScreen.dart';
 
 String profilePic;
 String streetName = "";
@@ -20,7 +21,7 @@ String state = "";
 String email = "";
 
 String name = "";
-
+int id;
 // SETTERS
 
 setName(String newName) {
@@ -81,21 +82,39 @@ getProfilePic() {
   return profilePic;
 }
 
+//getId() async {
+//  if(id == 0 || id == null)
+//  {
+//    SharedPreferences prefs = await SharedPreferences.getInstance();
+//    id = prefs.getInt("id");
+//  };
+//  return id;
+//}
+
 getId() async {
-  int id;
-  if(id == 0 || id == null)
-  {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    id = prefs.getInt("id");
-  };
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  int tempId = prefs.getInt("id");
+  if (tempId != 0 && tempId != null) {
+    id = tempId;
+  }
+
   return id;
+}
+
+setId(int newId) async {
+  if (newId != null && newId != 0) {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt("id", newId);
+    //print(newId);
+    id = newId;
+  }
 }
 
 class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    setProfilePic(
-        "https://i.etsystatic.com/6543599/r/il/0dabd7/447283695/il_570xN.447283695_g8gh.jpg");
+    setProfilePic(getUserProfilePic());
 
     return Scaffold(
       appBar: AppBar(
@@ -537,16 +556,32 @@ class _MyAddressForm extends State<AddressForm> {
   }
 }
 
+Future<int> getMyId() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String emailUrl = prefs.getString("email");
+
+  //String emailUrl = ;  // Need to work on getting email from AuthScreen.dart
+  String addressUrl = 'http://10.0.2.2:8080/rides/profile/getmyid/$emailUrl';
+  final response2 = await http.get(addressUrl);
+  var res = response2.body;
+  await setId(int.parse(res));
+  print(res);
+  return int.parse(res);
+}
+
 Future<Post> getPost() async {
-  int id = await getId();
-  String postUrl = 'http://10.0.2.2:8080/rides/profile/' + id.toString();
+  int userid = await getId();
+  print(userid);
+  print(userid.toString());
+  String postUrl = 'http://10.0.2.2:8080/rides/profile/$userid';
+  print(postUrl);
   final response = await http.get(postUrl);
   return postFromJson(response.body);
 }
 
 Future<Address> getAddressPost() async {
   int id = await getId();
-  String addressUrl = 'http://10.0.2.2:8080/rides/address/' + id.toString();
+  String addressUrl = 'http://10.0.2.2:8080/rides/address/$id';
   final response2 = await http.get(addressUrl);
   return addressFromJson(response2.body);
 }

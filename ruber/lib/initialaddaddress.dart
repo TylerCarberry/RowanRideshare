@@ -36,6 +36,7 @@ setId(int newId) async {
   if (newId != null && newId != 0) {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setInt("id", newId);
+    //print(newId);
     id = newId;
   }
 }
@@ -328,6 +329,7 @@ Future<int> getMyId() async {
 
 Future<http.Response> createAddress(AddressPost address) async {
   int userId = await getId();
+  print(userId);
   String updateUrl = 'http://10.0.2.2:8080/rides/address/$userId/new';
   final response = await http.post('$updateUrl',
       headers: {
