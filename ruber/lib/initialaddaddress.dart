@@ -299,9 +299,7 @@ class _MyAddressForm extends State<InitialAddressForm> {
                         builder: (context2, snapshot2) {
                           if (snapshot2.hasData) {
                             int tempId = snapshot2.data;
-
-                            print(tempId);
-                            setId(tempId);
+                            //setId(tempId);
                             return Text(
                                 '${snapshot2.data.toString()}');
                           }

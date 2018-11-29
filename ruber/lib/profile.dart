@@ -12,7 +12,7 @@ import 'ProfileModel.dart';
 import 'editschedule.dart';
 import 'AuthScreen.dart';
 
-String profilePic;
+
 String streetName = "";
 String city = "";
 String zipCode = "";
@@ -48,9 +48,7 @@ setEmail(String newEmail) {
   email = newEmail;
 }
 
-setProfilePic(String picLocation) {
-  profilePic = picLocation;
-}
+
 
 // GETTERS
 
@@ -78,9 +76,6 @@ getEmail() {
   return email;
 }
 
-getProfilePic() {
-  return profilePic;
-}
 
 //getId() async {
 //  if(id == 0 || id == null)
@@ -114,11 +109,11 @@ setId(int newId) async {
 class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    setProfilePic(getUserProfilePic());
+
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile'),
+        title: Text('My Profile'),
         centerTitle: true,
       ),
       drawer: launchAppDrawer(context),
@@ -138,7 +133,7 @@ class ProfileScreen extends StatelessWidget {
                     image: new DecorationImage(
                         fit: BoxFit.fill,
                         // This is where we would retrieve the image from the data base
-                        image: NetworkImage(profilePic)))),
+                        image: NetworkImage(userProfilePic)))),
 
             // Full Name Heading & Text
 

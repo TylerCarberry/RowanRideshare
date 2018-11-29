@@ -17,39 +17,49 @@ import 'UserModel.dart';
 import 'initialaddaddress.dart';
 import 'Main.dart';
 import 'ProfileModel.dart';
+import 'StaticMapPage.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn _googleSignIn = GoogleSignIn();
 
 String userName;
+String firstName;
 String userProfilePic;
 List profileList;
 int id;
+Future<String> _message = Future<String>.value('');
 
-getUserProfilePic(){
-  return userProfilePic;
+getUserProfilePic( ) async{
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String imageUrl = prefs.getString("photo");
+  return imageUrl;
 }
 
 getUserName() {
   return userName;
 }
 
+getFirstName(){
+  return firstName;
+}
 
-
-setProfilePicture(String newPhotoUrl) async {
+setUserProfilePic(String newPhotoUrl) async {
   userProfilePic = newPhotoUrl;
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setString("photo", userProfilePic);
 }
 
-setUserName(String tempUserName) async {
+setFirstName(String tempUserName) async {
   if(tempUserName.contains(" "))
     tempUserName = tempUserName.substring(0, tempUserName.indexOf(" "));
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setString("username", tempUserName);
-  userName = tempUserName;
+  firstName = tempUserName;
 }
 
+setUserName(String tempUserName) async {
+  userName = tempUserName;
+}
 
 
 /*
@@ -78,30 +88,14 @@ setEmailAddress(String newEmail) async {
   prefs.setString("email", newEmail);
 }
 
-
-class AuthScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: MyAuthScreen(title: 'Sign into Rowan',),
-    );
-  }
-}
-
 class MyAuthScreen extends StatefulWidget {
-  MyAuthScreen({Key key, this.title}) : super(key: key);
-
-  final String title;
 
   @override
   _MyAuthScreenState createState() => _MyAuthScreenState();
+
 }
 
 class _MyAuthScreenState extends State<MyAuthScreen> {
-
-
-
-  Future<String> _message = Future<String>.value('');
 
   String verificationId;
 
@@ -118,20 +112,13 @@ class _MyAuthScreenState extends State<MyAuthScreen> {
     assert(!user.isAnonymous);
     assert(await user.getIdToken() != null);
 
-    /*
-    *This is where new users are created for first time logins
-    * this logic should work but might need to happen else where
-    * address schedule and chatroom are all null for now
-     */
-
-    //This if statement need to check for first time login
-
     String tempName = user.displayName.toString();
     String newPhotoUrl =  user.photoUrl.toString();
     String tempEmail = user.email.toString();
 
     setUserName(tempName);
-    setProfilePicture(newPhotoUrl);
+    setFirstName(tempName);
+    setUserProfilePic(newPhotoUrl);
     setEmailAddress(tempEmail);
 
     final FirebaseUser currentUser = await _auth.currentUser();
@@ -141,7 +128,7 @@ class _MyAuthScreenState extends State<MyAuthScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int tempId = prefs.getInt("id");
     print("temp id: " + tempId.toString());
-    getData();
+/*    getData();
 
     bool inDatabase = false;
     for(int i = 0; i < profileList.length; i++)
@@ -153,9 +140,9 @@ class _MyAuthScreenState extends State<MyAuthScreen> {
         if(tempEmailAddress == user.email){
           inDatabase = true;
         }
-      }
+      }*/
 
-    if(!inDatabase && tempId == null) {
+    if(_message == null || tempId == null) {
 
       NewUser tempUser = NewUser(name: tempName, email: tempEmail);
 
@@ -177,14 +164,17 @@ class _MyAuthScreenState extends State<MyAuthScreen> {
                   emailAddress))); // Should be changed to AuthScreen.dart which should go to InitialAddressForm.dart
     }
     else
-      {Navigator.push(
+      {
+
+        Navigator.push(
           context,
           MaterialPageRoute(builder: (context) =>
               MainScreen()));
 
-          _LoggedIn();
+        _loggedIn();
 
       }
+
     return 'signInWithGoogle succeeded: $user';
   }
 
@@ -193,18 +183,38 @@ class _MyAuthScreenState extends State<MyAuthScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text('Login to Continue'),
+        centerTitle: true,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+      body:
+      Center( child: Column(
         children: <Widget>[
-          RaisedButton(
-            child: const Text('Sign in to Rowan'),
+      Image.network(
+      'https://www.rowan.edu/home/sites/default/files/styles/basic_page_banner_image/public/sitecontent/page/campuscalendar_page.jpg?itok=W7vURkjO',
+      ),
+      MaterialButton(
+        child: const Text('Click "Sign in" below to Log in with your Rowan Gmail Account', textAlign: TextAlign.center,),
+        textColor: Colors.white,
+
+        minWidth: 200.0,
+        height: 100.0,
+        ),
+
+          MaterialButton(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget> [
+                  Image.network('https://pbs.twimg.com/profile_images/1057899591708753921/PSpUS-Hp_400x400.jpg', height: 70,
+                      width: 65) ,
+                Text('     Sign in with Google', style: TextStyle(fontSize: 19),), ]),
+            textColor: Colors.white,
+            color: Colors.blue,
+            minWidth: 150.0,
+            height: 100.0,
             onPressed: () {
               setState(() {
-                //emailAddress = getEmailAddress();
-                _message = _testSignInWithGoogle();
-                emailAddress = getEmailAddress();
+                  _message = _testSignInWithGoogle();
+                  emailAddress = getEmailAddress();
               });
             },
 
@@ -214,6 +224,7 @@ class _MyAuthScreenState extends State<MyAuthScreen> {
         ],
       ),
 
+    ),
     );
   }
 
@@ -229,30 +240,32 @@ class _MyAuthScreenState extends State<MyAuthScreen> {
     return response;
   }
 
-  Future<void> _LoggedIn() async {
+  Future<void> _loggedIn() async {
+
     return showDialog<void>(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Logged In!', textAlign: TextAlign.center,),
+          title: Text('Login Successful!', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22), ),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('Welcome Back ' + getUserName() + '!', textAlign: TextAlign.center, style: TextStyle(color: Colors.blue), ),
+                Text('Welcome Back, ' + getFirstName() + '!', textAlign: TextAlign.center, style: TextStyle(color: Colors.blue, fontSize: 18), ),
                 Text(' '),
                 Container(
                     margin: EdgeInsets.only(
-                        bottom: 0.0, left: 30.0, right: 30.0, top: 0.0),
-                    width: 110.0,
+                        bottom: 0.0, left: 40.0, right: 40.0, top: 0.0),
+                    width: 90.0,
                     height: 150.0,
                     decoration: new BoxDecoration(
                         shape: BoxShape.circle,
                         image: new DecorationImage(
                             fit: BoxFit.fill,
-                            // This is where we would retrieve the image from the data base
-                            image: NetworkImage(getProfilePic())))),
+                            image: NetworkImage(userProfilePic)))),
                 Text(' '),
+                Text('Google Account',textAlign: TextAlign.center, style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),),
+                Text(getUserName(), textAlign: TextAlign.center, style: TextStyle(color: Colors.blue), ),
                 Text(getEmailAddress(), textAlign: TextAlign.center, style: TextStyle(color: Colors.blue), ),
               ],
             ),
