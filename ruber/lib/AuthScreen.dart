@@ -17,7 +17,7 @@ import 'UserModel.dart';
 import 'initialaddaddress.dart';
 import 'Main.dart';
 import 'ProfileModel.dart';
-import 'StaticMapPage.dart';
+//import 'StaticMapPage.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -193,6 +193,7 @@ class _MyAuthScreenState extends State<MyAuthScreen> {
       'https://www.rowan.edu/home/sites/default/files/styles/basic_page_banner_image/public/sitecontent/page/campuscalendar_page.jpg?itok=W7vURkjO',
       ),
       MaterialButton(
+        onPressed: null,
         child: const Text('Click "Sign in" below to Log in with your Rowan Gmail Account', textAlign: TextAlign.center,),
         textColor: Colors.white,
 
@@ -290,7 +291,6 @@ class _MyAuthScreenState extends State<MyAuthScreen> {
   }
 
   Future<List<Post>> getData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     var response = await http.get(
 
       /// Change the URL to the end point from the database

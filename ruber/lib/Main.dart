@@ -68,21 +68,19 @@ class WelcomeScreen extends StatelessWidget {
                 minWidth: 200.0,
                 height: 100.0,
                 onPressed: () {
-                  // TODO - Grab all the info from the _message variable
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
                               MyAuthScreen())); // Should be changed to AuthScreen.dart which should go to InitialAddressForm.dart
-                  // TODO: Remember to change this back to AuthScreen()
                 },
               ),
-              MaterialButton(
+/*              MaterialButton(
                 child: Text(" ", style: TextStyle(fontSize: 19),),
                 textColor: Colors.white,
                 minWidth: 200.0,
                 height: 50.0,
-              ),
+              ),*/
             ],
           ),
         ));

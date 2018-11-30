@@ -300,8 +300,7 @@ class _MyAddressForm extends State<InitialAddressForm> {
                           if (snapshot2.hasData) {
                             int tempId = snapshot2.data;
                             //setId(tempId);
-                            return Text(
-                                '${snapshot2.data.toString()}');
+                            return Text(" ");
                           }
                           else
                             return CircularProgressIndicator();
