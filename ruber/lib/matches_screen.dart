@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:ruber/AppDrawer.dart';
+import 'package:ruber/Constants.dart';
 
 import 'ProfileModel.dart';
 
@@ -43,7 +44,7 @@ class matchesScreenState extends State<matchesScreen> {
     var response = await http.get(
 
         /// Change the URL to the end point from the database
-        Uri.encodeFull('http://10.0.2.2:8080/rides/matching/$userId/$radius'),
+        Uri.encodeFull(BASE_URL + '/rides/matching/$userId/$radius'),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
@@ -173,7 +174,7 @@ class matchesScreenState extends State<matchesScreen> {
 
 Future<List<Post>> getAllPost() async {
   int userId = await getId();
-  String postUrl = 'http://10.0.2.2:8080/rides/matching/$userId/20';
+  String postUrl = BASE_URL + '/rides/matching/$userId/20';
   final response = await http.get(postUrl);
   return allPostsFromJson(response.body);
 }

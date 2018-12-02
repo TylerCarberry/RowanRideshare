@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:ruber/Constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'AddressPostModel.dart';
@@ -316,7 +317,7 @@ Future<int> getMyId() async {
   String emailUrl = prefs.getString("email");
 
   //String emailUrl = ;  // Need to work on getting email from AuthScreen.dart
-  String addressUrl = 'http://10.0.2.2:8080/rides/profile/getmyid/$emailUrl';
+  String addressUrl = BASE_URL + '/rides/profile/getmyid/$emailUrl';
   final response2 = await http.get(addressUrl);
   var res = response2.body;
   await setId(int.parse(res));
@@ -327,7 +328,7 @@ Future<int> getMyId() async {
 Future<http.Response> createAddress(AddressPost address) async {
   int userId = await getId();
   print(userId);
-  String updateUrl = 'http://10.0.2.2:8080/rides/address/$userId/new';
+  String updateUrl = BASE_URL + '/rides/address/$userId/new';
   final response = await http.post('$updateUrl',
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
@@ -340,7 +341,7 @@ Future<http.Response> createAddress(AddressPost address) async {
 /*
 Future<Post> getMyAddressId() async {
   String emailUrl = getEmailAddress();
-  String addressUrl = 'http://10.0.2.2:8080/rides/profile/email/$emailUrl';
+  String addressUrl = BASE_URL + '/rides/profile/email/$emailUrl';
   final response2 = await http.get(addressUrl);
   return postFromJson(response2.body);
 }

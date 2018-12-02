@@ -3,6 +3,7 @@
 // TODO: Fix the huge error when the schedule button is pressed
 
 import 'package:flutter/material.dart';
+import 'package:ruber/Constants.dart';
 import 'AppDrawer.dart';
 import 'package:ruber/Main.dart';
 import 'Rest.dart';
@@ -1649,7 +1650,7 @@ class _MyScheduleForm extends State<ScheduleForm> {
 
 Future<Post> getPost() async {
   int userId = await getId();
-  String postUrl = 'http://10.0.2.2:8080/rides/profile/$userId';
+  String postUrl = BASE_URL + '/rides/profile/$userId';
   final response = await http.get(postUrl);
   return postFromJson(response.body);
 }
@@ -1666,7 +1667,7 @@ Future<Post> getPost() async {
 
 Future<http.Response> updateSchedule(Schedule schedule) async{
   int userId = await getId();
-  String updateUrl = 'http://10.0.2.2:8080/rides/profile/$userId/schedule/update';
+  String updateUrl = BASE_URL + '/rides/profile/$userId/schedule/update';
   final response = await http.post('$updateUrl',
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
@@ -1679,7 +1680,7 @@ Future<http.Response> updateSchedule(Schedule schedule) async{
 
 Future<http.Response> newSchedule(Schedule newSchedule) async{
   int userId = await getId();
-  String updateUrl = 'http://10.0.2.2:8080/rides/profile/$userId/schedule/new';
+  String updateUrl = BASE_URL + '/rides/profile/$userId/schedule/new';
   final response = await http.post('$updateUrl',
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:async' show Future;
 import 'dart:io';
+import 'package:ruber/Constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter/material.dart';
@@ -557,7 +558,7 @@ Future<int> getMyId() async {
   String emailUrl = prefs.getString("email");
 
   //String emailUrl = ;  // Need to work on getting email from AuthScreen.dart
-  String addressUrl = 'http://10.0.2.2:8080/rides/profile/getmyid/$emailUrl';
+  String addressUrl = BASE_URL + '/rides/profile/getmyid/$emailUrl';
   final response2 = await http.get(addressUrl);
   var res = response2.body;
   await setId(int.parse(res));
@@ -570,7 +571,7 @@ Future<Post> getPost() async {
   int userid = await getId();
   print(userid);
   print(userid.toString());
-  String postUrl = 'http://10.0.2.2:8080/rides/profile/$userid';
+  String postUrl = BASE_URL + '/rides/profile/$userid';
   print(postUrl);
 
   final response = await http.get(postUrl);
@@ -580,14 +581,14 @@ Future<Post> getPost() async {
 Future<Address> getAddressPost() async {
   int id = await getId();
 
-  String addressUrl = 'http://10.0.2.2:8080/rides/address/$id';
+  String addressUrl = BASE_URL + '/rides/address/$id';
 
   final response2 = await http.get(addressUrl);
   return addressFromJson(response2.body);
 }
 
 Future<http.Response> createPost(Post post) async {
-  String updateUrl = 'http://10.0.2.2:8080/rides/address/update';
+  String updateUrl = BASE_URL + '/rides/address/update';
   final response = await http.post('$updateUrl',
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
@@ -598,7 +599,7 @@ Future<http.Response> createPost(Post post) async {
 }
 
 Future<http.Response> createAddress(Address address) async {
-  String updateUrl = 'http://10.0.2.2:8080/rides/address/update';
+  String updateUrl = BASE_URL + '/rides/address/update';
   final response = await http.post('$updateUrl',
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',

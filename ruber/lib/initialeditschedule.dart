@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:ruber/Main.dart';
 
+import 'Constants.dart';
 import 'ProfileModel.dart';
 import 'ScheduleModel.dart';
 import 'AuthScreen.dart';
@@ -1653,20 +1654,20 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
 }
 
 Future<Post> getPost() async {
-  String postUrl = 'http://10.0.2.2:8080/rides/profile/1';
+  String postUrl = BASE_URL + '/rides/profile/1';
   final response = await http.get(postUrl);
   return postFromJson(response.body);
 }
 
 //Future<Schedule> getSchedulePost() async {
-//  String addressUrl = 'http://10.0.2.2:8080/rides/profile/7/schedule';
+//  String addressUrl = BASE_URL + '/rides/profile/7/schedule';
 //  final response2 = await http.get(addressUrl);
 //  return scheduleFromJson(response2.body);
 //}
 
 Future<http.Response> updateSchedule(Schedule schedule) async {
   int userId = await getId();
-  String updateUrl = 'http://10.0.2.2:8080/rides/profile/$userId/schedule/update';
+  String updateUrl = BASE_URL + '/rides/profile/$userId/schedule/update';
 //  String updateUrl = 'http://680285ec.ngrok.io/rides/profile/1/schedule/update';
 
   final response = await http.post('$updateUrl',
@@ -1681,7 +1682,7 @@ Future<http.Response> updateSchedule(Schedule schedule) async {
 Future<http.Response> newSchedule(Schedule newSchedule) async{
   int userId = await getId();
 
-  String updateUrl = 'http://10.0.2.2:8080/rides/profile/$userId/schedule/new';
+  String updateUrl = BASE_URL + '/rides/profile/$userId/schedule/new';
   final response = await http.post('$updateUrl',
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',

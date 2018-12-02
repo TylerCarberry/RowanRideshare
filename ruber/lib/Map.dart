@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:ruber/Constants.dart';
 
 class Map extends StatelessWidget {
   // This widget is the root of your application.
@@ -36,7 +37,7 @@ class Map extends StatelessWidget {
   Future fetchResponse() async {
     String responseList;
     http.Response response = await http
-        .get("http://10.0.2.2:8080/hello/greeting")
+        .get(BASE_URL + "/hello/greeting")
         .catchError((resp) {});
     responseList = response.body.toString();
 
