@@ -58,7 +58,7 @@ class WelcomeScreen extends StatelessWidget {
               Container(
                 margin: EdgeInsets.only(top: 40.0, left: 15.0, right: 15.0, bottom: 15.0),
                 child: Text(
-                  'Exclusively for Rowan University Students\n\n Commute with other Students near You\n\n Match based on Class Schedule and Distance\n\n Save Gas and the Planet'
+                  'Exclusively for Rowan University students\n\n Commute with other students near you\n\n Match based on class schedule and distance\n\n Save gas and the planet!'
                   ,style: TextStyle(color: Colors.black, fontSize: 18.0,  ),textAlign: TextAlign.center,
                 ),
               ),
