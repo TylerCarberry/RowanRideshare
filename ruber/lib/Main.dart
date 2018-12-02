@@ -11,6 +11,7 @@ import 'RideScreen.dart';
 import 'editschedule.dart';
 import 'profile.dart';
 import 'settings_Screen.dart';
+import 'ChatRoomScreen.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -118,7 +119,7 @@ class MainScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => MessagesScreen()),
+                    MaterialPageRoute(builder: (context) => ChatRoomScreen()),
                   );
                 }),
             RaisedButton(
@@ -156,32 +157,6 @@ class MainScreen extends StatelessWidget {
         ));
   }
 }
-
-// ==================== LOGIN SCREEN ======================== //
-
-class TextForm extends StatefulWidget {
-  _TextForm createState() => _TextForm();
-}
-
-class _TextForm extends State<TextForm> {
-  final myController = TextEditingController();
-  final myController2 = TextEditingController();
-  final myController3 = TextEditingController();
-  final myController1 = TextEditingController();
-
-  @override
-  void dispose() {
-    myController.dispose();
-    super.dispose();
-  }
-
-  Widget build(context) {
-    return launchLoginScreen(
-        myController, myController1, myController2, myController3, context);
-  }
-}
-
-// =================END LOGIN SCREEN ======================== //
 
 // ================== MESSAGES SCREEN ======================= //
 
