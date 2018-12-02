@@ -540,7 +540,7 @@ class _MyAddressForm extends State<AddressForm> {
 
 Future<Post> getPost() async {
   int id = await getId();
-  String postUrl = 'http://680285ec.ngrok.io/rides/profile/' + id.toString();
+  String postUrl = 'http://10.0.2.2:8080/rides/profile/' + id.toString();
 //  String postUrl = 'http://680285ec.ngrok.io/rides/profile/1';
   final response = await http.get(postUrl);
   return postFromJson(response.body);
@@ -548,14 +548,14 @@ Future<Post> getPost() async {
 
 Future<Address> getAddressPost() async {
   int id = await getId();
-  String addressUrl = 'http://680285ec.ngrok.io/rides/address/' + id.toString();
+  String addressUrl = 'http://10.0.2.2:8080/rides/address/' + id.toString();
 //  String addressUrl = 'http://680285ec.ngrok.io/rides/address/1';
   final response2 = await http.get(addressUrl);
   return addressFromJson(response2.body);
 }
 
 Future<http.Response> createPost(Post post) async {
-  String updateUrl = 'http://680285ec.ngrok.io/rides/address/update';
+  String updateUrl = 'http://10.0.2.2:8080/rides/address/update';
   final response = await http.post('$updateUrl',
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
@@ -566,7 +566,7 @@ Future<http.Response> createPost(Post post) async {
 }
 
 Future<http.Response> createAddress(Address address) async {
-  String updateUrl = 'http://680285ec.ngrok.io/rides/address/update';
+  String updateUrl = 'http://10.0.2.2:8080/rides/address/update';
   final response = await http.post('$updateUrl',
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',

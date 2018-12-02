@@ -445,44 +445,13 @@ class _MyScheduleForm extends State<ScheduleForm> {
 
                                         //create response
 
-//                                Schedule monday = new Schedule(1,1,mondaySchedule["a"], mondaySchedule["b"], mondaySchedule["c"], mondaySchedule["d"]);
-                                        bool update = false;
-                                        FutureBuilder<Post>(
-                                            future: getPost(),
-                                            builder: (context, snapshot){
-                                              print(snapshot.data.schedules[0].day);
-                                              if(snapshot.data.schedules[0].day == "MONDAY") {
-                                                print(snapshot.data.schedules[0].day);
-                                                update = true;
-                                              }
-
-                                            });
-                                        print(update);
-                                        Schedule updateMonday = new Schedule(
-                                          monday:getScheduleMapMonday(),
-                                        );
+//
 
 
-                                        if(!update){
-                                          newSchedule(updateMonday).then((response){
-                                            if(response.statusCode > 200)
-                                              print(response.body);
-                                            else
-                                              print(response.statusCode);
-                                          }).catchError((error){
-                                            print('error : $error');
-                                          });
-                                        }
-                                        else{
-                                          updateSchedule(updateMonday).then((response){
-                                            if(response.statusCode > 200)
-                                              print(response.body);
-                                            else
-                                              print(response.statusCode);
-                                          }).catchError((error){
-                                            print('error : $error');
-                                          });
-                                        }
+
+
+
+
                                       },
                                     ),
                                   ],
@@ -733,43 +702,9 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                             getScheduleMapTuesday());
 
 
-                                        bool update = false;
-                                        FutureBuilder<Post>(
-                                            future: getPost(),
-                                            builder: (context, snapshot){
-                                              print(snapshot.data.schedules[0].day);
-                                              if(snapshot.data.schedules[0].day == "TUESDAY" || snapshot.data.schedules[1].day == "TUESDAY") {
-                                                update = true;
-                                              }
 
 
-                                            });
-                                        print(update);
-                                        Schedule updateTuesday = new Schedule(
-                                          tuesday:getScheduleMapTuesday(),
-                                        );
 
-
-                                        if(!update){
-                                          newSchedule(updateTuesday).then((response){
-                                            if(response.statusCode > 200)
-                                              print(response.body);
-                                            else
-                                              print(response.statusCode);
-                                          }).catchError((error){
-                                            print('error : $error');
-                                          });
-                                        }
-                                        else{
-                                          updateSchedule(updateTuesday).then((response){
-                                            if(response.statusCode > 200)
-                                              print(response.body);
-                                            else
-                                              print(response.statusCode);
-                                          }).catchError((error){
-                                            print('error : $error');
-                                          });
-                                        }
 
                                       },
                                     ),
@@ -1022,42 +957,9 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                             getScheduleMapWednesday());
 
 
-                                        bool update = false;
-                                        FutureBuilder<Post>(
-                                            future: getPost(),
-                                            builder: (context, snapshot){
-                                              print(snapshot.data.schedules[0].day);
-                                              if(snapshot.data.schedules[0].day == "WEDNESDAY" || snapshot.data.schedules[1].day == "WEDNESDAY"|| snapshot.data.schedules[2].day == "WEDNESDAY") {
-                                                update = true;
-                                              }
-
-                                            });
-                                        print(update);
-                                        Schedule updateWednesday = new Schedule(
-                                          wednesday:getScheduleMapWednesday(),
-                                        );
 
 
-                                        if(!update){
-                                          newSchedule(updateWednesday).then((response){
-                                            if(response.statusCode > 200)
-                                              print(response.body);
-                                            else
-                                              print(response.statusCode);
-                                          }).catchError((error){
-                                            print('error : $error');
-                                          });
-                                        }
-                                        else{
-                                          updateSchedule(updateWednesday).then((response){
-                                            if(response.statusCode > 200)
-                                              print(response.body);
-                                            else
-                                              print(response.statusCode);
-                                          }).catchError((error){
-                                            print('error : $error');
-                                          });
-                                        }
+
                                       },
                                     ),
                                   ],
@@ -1308,42 +1210,10 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                         print("Thursdays schedule: " +
                                             getScheduleMapThursday());
 
-                                        bool update = false;
-                                        FutureBuilder<Post>(
-                                            future: getPost(),
-                                            builder: (context, snapshot){
-                                              print(snapshot.data.schedules[0].day);
-                                              if(snapshot.data.schedules[0].day == "THURSDAY" || snapshot.data.schedules[1].day == "THURSDAY"|| snapshot.data.schedules[2].day == "THURSDAY" || snapshot.data.schedules[3].day == "THURSDAY") {
-                                                update = true;
-                                              }
-
-                                            });
-                                        print(update);
-                                        Schedule updateThursday = new Schedule(
-                                          thursday:getScheduleMapThursday(),
-                                        );
 
 
-                                        if(!update){
-                                          newSchedule(updateThursday).then((response){
-                                            if(response.statusCode > 200)
-                                              print(response.body);
-                                            else
-                                              print(response.statusCode);
-                                          }).catchError((error){
-                                            print('error : $error');
-                                          });
-                                        }
-                                        else{
-                                          updateSchedule(updateThursday).then((response){
-                                            if(response.statusCode > 200)
-                                              print(response.body);
-                                            else
-                                              print(response.statusCode);
-                                          }).catchError((error){
-                                            print('error : $error');
-                                          });
-                                        }
+
+
 
                                       },
                                     ),
@@ -1595,42 +1465,9 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                         print("Fridays schedule: " +
                                             getScheduleMapFriday());
 
-                                        bool update = false;
-                                        FutureBuilder<Post>(
-                                            future: getPost(),
-                                            builder: (context, snapshot){
-                                              print(snapshot.data.schedules[0].day);
-                                              if(snapshot.data.schedules[0].day == "FRIDAY" || snapshot.data.schedules[1].day == "FRIDAY"|| snapshot.data.schedules[2].day == "FRIDAY" || snapshot.data.schedules[3].day == "FRIDAY"|| snapshot.data.schedules[4].day == "FRIDAY") {
-                                                update = true;
-                                              }
-
-                                            });
-                                        print(update);
-                                        Schedule updateFriday = new Schedule(
-                                          friday:getScheduleMapFriday(),
-                                        );
 
 
-                                        if(!update){
-                                          newSchedule(updateFriday).then((response){
-                                            if(response.statusCode > 200)
-                                              print(response.body);
-                                            else
-                                              print(response.statusCode);
-                                          }).catchError((error){
-                                            print('error : $error');
-                                          });
-                                        }
-                                        else{
-                                          updateSchedule(updateFriday).then((response){
-                                            if(response.statusCode > 200)
-                                              print(response.body);
-                                            else
-                                              print(response.statusCode);
-                                          }).catchError((error){
-                                            print('error : $error');
-                                          });
-                                        }
+
 
                                       },
                                     ),
@@ -1650,6 +1487,27 @@ class _MyScheduleForm extends State<ScheduleForm> {
                           getScheduleMapMonday() == "") {
                         a = false;
                       } else {
+                        Schedule updateMonday = new Schedule(
+                          monday:getScheduleMapMonday(),
+                        );
+                        newSchedule(updateMonday).then((response){
+                          if(response.statusCode > 200)
+                            print(response.body);
+                          else
+                            print(response.statusCode);
+                        }).catchError((error){
+                          print('error : $error');
+                        });
+
+
+                        updateSchedule(updateMonday).then((response){
+                          if(response.statusCode > 200)
+                            print(response.body);
+                          else
+                            print(response.statusCode);
+                        }).catchError((error){
+                          print('error : $error');
+                        });
                         a = true;
                       }
 
@@ -1657,6 +1515,27 @@ class _MyScheduleForm extends State<ScheduleForm> {
                           getScheduleMapTuesday() == "") {
                         b = false;
                       } else {
+                        Schedule updateTuesday = new Schedule(
+                          tuesday:getScheduleMapTuesday(),
+                        );
+
+                        newSchedule(updateTuesday).then((response){
+                          if(response.statusCode > 200)
+                            print(response.body);
+                          else
+                            print(response.statusCode);
+                        }).catchError((error){
+                          print('error : $error');
+                        });
+
+                        updateSchedule(updateTuesday).then((response){
+                          if(response.statusCode > 200)
+                            print(response.body);
+                          else
+                            print(response.statusCode);
+                        }).catchError((error){
+                          print('error : $error');
+                        });
                         b = true;
                       }
 
@@ -1666,6 +1545,30 @@ class _MyScheduleForm extends State<ScheduleForm> {
                           getScheduleMapWednesday() == "") {
                         c = false;
                       } else {
+                        Schedule updateWednesday = new Schedule(
+                          wednesday:getScheduleMapWednesday(),
+                        );
+
+
+
+                        newSchedule(updateWednesday).then((response){
+                          if(response.statusCode > 200)
+                            print(response.body);
+                          else
+                            print(response.statusCode);
+                        }).catchError((error){
+                          print('error : $error');
+                        });
+
+
+                        updateSchedule(updateWednesday).then((response){
+                          if(response.statusCode > 200)
+                            print(response.body);
+                          else
+                            print(response.statusCode);
+                        }).catchError((error){
+                          print('error : $error');
+                        });
                         c = true;
                       }
 
@@ -1673,6 +1576,30 @@ class _MyScheduleForm extends State<ScheduleForm> {
                           getScheduleMapThursday() == "") {
                         d = false;
                       } else {
+                        Schedule updateThursday = new Schedule(
+                          thursday:getScheduleMapThursday(),
+                        );
+
+
+
+                        newSchedule(updateThursday).then((response){
+                          if(response.statusCode > 200)
+                            print(response.body);
+                          else
+                            print(response.statusCode);
+                        }).catchError((error){
+                          print('error : $error');
+                        });
+
+
+                        updateSchedule(updateThursday).then((response){
+                          if(response.statusCode > 200)
+                            print(response.body);
+                          else
+                            print(response.statusCode);
+                        }).catchError((error){
+                          print('error : $error');
+                        });
                         d = true;
                       }
 
@@ -1680,6 +1607,27 @@ class _MyScheduleForm extends State<ScheduleForm> {
                           getScheduleMapFriday() == "") {
                         e = false;
                       } else {
+                        Schedule updateFriday = new Schedule(
+                          friday:getScheduleMapFriday(),
+                        );
+
+                        newSchedule(updateFriday).then((response){
+                          if(response.statusCode > 200)
+                            print(response.body);
+                          else
+                            print(response.statusCode);
+                        }).catchError((error){
+                          print('error : $error');
+                        });
+
+                        updateSchedule(updateFriday).then((response){
+                          if(response.statusCode > 200)
+                            print(response.body);
+                          else
+                            print(response.statusCode);
+                        }).catchError((error){
+                          print('error : $error');
+                        });
                         e = true;
                       }
 
@@ -1701,7 +1649,7 @@ class _MyScheduleForm extends State<ScheduleForm> {
 
 Future<Post> getPost() async {
   int userId = await getId();
-  String postUrl = 'http://680285ec.ngrok.io/rides/profile/$userId';
+  String postUrl = 'http://10.0.2.2:8080/rides/profile/$userId';
   final response = await http.get(postUrl);
   return postFromJson(response.body);
 }
@@ -1718,7 +1666,7 @@ Future<Post> getPost() async {
 
 Future<http.Response> updateSchedule(Schedule schedule) async{
   int userId = await getId();
-  String updateUrl = 'http://680285ec.ngrok.io/rides/profile/$userId/schedule/update';
+  String updateUrl = 'http://10.0.2.2:8080/rides/profile/$userId/schedule/update';
   final response = await http.post('$updateUrl',
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
@@ -1731,7 +1679,7 @@ Future<http.Response> updateSchedule(Schedule schedule) async{
 
 Future<http.Response> newSchedule(Schedule newSchedule) async{
   int userId = await getId();
-  String updateUrl = 'http://680285ec.ngrok.io/rides/profile/$userId/schedule/new';
+  String updateUrl = 'http://10.0.2.2:8080/rides/profile/$userId/schedule/new';
   final response = await http.post('$updateUrl',
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
