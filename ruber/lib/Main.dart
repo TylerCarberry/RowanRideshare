@@ -73,7 +73,7 @@ class WelcomeScreen extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              MyAuthScreen())); // Should be changed to AuthScreen.dart which should go to InitialAddressForm.dart
+                              MainScreen())); // Should be changed to AuthScreen.dart which should go to InitialAddressForm.dart
                 },
               ),
 /*              MaterialButton(
