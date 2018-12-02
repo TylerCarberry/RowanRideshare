@@ -522,8 +522,9 @@ class _MyAddressForm extends State<AddressForm> {
                     String cityNameFinal = getCity();
                     String zipCodeEdit = getZip();
                     String stateEdit = getState();
+                    int userId = getId();
                     Address newAddress = Address(
-                        id: 1,
+                        id: userId,
                         streetAddress: streetNameEdit,
                         city: cityNameFinal,
                         zipCode: zipCodeEdit,
@@ -566,18 +567,22 @@ Future<int> getMyId() async {
 }
 
 Future<Post> getPost() async {
+
   int userid = await getId();
   print(userid);
   print(userid.toString());
   String postUrl = BASE_URL + '/rides/profile/$userid';
   print(postUrl);
+
   final response = await http.get(postUrl);
   return postFromJson(response.body);
 }
 
 Future<Address> getAddressPost() async {
   int id = await getId();
-  String addressUrl = BASE_URL + '/rides/address/$id';
+
+  String addressUrl = 'http://10.0.2.2:8080/rides/address/$id';
+
   final response2 = await http.get(addressUrl);
   return addressFromJson(response2.body);
 }
@@ -604,8 +609,3 @@ Future<http.Response> createAddress(Address address) async {
   return response;
 }
 
-Future<List<Post>> getAllPost() async {
-  String postUrl = BASE_URL + '/rides/matching/3/20';
-  final response = await http.get(postUrl);
-  return allPostsFromJson(response.body);
-}
