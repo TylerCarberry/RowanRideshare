@@ -138,6 +138,11 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
         ));
   }
 
+  /**
+   * This method shifts the message to the right hand side - used when the user
+   * types in their message
+   */
+
   List<Widget> rightSide(int index) {
     return <Widget>[
       Expanded(
@@ -156,6 +161,11 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
       Divider(height: 10.0)
     ];
   }
+
+  /**
+   * This method shifts the message to the left hand side - used when receiving
+   * a message
+   */
 
   List<Widget> leftSide(int index) {
     return <Widget>[
