@@ -157,7 +157,9 @@ class matchesScreenState extends State<matchesScreen> {
                 title: Text(profileMatches[index]["name"]),
                 subtitle: Text(
                     profileMatches[index]["distanceRounded"].toString() +
+
                         " miles                    " + profileMatches[index]["schedulesString"].toString()),
+
                 onTap: () {
                   Navigator.push(
                       context,
