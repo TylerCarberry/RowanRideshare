@@ -122,23 +122,8 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
                 padding: new EdgeInsets.all(8.0),
                 reverse: true,
                 itemCount: messages == null ? 0 : messages.length,
-
                 /// REMOVE THE BUILD CONTEXT - ONLY THERE FOR TESTING
                 itemBuilder: (BuildContext context, int index) {
-//                  return new ListTile(
-//                    title: Text(messages[index]),
-//                    // TODO - Pull name from DB
-//                    // TODO -- Pull the name using the index
-//                    // profile[index]["name"]
-//                    onTap: () {
-//                      Navigator.push(
-//                          context,
-//                          MaterialPageRoute(
-//                              builder: (context) =>
-//                                  IndividualChatThread(context, index)));
-//                    },
-//                  );
-
                   return Container(
                       child: Row(
                           children: messages[index].substring(0, 1) == '1'
@@ -164,10 +149,14 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
         children: <Widget>[
           Text(
             messages[index],
-            style: TextStyle(fontSize: 18.0, color: Colors.purpleAccent),
+            style: TextStyle(
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold,
+            ),
           )
         ],
-      ))
+      )),
+      Divider(height: 10.0)
     ];
   }
 
@@ -179,10 +168,14 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
         children: <Widget>[
           Text(
             messages[index],
-            style: TextStyle(fontSize: 18.0, color: Colors.green),
+            style: TextStyle(
+                fontSize: 18.0,
+                color: Colors.lightBlue,
+                fontWeight: FontWeight.bold),
           )
         ],
-      ))
+      )),
+      Divider(height: 10.0)
     ];
   }
 }
