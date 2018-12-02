@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'AppDrawer.dart';
 
-List<String> messages = [
-  "1 Hey!",
-  "2 Hello!",
-  "1 How are you"
-];
+List<String> messages = ["1 Hey!", "2 Hello!", "1 How are you"];
 
 class ChatRoomScreen extends StatefulWidget {
   @override
@@ -55,16 +51,14 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
   TextEditingController _textController = new TextEditingController();
 
   void _afterMessageSubmission(String text) {
-
     setState(() {
-      if(_textController.text.isEmpty){}
-      else
+      if (_textController.text.isEmpty) {
+      } else
         messages..insert(0, _textController.text);
     });
 
     _textController.clear();
   }
-
 
   /**
    * This Widget is where the user actually writes the message
@@ -90,7 +84,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
                 child: new IconButton(
                     icon: new Icon(Icons.send),
                     onPressed: () {
-                        _afterMessageSubmission(_textController.text);
+                      _afterMessageSubmission(_textController.text);
                     }),
               ),
             ],
@@ -112,14 +106,11 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
               IconButton(
                   icon: Icon(Icons.refresh),
                   onPressed: () {
-
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
                                 IndividualChatThread(context, index)));
-
-
                   })
             ]),
         // TODO: Name should be pulled using the index or the profile ID
@@ -130,23 +121,29 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
               child: ListView.builder(
                 padding: new EdgeInsets.all(8.0),
                 reverse: true,
-                itemCount: messages == null ? 0: messages.length,
+                itemCount: messages == null ? 0 : messages.length,
 
                 /// REMOVE THE BUILD CONTEXT - ONLY THERE FOR TESTING
                 itemBuilder: (BuildContext context, int index) {
-                  return new ListTile(
-                    title: Text(messages[index]),
-                    // TODO - Pull name from DB
-                    // TODO -- Pull the name using the index
-                    // profile[index]["name"]
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  IndividualChatThread(context, index)));
-                    },
-                  );
+//                  return new ListTile(
+//                    title: Text(messages[index]),
+//                    // TODO - Pull name from DB
+//                    // TODO -- Pull the name using the index
+//                    // profile[index]["name"]
+//                    onTap: () {
+//                      Navigator.push(
+//                          context,
+//                          MaterialPageRoute(
+//                              builder: (context) =>
+//                                  IndividualChatThread(context, index)));
+//                    },
+//                  );
+
+                  return Container(
+                      child: Row(
+                          children: messages[index].substring(0, 1) == '1'
+                              ? rightSide(index)
+                              : leftSide(index)));
                 },
               ),
             ),
@@ -157,5 +154,35 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
                     new BoxDecoration(color: Theme.of(context).cardColor))
           ],
         ));
+  }
+
+  List<Widget> rightSide(int index) {
+    return <Widget>[
+      Expanded(
+          child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          Text(
+            messages[index],
+            style: TextStyle(fontSize: 18.0, color: Colors.purpleAccent),
+          )
+        ],
+      ))
+    ];
+  }
+
+  List<Widget> leftSide(int index) {
+    return <Widget>[
+      Expanded(
+          child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            messages[index],
+            style: TextStyle(fontSize: 18.0, color: Colors.green),
+          )
+        ],
+      ))
+    ];
   }
 }
