@@ -11,6 +11,7 @@ import 'package:ruber/Main.dart';
 
 import 'ProfileModel.dart';
 import 'ScheduleModel.dart';
+import 'AuthScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // This is the map that is to be sent to the database
 // If any of the 4 blocks are 0000 - that means that the user didn't
@@ -1592,8 +1593,13 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
                       MaterialPageRoute(
                           builder: (context) =>
                               MainScreen()) //Change this to AuthScreen()
+
+
                       );
-                } else {
+                 _LoggedIn();
+                }
+
+                else {
                   return null;
                 }
               },
@@ -1601,6 +1607,49 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
           ],
         )));
   }
+
+  Future<void> _LoggedIn() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Logged In!', textAlign: TextAlign.center,),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Welcome , ' + getUserName() + '!', textAlign: TextAlign.center, style: TextStyle(color: Colors.blue), ),
+                Text(' '),
+                Container(
+                    margin: EdgeInsets.only(
+                        bottom: 0.0, left: 40.0, right: 40.0, top: 0.0),
+                    width: 90.0,
+                    height: 150.0,
+                    decoration: new BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: new DecorationImage(
+                            fit: BoxFit.fill,
+                            image: NetworkImage(userProfilePic)))),
+                Text(' '),
+                Text('Google Account',textAlign: TextAlign.center, style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),),
+                Text(getUserName(), textAlign: TextAlign.center, style: TextStyle(color: Colors.blue), ),
+                Text(getEmailAddress(), textAlign: TextAlign.center, style: TextStyle(color: Colors.blue), ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Close'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }
 
 Future<Post> getPost() async {

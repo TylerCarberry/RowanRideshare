@@ -51,25 +51,36 @@ class WelcomeScreen extends StatelessWidget {
                       fontSize: 48.0),
                 ),
               ),
+              Image.network(
+                'https://www.tlcrentalmarketplace.com/wp-content/uploads/2018/03/rideshare.png', height: 150,
+              ),
               Container(
-                margin: EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
+                margin: EdgeInsets.only(top: 40.0, left: 15.0, right: 15.0, bottom: 15.0),
                 child: Text(
-                  '• Find people to carpool with that have similar class schedules and who live nearby.\n\n• Only available to Rowan University students.\n\n• More schools coming soon.',
-                  style: TextStyle(color: Colors.black, fontSize: 18.0),
+                  'Exclusively for Rowan University Students\n\n Commute with other Students near You\n\n Match based on Class Schedule and Distance\n\n Save Gas and the Planet'
+                  ,style: TextStyle(color: Colors.black, fontSize: 18.0,  ),textAlign: TextAlign.center,
                 ),
               ),
-              RaisedButton(
-                child: Text("Start"),
+              MaterialButton(
+                child: Text("Continue", style: TextStyle(fontSize: 19),),
+                textColor: Colors.white,
+                color: Colors.blue,
+                minWidth: 200.0,
+                height: 100.0,
                 onPressed: () {
-                  // TODO - Grab all the info from the _message variable
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              AuthScreen())); // Should be changed to AuthScreen.dart which should go to InitialAddressForm.dart
-                  // TODO: Remember to change this back to AuthScreen()
+                              MyAuthScreen())); // Should be changed to AuthScreen.dart which should go to InitialAddressForm.dart
                 },
-              )
+              ),
+/*              MaterialButton(
+                child: Text(" ", style: TextStyle(fontSize: 19),),
+                textColor: Colors.white,
+                minWidth: 200.0,
+                height: 50.0,
+              ),*/
             ],
           ),
         ));
@@ -138,7 +149,7 @@ class MainScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => AuthScreen()),
+                    MaterialPageRoute(builder: (context) => MyAuthScreen()),
                   );
                 }),
           ]),
