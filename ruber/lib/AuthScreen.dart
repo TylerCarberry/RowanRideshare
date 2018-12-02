@@ -290,13 +290,13 @@ class _MyAuthScreenState extends State<MyAuthScreen> {
   }
 
   Future<List<Post>> getAllPost() async {
-    String postUrl = 'http://10.0.2.2:8080/rides/profile/all';
+    String postUrl = BASE_URL + '/rides/profile/all';
     final response = await http.get(postUrl);
     return allPostsFromJson(response.body);
   }
 
   Future<List<Post>> getData() async {
-    String postUrl = 'http://10.0.2.2:8080/rides/profile/all';
+    String postUrl = BASE_URL + '/rides/profile/all';
     final response = await http.get(postUrl);
     this.setState(() {
       profileList = json.decode(response.body);
@@ -316,7 +316,7 @@ class _MyAuthScreenState extends State<MyAuthScreen> {
   }
 
   Future<int> getMyUserId() async {
-    String addressUrl = 'http://10.0.2.2:8080/rides/profile/getmyid/$emailAddress';
+    String addressUrl = BASE_URL + '/rides/profile/getmyid/$emailAddress';
     final response2 = await http.get(addressUrl);
     var res = response2.body;
     await setUserId(int.parse(res));
