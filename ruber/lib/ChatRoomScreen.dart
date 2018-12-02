@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'AppDrawer.dart';
 
 List<String> messages = ["1 Hey!", "2 Hello!", "1 How are you"];
@@ -20,8 +19,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
         appBar: AppBar(title: Text('Messages'), centerTitle: true),
         drawer: launchAppDrawer(context),
         body: ListView.builder(
-          itemCount: 4,
-          // profile == null ? 0 : chatrooms.length
+          itemCount: 4, // TODO -- Change this to the length of the chat room
           itemBuilder: (BuildContext context, int index) {
             return new ListTile(
               leading: CircleAvatar(
@@ -30,11 +28,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
               ),
               title: Text("Tapan Soni"), // TODO - Pull name from DB
               // TODO -- Pull the name using the index
-              // profile[index]["name"]
               onTap: () {
-                print("Hello World");
-//                print(chat[index]["chatrooms"].messages[index]);
-
                 Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -122,6 +116,8 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
                 padding: new EdgeInsets.all(8.0),
                 reverse: true,
                 itemCount: messages == null ? 0 : messages.length,
+                // todo - change this to get the length of the chat room
+
                 /// REMOVE THE BUILD CONTEXT - ONLY THERE FOR TESTING
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
@@ -129,6 +125,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
                           children: messages[index].substring(0, 1) == '1'
                               ? rightSide(index)
                               : leftSide(index)));
+                  // TODO -- CHANGE THE LOGIC SO IT COMPARES USERid WITH SENDERid
                 },
               ),
             ),

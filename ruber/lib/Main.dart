@@ -5,13 +5,12 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:ruber/AuthScreen.dart';
 
 import 'AuthScreen.dart';
-import 'Login.dart';
+import 'ChatRoomScreen.dart';
 import 'Messages_Screen.dart';
 import 'RideScreen.dart';
 import 'editschedule.dart';
 import 'profile.dart';
 import 'settings_Screen.dart';
-import 'ChatRoomScreen.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -53,17 +52,26 @@ class WelcomeScreen extends StatelessWidget {
                 ),
               ),
               Image.network(
-                'https://www.tlcrentalmarketplace.com/wp-content/uploads/2018/03/rideshare.png', height: 150,
+                'https://www.tlcrentalmarketplace.com/wp-content/uploads/2018/03/rideshare.png',
+                height: 150,
               ),
               Container(
-                margin: EdgeInsets.only(top: 40.0, left: 15.0, right: 15.0, bottom: 15.0),
+                margin: EdgeInsets.only(
+                    top: 40.0, left: 15.0, right: 15.0, bottom: 15.0),
                 child: Text(
-                  'Exclusively for Rowan University students\n\n Commute with other students near you\n\n Match based on class schedule and distance\n\n Save gas and the planet!'
-                  ,style: TextStyle(color: Colors.black, fontSize: 18.0,  ),textAlign: TextAlign.center,
+                  'Exclusively for Rowan University students\n\n Commute with other students near you\n\n Match based on class schedule and distance\n\n Save gas and the planet!',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18.0,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
               ),
               MaterialButton(
-                child: Text("Continue", style: TextStyle(fontSize: 19),),
+                child: Text(
+                  "Continue",
+                  style: TextStyle(fontSize: 19),
+                ),
                 textColor: Colors.white,
                 color: Colors.blue,
                 minWidth: 200.0,
@@ -145,7 +153,7 @@ class MainScreen extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => SettingsScreen()),
                   );
                 }),
-           RaisedButton(
+            RaisedButton(
                 child: Text('Login'),
                 onPressed: () {
                   Navigator.push(

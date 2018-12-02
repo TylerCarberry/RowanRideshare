@@ -4,6 +4,7 @@ import 'RideScreen.dart';
 import 'editschedule.dart';
 import 'main.dart';
 import 'profile.dart';
+import 'ChatRoomScreen.dart';
 
 Drawer launchAppDrawer(context) {
   return Drawer(
@@ -36,7 +37,7 @@ Drawer launchAppDrawer(context) {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => MessagesScreen()),
+            MaterialPageRoute(builder: (context) => ChatRoomScreen()),
           );
         },
       ),
