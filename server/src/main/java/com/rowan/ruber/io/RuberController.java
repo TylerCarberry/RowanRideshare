@@ -84,8 +84,10 @@ public class RuberController {
 
     @GetMapping(path = "/profile/{profileID}/chatrooms")
     public @ResponseBody
-    List<Chatroom> getChatroomMessages(@PathVariable int profileID) {
-        return getProfile(profileID).get().getChatrooms();
+    HashMap<String, List<Chatroom>> getChatroomMessages(@PathVariable int profileID) {
+        HashMap<String, List<Chatroom>> result = new HashMap<String, List<Chatroom>>();
+        result.put("chatrooms", getProfile(profileID).get().getChatrooms());
+        return result;
     }
 
     /**
