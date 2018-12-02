@@ -82,6 +82,12 @@ public class RuberController {
         return profileRepository.findByEmailAddress(emailAddress).get().getId();
     }
 
+    @GetMapping(path = "/profile/{profileID}/chatrooms")
+    public @ResponseBody
+    List<Chatroom> getChatroomMessages(@PathVariable int profileID) {
+        return getProfile(profileID).get().getChatrooms();
+    }
+
     /**
      * Get the chatroom.
      *
