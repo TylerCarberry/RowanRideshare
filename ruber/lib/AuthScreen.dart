@@ -29,7 +29,7 @@ List profileList;
 int id;
 Future<String> _message = Future<String>.value('');
 
-getUserProfilePic( ) async{
+getUserProfilePic() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String imageUrl = prefs.getString("photo");
   return imageUrl;
@@ -46,7 +46,7 @@ getFirstName(){
 setUserProfilePic(String newPhotoUrl) async {
   userProfilePic = newPhotoUrl;
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setString("photo", userProfilePic);
+  prefs.setString("photo", newPhotoUrl);
 }
 
 setFirstName(String tempUserName) async {
@@ -128,10 +128,12 @@ class _MyAuthScreenState extends State<MyAuthScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int tempId = prefs.getInt("id");
     print("temp id: " + tempId.toString());
-/*    getData();
 
+/*
+    getData();
+    int size = profileList.
     bool inDatabase = false;
-    for(int i = 0; i < profileList.length; i++)
+    for(int i = 0; i < size; i++)
       {
         String tempEmailAddress = profileList[i]["email"];
         print(tempEmailAddress);
@@ -140,9 +142,11 @@ class _MyAuthScreenState extends State<MyAuthScreen> {
         if(tempEmailAddress == user.email){
           inDatabase = true;
         }
-      }*/
+      }
 
-    if(_message == null || tempId == null) {
+      */
+
+    if(tempId == null) {
 
       NewUser tempUser = NewUser(name: tempName, email: tempEmail);
 
@@ -291,12 +295,8 @@ class _MyAuthScreenState extends State<MyAuthScreen> {
   }
 
   Future<List<Post>> getData() async {
-    var response = await http.get(
-
-      /// Change the URL to the end point from the database
-        Uri.encodeFull('http://10.0.2.2:8080/rides/profile/all'),
-        headers: {"Accept": "application/json"});
-
+    String postUrl = 'http://10.0.2.2:8080/rides/profile/all';
+    final response = await http.get(postUrl);
     this.setState(() {
       profileList = json.decode(response.body);
     });

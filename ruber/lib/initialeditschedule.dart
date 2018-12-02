@@ -1622,16 +1622,17 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
                 Text(' '),
                 Container(
                     margin: EdgeInsets.only(
-                        bottom: 0.0, left: 30.0, right: 30.0, top: 0.0),
-                    width: 110.0,
+                        bottom: 0.0, left: 40.0, right: 40.0, top: 0.0),
+                    width: 90.0,
                     height: 150.0,
                     decoration: new BoxDecoration(
                         shape: BoxShape.circle,
                         image: new DecorationImage(
                             fit: BoxFit.fill,
-                            // This is where we would retrieve the image from the data base
-                            image: NetworkImage(getUserProfilePic())))),
+                            image: NetworkImage(userProfilePic)))),
                 Text(' '),
+                Text('Google Account',textAlign: TextAlign.center, style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),),
+                Text(getUserName(), textAlign: TextAlign.center, style: TextStyle(color: Colors.blue), ),
                 Text(getEmailAddress(), textAlign: TextAlign.center, style: TextStyle(color: Colors.blue), ),
               ],
             ),
