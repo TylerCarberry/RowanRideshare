@@ -1,5 +1,7 @@
 package com.rowan.ruber.model;
 
+import javax.persistence.Transient;
+import javax.persistence.PostLoad;
 import java.io.Serializable;
 
 import javax.persistence.CascadeType;
@@ -17,6 +19,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,18 +40,21 @@ public class Chatroom implements Serializable{
 
     @JsonBackReference
     @ManyToMany(mappedBy="chatrooms")
-    private List<Profile> profiles = new ArrayList<Profile>();
+    private List<Profile> profiles = new ArrayList<Profile>(); 
 
     @JsonManagedReference
     @OneToMany(mappedBy = "chatroom", cascade=CascadeType.REMOVE)
     private List<Message> messages = new ArrayList<Message>();
 
+    @Transient
+    private HashMap<String, String> emails = new HashMap<String, String>(); // use this instead of profiles to stop infinite recursion
 
     /** 
      *  Default constructor for JPA. 
      *  It should not be used directly as no values will be initialized.
      */
-    public Chatroom(){}
+    public Chatroom(){
+    }
 
     /**
      * When chat room is first created, there can't be a message sent yet.
@@ -104,10 +110,25 @@ public class Chatroom implements Serializable{
     }
 
     /**
+     * Gets the profileIDs in this chatroom.
+     * @return a list of profileID
+     */
+    public HashMap<String, String> getEmails() {
+        return emails;
+    }
+
+    /**
      * Sets the last message.
      */
     public void setLastMessage(Message message) {
         lastMessage = message;
+    }
+
+    @PostLoad
+    public void populateEmails() {
+        for(int i = 1; i <= profiles.size(); i++) {
+            emails.put("Profile " + i, profiles.get(i - 1).getEmail());
+        }
     }
 
 }
