@@ -2,37 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'AppDrawer.dart';
 
-var chat = [
-  {
-    "id": 1,
-    "userName": "Tapan Soni",
-    "chatrooms": [
-      {
-        "chatRoomID": 33,
-        "messages": [
-          {"id": 1, "text": "Hey!", "senderID": 1},
-          {"id": 2, "text": "Hey, what's up?", "senderID": 2}
-        ]
-      }
-    ],
-    "lastMessageID": 2
-  },
-  {
-    "id": 2,
-    "userName": "Ali Houshmand",
-    "chatrooms": [
-      {
-        "chatRoomID": 43,
-        "messages": [
-          {"id": 1, "text": "Hey!", "senderID": 1},
-          {"id": 2, "text": "Hey, what's up?", "senderID": 2}
-        ]
-      }
-    ],
-    "lastMessageID": 2
-  },
-];
-
 List<String> messages = [
   "1 Hey!",
   "2 Hello!",
@@ -88,7 +57,9 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
   void _afterMessageSubmission(String text) {
 
     setState(() {
-      messages..insert(0, _textController.text);
+      if(_textController.text.isEmpty){}
+      else
+        messages..insert(0, _textController.text);
     });
 
     _textController.clear();
@@ -119,7 +90,6 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
                 child: new IconButton(
                     icon: new Icon(Icons.send),
                     onPressed: () {
-                      if(_textController.text.isNotEmpty)
                         _afterMessageSubmission(_textController.text);
                     }),
               ),
