@@ -581,7 +581,7 @@ Future<Post> getPost() async {
 Future<Address> getAddressPost() async {
   int id = await getId();
 
-  String addressUrl = 'http://10.0.2.2:8080/rides/address/$id';
+  String addressUrl = BASE_URL + '/rides/address/$id';
 
   final response2 = await http.get(addressUrl);
   return addressFromJson(response2.body);

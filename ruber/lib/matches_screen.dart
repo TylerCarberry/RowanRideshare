@@ -174,7 +174,7 @@ class matchesScreenState extends State<matchesScreen> {
 
 Future<List<Post>> getAllPost() async {
   int userId = await getId();
-  String postUrl = 'http://10.0.2.2:8080/rides/matching/$userId/20';
+  String postUrl = BASE_URL + '/rides/matching/$userId/20';
   final response = await http.get(postUrl);
   return allPostsFromJson(response.body);
 }

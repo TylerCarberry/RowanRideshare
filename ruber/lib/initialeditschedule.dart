@@ -1667,7 +1667,7 @@ Future<Post> getPost() async {
 
 Future<http.Response> updateSchedule(Schedule schedule) async {
   int userId = await getId();
-  String updateUrl = 'http://10.0.2.2:8080/rides/profile/$userId/schedule/update';
+  String updateUrl = BASE_URL + '/rides/profile/$userId/schedule/update';
 //  String updateUrl = 'http://680285ec.ngrok.io/rides/profile/1/schedule/update';
 
   final response = await http.post('$updateUrl',
@@ -1682,7 +1682,7 @@ Future<http.Response> updateSchedule(Schedule schedule) async {
 Future<http.Response> newSchedule(Schedule newSchedule) async{
   int userId = await getId();
 
-  String updateUrl = 'http://10.0.2.2:8080/rides/profile/$userId/schedule/new';
+  String updateUrl = BASE_URL + '/rides/profile/$userId/schedule/new';
   final response = await http.post('$updateUrl',
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
