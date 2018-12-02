@@ -157,7 +157,9 @@ class matchesScreenState extends State<matchesScreen> {
                 title: Text(profileMatches[index]["name"]),
                 subtitle: Text(
                     profileMatches[index]["distanceRounded"].toString() +
-                        " miles" + ["schedulesString"].toString()),
+
+                        " miles                    " + profileMatches[index]["schedulesString"].toString()),
+
                 onTap: () {
                   Navigator.push(
                       context,
@@ -170,7 +172,8 @@ class matchesScreenState extends State<matchesScreen> {
 }
 
 Future<List<Post>> getAllPost() async {
-  String postUrl = 'http://10.0.2.2:8080/rides/matching/3/20';
+  int userId = await getId();
+  String postUrl = 'http://10.0.2.2:8080/rides/matching/$userId/20';
   final response = await http.get(postUrl);
   return allPostsFromJson(response.body);
 }
