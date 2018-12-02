@@ -37,6 +37,7 @@ setId(int newId) async {
   if (newId != null && newId != 0) {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setInt("id", newId);
+    //print(newId);
     id = newId;
   }
 }
@@ -299,11 +300,8 @@ class _MyAddressForm extends State<InitialAddressForm> {
                         builder: (context2, snapshot2) {
                           if (snapshot2.hasData) {
                             int tempId = snapshot2.data;
-
-                            print(tempId);
-                            setId(tempId);
-                            return Text(
-                                '${snapshot2.data.toString()}');
+                            //setId(tempId);
+                            return Text(" ");
                           }
                           else
                             return CircularProgressIndicator();
@@ -329,6 +327,7 @@ Future<int> getMyId() async {
 
 Future<http.Response> createAddress(AddressPost address) async {
   int userId = await getId();
+  print(userId);
   String updateUrl = BASE_URL + '/rides/address/$userId/new';
   final response = await http.post('$updateUrl',
       headers: {
