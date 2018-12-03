@@ -8,12 +8,26 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:async' show Future;
 import 'dart:convert';
+import 'dart:io';
+
+
 List<String> messages = ["1 Hey!", "2 Hello!", "1 How are you"];
 Map<String,dynamic> profileChats;
+String myInputText;
 
 getProfiles() {
   return profileChats;
 }
+
+getMyInputText(){
+  return myInputText;
+}
+
+setMyInputText(String tempInput){
+  myInputText = tempInput;
+}
+
+
 class ChatRoomScreen extends StatefulWidget {
   @override
   ChatRoomScreenState createState() => new ChatRoomScreenState();
@@ -30,7 +44,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
 
     var response = await http.get(
       /// Change the URL to the end point from the database
-        Uri.encodeFull(BASE_URL + '/rides/profile/$userId/chatrooms'),
+        Uri.encodeFull(BASE_URL + '/rides/profile/4/chatrooms'),
         headers: {"Accept": "application/json"});
     print(json.decode(response.body));
     
@@ -81,6 +95,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
     setState(() {
       if (_textController.text.isEmpty) {} else
         messages..insert(0, _textController.text);
+      setMyInputText(_textController.text);
     });
     _textController.clear();
   }
@@ -110,6 +125,21 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
                 child: new IconButton(
                     icon: new Icon(Icons.send),
                     onPressed: () {
+                      String newText = getMyInputText();
+                      Messages newMessage = Messages(id: 3, senderId: 4,text: newText);
+                      //print(newText);
+                      print(newMessage.text.toString());
+                      createMessage(newMessage).then((response) {
+                        if (response.statusCode > 200)
+                          print(response.body);
+                        else
+                          print(response.statusCode);
+                      }).catchError((error) {
+                        print('error : $error');
+                      });
+
+
+
                       _afterMessageSubmission(_textController.text);
                     }),
               ),
@@ -305,4 +335,18 @@ Future<ChatList> getChatrooms() async {
   final response = await http.get(postUrl);
   print(listFromJsonChat(response.body));
   return listFromJsonChat(response.body);
+}
+
+Future<http.Response> createMessage(Messages myMessage) async {
+  //int userId = await getId();
+  //print(userId);
+  String newMessageUrl = BASE_URL + '/rides/message/new';
+  final response = await http.post('$newMessageUrl',
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.authorizationHeader: ''
+      },
+      body: messagePostToJson(myMessage));
+  print(response.body);
+  return response;
 }
