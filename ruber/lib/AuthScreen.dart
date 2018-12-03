@@ -169,6 +169,8 @@ class _MyAuthScreenState extends State<MyAuthScreen> {
         print('error : $error');
       });
 
+      Navigator.pop(context);
+
       Navigator.push(
           context,
           MaterialPageRoute(builder: (context) =>
@@ -177,6 +179,8 @@ class _MyAuthScreenState extends State<MyAuthScreen> {
     }
     else
       {
+
+        Navigator.pop(context);
 
         Navigator.push(
           context,

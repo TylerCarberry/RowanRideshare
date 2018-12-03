@@ -23,7 +23,7 @@ void main() => runApp(new RUber());
 class RUber extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'RUber', home: WelcomeScreen());
+    return MaterialApp(title: 'Ryde', home: WelcomeScreen());
   }
 }
 
@@ -34,7 +34,7 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Welcome to RUber'),
+          title: Text('Welcome to Ryde'),
           centerTitle: true,
           automaticallyImplyLeading: false,
         ),
@@ -44,7 +44,7 @@ class WelcomeScreen extends StatelessWidget {
               Container(
                 margin: EdgeInsets.only(top: 15.0, bottom: 15.0),
                 child: Text(
-                  'RUber',
+                  'Ryde',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.orange,
@@ -107,60 +107,58 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('RUber'),
+          title: Text('Ryde'),
           centerTitle: true,
           automaticallyImplyLeading: false,
         ),
         body: Center(
           child: Column(children: [
-            RaisedButton(
-              child: Text('New Ride'),
-              onPressed: () {
+            Image.network(
+              'https://www.tlcrentalmarketplace.com/wp-content/uploads/2018/03/rideshare.png',
+              height: 150,
+            ),
+            ListTile(
+                leading: Icon(Icons.directions_car),
+                title: Text('New Ryde'),
+
+                contentPadding: new EdgeInsets.only(left: 100.0, top: 30.0),
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => launchRideScreen()));
+                }),
+            ListTile(
+              leading: Icon(Icons.message),
+              title: Text('Messages'),
+              contentPadding: new EdgeInsets.only(left: 100.0),
+              onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => launchRideScreen()),
+                  MaterialPageRoute(builder: (context) => ChatRoomScreen()),
                 );
               },
             ),
-            RaisedButton(
-                child: Text('Messages'),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ChatRoomScreen()),
-                  );
-                }),
-            RaisedButton(
-                child: Text('Profile'),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ProfileScreen()),
-                  );
-                }),
-            RaisedButton(
-              child: Text('Schedule'),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ScheduleForm()));
+            ListTile(
+              leading: Icon(Icons.account_box),
+              title: Text('Profile'),
+              contentPadding: new EdgeInsets.only(left: 100.0),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfileScreen()),
+                );
               },
             ),
-            RaisedButton(
-                child: Text('Settings'),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SettingsScreen()),
-                  );
-                }),
-            RaisedButton(
-                child: Text('Login'),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MyAuthScreen()),
-                  );
-                }),
+            ListTile(
+              leading: Icon(Icons.schedule),
+              title: Text('Schedule'),
+              contentPadding: new EdgeInsets.only(left: 100.0),
+              onTap: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => ScheduleForm()));
+              },
+            )
+
+
           ]),
         ));
   }
