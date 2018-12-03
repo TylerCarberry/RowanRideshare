@@ -1,23 +1,28 @@
-import 'package:flutter/material.dart';
-import 'AppDrawer.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'AuthScreen.dart';
-import 'ChatroomModel.dart';
-import 'Constants.dart';
-import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:async' show Future;
 import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'AppDrawer.dart';
+import 'AuthScreen.dart';
+import 'ChatroomModel.dart';
+import 'Constants.dart';
+
 List<String> messages = ["1 Hey!", "2 Hello!", "1 How are you"];
-Map<String,dynamic> profileChats;
+Map<String, dynamic> profileChats;
 
 getProfiles() {
   return profileChats;
 }
+
 class ChatRoomScreen extends StatefulWidget {
   @override
   ChatRoomScreenState createState() => new ChatRoomScreenState();
 }
+
 class ChatRoomScreenState extends State<ChatRoomScreen> {
   /**
    * This Widget is the ChatRooms - People who are in contact with the user
@@ -29,11 +34,12 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     var response = await http.get(
-      /// Change the URL to the end point from the database
+
+        /// Change the URL to the end point from the database
         Uri.encodeFull(BASE_URL + '/rides/profile/$userId/chatrooms'),
         headers: {"Accept": "application/json"});
     print(json.decode(response.body));
-    
+
     this.setState(() {
       profileChats = json.decode(response.body);
     });
@@ -42,15 +48,20 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
 
     return listFromJsonChat(response.body);
   }
+
   @override
   void initState() {
     super.initState();
     this.getData();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('Messages'), centerTitle: true),
+        appBar: AppBar(
+          title: Text('Messages'),
+          centerTitle: true,
+        ),
         drawer: launchAppDrawer(context),
         body: ListView.builder(
           itemCount: profileChats == null ? 0 : profileChats.length,
@@ -60,9 +71,12 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
                 backgroundImage: NetworkImage(
                     "http://s3.amazonaws.com/nvest/Blank_Club_Website_Avatar_Gray.jpg"),
               ),
-              title: Text(profileChats["chatrooms"][index]["profileNames"]["Profile 2"].toString()),//name
-              subtitle: Text(
-                  profileChats["chatrooms"][index]["messages"][profileChats["chatrooms"][index]["messages"].length -1]["text"]),
+              title: Text(profileChats["chatrooms"][index]["profileNames"]
+                      ["Profile 2"]
+                  .toString()), //name
+              subtitle: Text(profileChats["chatrooms"][index]["messages"]
+                      [profileChats["chatrooms"][index]["messages"].length - 1]
+                  ["text"]),
 
               onTap: () {
                 Navigator.push(
@@ -75,23 +89,25 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
           },
         ));
   }
+
   /// MESSAGE INPUT CONTAINER TEXTCONTROLLER
   TextEditingController _textController = new TextEditingController();
+
   void _afterMessageSubmission(String text) {
     setState(() {
-      if (_textController.text.isEmpty) {} else
+      if (_textController.text.isEmpty) {
+      } else
         messages..insert(0, _textController.text);
     });
     _textController.clear();
   }
+
   /**
    * This Widget is where the user actually writes the message
    */
   Widget MessageContainer() {
     return new IconTheme(
-        data: new IconThemeData(color: Theme
-            .of(context)
-            .accentColor),
+        data: new IconThemeData(color: Theme.of(context).accentColor),
         child: new Container(
           //modified
           margin: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -102,7 +118,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
                   controller: _textController,
                   onSubmitted: _afterMessageSubmission,
                   decoration:
-                  new InputDecoration.collapsed(hintText: "Send a message"),
+                      new InputDecoration.collapsed(hintText: "Send a message"),
                 ),
               ),
               new Container(
@@ -117,6 +133,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
           ),
         ));
   }
+
   /**
    * This is the screen that is shown when the user clicks on another user in the
    * main Chat Room
@@ -163,12 +180,11 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
             Container(
                 child: MessageContainer(),
                 decoration:
-                new BoxDecoration(color: Theme
-                    .of(context)
-                    .cardColor))
+                    new BoxDecoration(color: Theme.of(context).cardColor))
           ],
         ));
   }
+
   /**
    * This method shifts the message to the right hand side - used when the user
    * types in their message
@@ -183,34 +199,39 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
 //                fontSize: 18.0,
 //                fontWeight: FontWeight.bold
 //            )),
-            new Container (
+            new Container(
                 margin: const EdgeInsets.only(top: 5.0),
                 child: Container(
                     child: FutureBuilder<ChatList>(
                         future: getChatrooms(),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            print(snapshot.data.chatrooms[0].messages[1].text.toString());
-                            return Text('${snapshot.data.chatrooms[0].messages[0].text.toString()}', style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold
-                            ) );
+                            print(snapshot.data.chatrooms[0].messages[1].text
+                                .toString());
+                            return Text(
+                                '${snapshot.data.chatrooms[0].messages[0].text.toString()}',
+                                style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold));
                           } else
                             return CircularProgressIndicator();
                         }))),
-            new Container (
+            new Container(
                 margin: const EdgeInsets.only(top: 5.0),
                 child: Container(
                     child: FutureBuilder<ChatList>(
                         future: getChatrooms(),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            print(snapshot.data.chatrooms[0].messages[1].timeSent.toString());
-                            return Text('${snapshot.data.chatrooms[0].messages[1].timeSent.toString()}', style: TextStyle(
-                                fontSize: 14.0,
-                                color: Colors.grey,
-                                fontWeight: FontWeight.normal
-                            ) );
+                            print(snapshot
+                                .data.chatrooms[0].messages[1].timeSent
+                                .toString());
+                            return Text(
+                                '${snapshot.data.chatrooms[0].messages[1].timeSent.toString()}',
+                                style: TextStyle(
+                                    fontSize: 14.0,
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.normal));
                           } else
                             return CircularProgressIndicator();
                         }))),
@@ -222,14 +243,14 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
         children: <Widget>[
           new Container(
               child: new CircleAvatar(
-                backgroundImage:
-                NetworkImage(
-                    "http://s3.amazonaws.com/nvest/Blank_Club_Website_Avatar_Gray.jpg"),
-              )),
+            backgroundImage: NetworkImage(
+                "http://s3.amazonaws.com/nvest/Blank_Club_Website_Avatar_Gray.jpg"),
+          )),
         ],
       )
     ];
   }
+
   /**
    * This method shifts the message to the left hand side - used when receiving
    * a message
@@ -242,8 +263,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
           new Container(
               margin: const EdgeInsets.only(right: 8.0),
               child: new CircleAvatar(
-                backgroundImage:
-                NetworkImage(
+                backgroundImage: NetworkImage(
                     "http://s3.amazonaws.com/nvest/Blank_Club_Website_Avatar_Gray.jpg"),
               )),
         ],
@@ -252,35 +272,40 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            new Container (
+            new Container(
                 margin: const EdgeInsets.only(top: 5.0),
                 child: Container(
                     child: FutureBuilder<ChatList>(
                         future: getChatrooms(),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            print(snapshot.data.chatrooms[0].messages[1].text.toString());
-                            return Text('${snapshot.data.chatrooms[0].messages[1].text.toString()}', style: TextStyle(
-                                fontSize: 18.0,
-                                color: Colors.lightBlue,
-                                fontWeight: FontWeight.bold
-                            ) );
+                            print(snapshot.data.chatrooms[0].messages[1].text
+                                .toString());
+                            return Text(
+                                '${snapshot.data.chatrooms[0].messages[1].text.toString()}',
+                                style: TextStyle(
+                                    fontSize: 18.0,
+                                    color: Colors.lightBlue,
+                                    fontWeight: FontWeight.bold));
                           } else
                             return CircularProgressIndicator();
                         }))),
-            new Container (
+            new Container(
                 margin: const EdgeInsets.only(top: 5.0),
                 child: Container(
                     child: FutureBuilder<ChatList>(
                         future: getChatrooms(),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            print(snapshot.data.chatrooms[0].messages[1].timeSent.toString());
-                            return Text('${snapshot.data.chatrooms[0].messages[1].timeSent.toString()}', style: TextStyle(
-                                fontSize: 14.0,
-                                color: Colors.grey,
-                                fontWeight: FontWeight.normal
-                            ) );
+                            print(snapshot
+                                .data.chatrooms[0].messages[1].timeSent
+                                .toString());
+                            return Text(
+                                '${snapshot.data.chatrooms[0].messages[1].timeSent.toString()}',
+                                style: TextStyle(
+                                    fontSize: 14.0,
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.normal));
                           } else
                             return CircularProgressIndicator();
                         }))),
@@ -290,6 +315,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
     ];
   }
 }
+
 getId() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   int tempId = prefs.getInt("id");
@@ -298,6 +324,7 @@ getId() async {
   }
   return id;
 }
+
 Future<ChatList> getChatrooms() async {
   int userid = await getId();
 //  print(userid);
