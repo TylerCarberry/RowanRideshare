@@ -58,10 +58,17 @@ setFirstName(String tempUserName) async {
   firstName = tempUserName;
 }
 
-setUserName(String tempUserName) async {
-  userName = tempUserName;
+setUserName(String tempName) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString("name", tempName);
+  userName = tempName;
 }
 
+getMyUserName() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String userName = prefs.getString("username");
+  return userName;
+}
 
 /*
 getId() async {

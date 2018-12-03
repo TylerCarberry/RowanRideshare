@@ -2,7 +2,6 @@ import 'dart:convert';
 
 Post postFromJson(String str) {
   final jsonData = json.decode(str);
-  print(jsonData.toString());
   return Post.fromJson(jsonData);
 }
 
