@@ -1,6 +1,6 @@
 # Rowan Rideshare
 
-The purpose of our app is to help students find other students who also commute to Rowan and live in the same general area as they do. This is done by showing how many Rowan students live in the user's specified radius and what their schedules are. From there, either person can contact the other to set up a carpooling schedule.
+The purpose of our app is to help students find other students who also commute to Rowan and live in the same general area as they do. This is done by showing how many Rowan students live in the user's specified radius and what their schedules are. From there, either person can contact the other to set up a carpooling schedule. 
 
 Made using Flutter, Spring Boot (Java), and MySQL
 
