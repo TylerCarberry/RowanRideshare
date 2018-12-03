@@ -22,7 +22,7 @@ class _MapPageState extends State<MapPage> {
         initialCameraPosition:
             new CameraPosition(new Location(39.7099, -75.1189), 15.0),
         showUserLocation: true,
-        title: "RUber "));
+        title: "Ryde "));
 
     mapView.onMapReady.listen((_) {
       setState(() {
