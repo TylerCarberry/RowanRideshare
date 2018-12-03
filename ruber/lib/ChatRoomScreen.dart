@@ -9,7 +9,7 @@ import 'dart:async';
 import 'dart:async' show Future;
 import 'dart:convert';
 List<String> messages = ["1 Hey!", "2 Hello!", "1 How are you"];
-List profileChats;
+Map<String,dynamic> profileChats;
 
 getProfiles() {
   return profileChats;
@@ -30,12 +30,15 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
 
     var response = await http.get(
       /// Change the URL to the end point from the database
-        Uri.encodeFull(BASE_URL + '/rides/profile/4/chatrooms'),
+        Uri.encodeFull(BASE_URL + '/rides/profile/$userId/chatrooms'),
         headers: {"Accept": "application/json"});
-    print(response.body);
+    print(json.decode(response.body));
+    
     this.setState(() {
       profileChats = json.decode(response.body);
     });
+
+    print(profileChats);
 
     return listFromJsonChat(response.body);
   }
@@ -57,7 +60,9 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
                 backgroundImage: NetworkImage(
                     "http://s3.amazonaws.com/nvest/Blank_Club_Website_Avatar_Gray.jpg"),
               ),
-              title: Text(profileChats[index]["chatRoomId"]), // TODO - Pull name from DB
+              title: Text(profileChats["chatrooms"][index]["profileNames"]["Profile 2"].toString()),
+              subtitle: Text(
+                  profileChats["chatrooms"][index]["messages"][profileChats["chatrooms"][index]["messages"].length -1]["text"]),// TODO - Pull name from DB
               // TODO -- Pull the name using the index
               onTap: () {
                 Navigator.push(
