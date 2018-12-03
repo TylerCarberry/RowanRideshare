@@ -11,6 +11,7 @@ import 'RideScreen.dart';
 import 'editschedule.dart';
 import 'profile.dart';
 import 'settings_Screen.dart';
+import 'AppDrawer.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -81,7 +82,7 @@ class WelcomeScreen extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              MyAuthScreen())); // Should be changed to AuthScreen.dart which should go to InitialAddressForm.dart
+                              MainScreen())); // Should be changed to AuthScreen.dart which should go to InitialAddressForm.dart
                 },
               ),
 /*              MaterialButton(
@@ -105,12 +106,15 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
         appBar: AppBar(
           title: Text('Ryde'),
           centerTitle: true,
-          automaticallyImplyLeading: false,
+//          automaticallyImplyLeading: false,
         ),
+        drawer: launchAppDrawer(context),
         body: Center(
           child: Column(children: [
             Image.network(
@@ -160,7 +164,7 @@ class MainScreen extends StatelessWidget {
 
 
           ]),
-        ));
+        )));
   }
 }
 
