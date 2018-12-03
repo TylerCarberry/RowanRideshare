@@ -60,10 +60,10 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
                 backgroundImage: NetworkImage(
                     "http://s3.amazonaws.com/nvest/Blank_Club_Website_Avatar_Gray.jpg"),
               ),
-              title: Text(profileChats["chatrooms"][index]["profileNames"]["Profile 2"].toString()),
+              title: Text(profileChats["chatrooms"][index]["profileNames"]["Profile 2"].toString()),//name
               subtitle: Text(
-                  profileChats["chatrooms"][index]["messages"][profileChats["chatrooms"][index]["messages"].length -1]["text"]),// TODO - Pull name from DB
-              // TODO -- Pull the name using the index
+                  profileChats["chatrooms"][index]["messages"][profileChats["chatrooms"][index]["messages"].length -1]["text"]),
+
               onTap: () {
                 Navigator.push(
                     context,
