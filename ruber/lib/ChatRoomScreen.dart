@@ -14,7 +14,6 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
    */
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
         appBar: AppBar(title: Text('Messages'), centerTitle: true),
         drawer: launchAppDrawer(context),
@@ -46,8 +45,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
 
   void _afterMessageSubmission(String text) {
     setState(() {
-      if (_textController.text.isEmpty) {
-      } else
+      if (_textController.text.isEmpty) {} else
         messages..insert(0, _textController.text);
     });
 
@@ -59,7 +57,9 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
    */
   Widget MessageContainer() {
     return new IconTheme(
-        data: new IconThemeData(color: Theme.of(context).accentColor),
+        data: new IconThemeData(color: Theme
+            .of(context)
+            .accentColor),
         child: new Container(
           //modified
           margin: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -70,7 +70,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
                   controller: _textController,
                   onSubmitted: _afterMessageSubmission,
                   decoration:
-                      new InputDecoration.collapsed(hintText: "Send a message"),
+                  new InputDecoration.collapsed(hintText: "Send a message"),
                 ),
               ),
               new Container(
@@ -95,6 +95,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
     return Scaffold(
         appBar: AppBar(
             title: Text("Tapan Soni"),
+            // TODO - Grab from the db using the index
             centerTitle: true,
             actions: <Widget>[
               IconButton(
@@ -125,7 +126,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
                           children: messages[index].substring(0, 1) == '1'
                               ? rightSide(index)
                               : leftSide(index)));
-                  // TODO -- CHANGE THE LOGIC SO IT COMPARES USERid WITH SENDERid
+                  // TODO -- CHANGE THE LOGIC SO IT COMPARES USERid from shared preferences WITH SENDERid
                 },
               ),
             ),
@@ -133,7 +134,9 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
             Container(
                 child: MessageContainer(),
                 decoration:
-                    new BoxDecoration(color: Theme.of(context).cardColor))
+                new BoxDecoration(color: Theme
+                    .of(context)
+                    .cardColor))
           ],
         ));
   }
@@ -145,20 +148,34 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
 
   List<Widget> rightSide(int index) {
     return <Widget>[
+
       Expanded(
-          child: Column(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: <Widget>[
+            Text(messages[index], style: TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold
+            )),
+            Text("12/2/18 8:22 PM", style: TextStyle(
+                fontSize: 14.0,
+                color: Colors.grey,
+                fontWeight: FontWeight.normal
+            ),)
+          ],
+        ),
+      ),
+      Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
-          Text(
-            messages[index],
-            style: TextStyle(
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold,
-            ),
-          )
+          new Container(
+              child: new CircleAvatar(
+                backgroundImage:
+                NetworkImage(
+                    "http://s3.amazonaws.com/nvest/Blank_Club_Website_Avatar_Gray.jpg"),
+              )),
         ],
-      )),
-      Divider(height: 10.0)
+      )
     ];
   }
 
@@ -166,23 +183,37 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
    * This method shifts the message to the left hand side - used when receiving
    * a message
    */
-
   List<Widget> leftSide(int index) {
     return <Widget>[
-      Expanded(
-          child: Column(
+      Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            messages[index],
-            style: TextStyle(
+          new Container(
+              margin: const EdgeInsets.only(right: 8.0),
+              child: new CircleAvatar(
+                backgroundImage:
+                NetworkImage(
+                    "http://s3.amazonaws.com/nvest/Blank_Club_Website_Avatar_Gray.jpg"),
+              )),
+        ],
+      ),
+      Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(messages[index], style: TextStyle(
                 fontSize: 18.0,
                 color: Colors.lightBlue,
-                fontWeight: FontWeight.bold),
-          )
-        ],
-      )),
-      Divider(height: 10.0)
+                fontWeight: FontWeight.bold
+            )),
+            Text("12/2/18 8:22 PM", style: TextStyle(
+                fontSize: 14.0,
+                color: Colors.grey,
+                fontWeight: FontWeight.normal
+            ),)
+          ],
+        ),
+      )
     ];
   }
 }
