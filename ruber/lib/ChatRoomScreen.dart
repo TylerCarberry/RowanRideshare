@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'AppDrawer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'AuthScreen.dart';
+import 'ChatroomModel.dart';
+import 'Constants.dart';
+import 'package:http/http.dart' as http;
 
 List<String> messages = ["1 Hey!", "2 Hello!", "1 How are you"];
 
@@ -18,7 +23,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
         appBar: AppBar(title: Text('Messages'), centerTitle: true),
         drawer: launchAppDrawer(context),
         body: ListView.builder(
-          itemCount: 4, // TODO -- Change this to the length of the chat room
+          itemCount: 1, // TODO -- Change this to the length of the chat room
           itemBuilder: (BuildContext context, int index) {
             return new ListTile(
               leading: CircleAvatar(
@@ -153,15 +158,41 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
-            Text(messages[index], style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold
-            )),
-            Text("12/2/18 8:22 PM", style: TextStyle(
-                fontSize: 14.0,
-                color: Colors.grey,
-                fontWeight: FontWeight.normal
-            ),)
+
+//            Text(messages[index], style: TextStyle(
+//                fontSize: 18.0,
+//                fontWeight: FontWeight.bold
+//            )),
+            new Container (
+                margin: const EdgeInsets.only(top: 5.0),
+                child: Container(
+                    child: FutureBuilder<ChatList>(
+                        future: getChatrooms(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Text('${snapshot.data.chatrooms[0].messages[1].text.toString()}', style: TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold
+                            ) );
+                          } else
+                            return CircularProgressIndicator();
+                        }))),
+            new Container (
+                margin: const EdgeInsets.only(top: 5.0),
+                child: Container(
+                    child: FutureBuilder<ChatList>(
+                        future: getChatrooms(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Text('${snapshot.data.chatrooms[0].messages[1].timeSent.toString()}', style: TextStyle(
+                                fontSize: 14.0,
+                                color: Colors.grey,
+                                fontWeight: FontWeight.normal
+                            ) );
+                          } else
+                            return CircularProgressIndicator();
+                        }))),
+
           ],
         ),
       ),
@@ -201,19 +232,64 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(messages[index], style: TextStyle(
-                fontSize: 18.0,
-                color: Colors.lightBlue,
-                fontWeight: FontWeight.bold
-            )),
-            Text("12/2/18 8:22 PM", style: TextStyle(
-                fontSize: 14.0,
-                color: Colors.grey,
-                fontWeight: FontWeight.normal
-            ),)
+            new Container (
+              margin: const EdgeInsets.only(top: 5.0),
+              child: Container(
+                      child: FutureBuilder<ChatList>(
+                          future: getChatrooms(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              print(snapshot.data.chatrooms[0].messages[1].text.toString());
+                              return Text('${snapshot.data.chatrooms[0].messages[1].text.toString()}', style: TextStyle(
+                                  fontSize: 18.0,
+                                  color: Colors.lightBlue,
+
+                                  fontWeight: FontWeight.bold
+                              ) );
+                            } else
+                              return CircularProgressIndicator();
+                          }))),
+            new Container (
+                margin: const EdgeInsets.only(top: 5.0),
+                child: Container(
+                    child: FutureBuilder<ChatList>(
+                        future: getChatrooms(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            print(snapshot.data.chatrooms[0].messages[1].timeSent.toString());
+                            return Text('${snapshot.data.chatrooms[0].messages[1].timeSent.toString()}', style: TextStyle(
+                                fontSize: 14.0,
+                                color: Colors.grey,
+                                fontWeight: FontWeight.normal
+                            ) );
+                          } else
+                            return CircularProgressIndicator();
+                        }))),
+
           ],
         ),
       )
     ];
   }
+}
+
+
+getId() async {
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  int tempId = prefs.getInt("id");
+  if (tempId != 0 && tempId != null) {
+    id = tempId;
+  }
+
+  return id;
+}
+
+Future<ChatList> getChatrooms() async {
+  int userid = await getId();
+//  print(userid);
+  String postUrl = BASE_URL + '/rides/profile/4/chatrooms';
+  final response = await http.get(postUrl);
+  print(listFromJsonChat(response.body));
+  return listFromJsonChat(response.body);
 }
