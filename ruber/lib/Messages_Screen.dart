@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 
 import 'AppDrawer.dart';
+import 'ChatroomModel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ruber/Constants.dart';
+import 'package:http/http.dart' as http;
+import 'AuthScreen.dart';
+
+int id;
 
 Container launchChatMessageContainer(context, text, _name) {
   return new Container(
@@ -10,15 +17,25 @@ Container launchChatMessageContainer(context, text, _name) {
       children: <Widget>[
         new Container(
           margin: const EdgeInsets.only(right: 16.0),
-          child: new CircleAvatar(child: new Text(_name[0])),
+          child: new CircleAvatar(child: new Text(getUserName().toString().substring(0,1))),
         ),
         new Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            new Text(_name, style: Theme.of(context).textTheme.subhead),
+            new Text(getUserName(), style: Theme.of(context).textTheme.subhead),
             new Container(
               margin: const EdgeInsets.only(top: 5.0),
-              child: new Text(text),
+              child: Container(
+                  child: Center(
+                      child: FutureBuilder<ChatList>(
+                          future: getChatrooms(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              print(snapshot.data.chatrooms[0].messages[1].text.toString());
+                              return Text('${snapshot.data.chatrooms[0].messages[1].text.toString()}');
+                            } else
+                              return CircularProgressIndicator();
+                          }))),
             ),
           ],
         ),
@@ -46,7 +63,28 @@ Scaffold launchMessagesScreen(context, _messages, _buildTextComposer) {
           decoration: new BoxDecoration(color: Theme.of(context).cardColor),
           child: _buildTextComposer(),
         ),
+
       ],
     ),
   );
+}
+
+getId() async {
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  int tempId = prefs.getInt("id");
+  if (tempId != 0 && tempId != null) {
+    id = tempId;
+  }
+
+  return id;
+}
+
+Future<ChatList> getChatrooms() async {
+  int userid = await getId();
+//  print(userid);
+  String postUrl = BASE_URL + '/rides/profile/2/chatrooms';
+  final response = await http.get(postUrl);
+  print(listFromJsonChat(response.body));
+  return listFromJsonChat(response.body);
 }
