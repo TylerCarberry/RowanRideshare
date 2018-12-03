@@ -49,6 +49,12 @@ public class Chatroom implements Serializable{
     @Transient
     private HashMap<String, String> emails = new HashMap<String, String>(); // use this instead of profiles to stop infinite recursion
 
+    @Transient
+    private HashMap<String, Integer> profileIDs = new HashMap<String, Integer>();
+
+    @Transient
+    private HashMap<String, String> profileNames = new HashMap<String, String>();
+
     /** 
      *  Default constructor for JPA. 
      *  It should not be used directly as no values will be initialized.
@@ -117,6 +123,14 @@ public class Chatroom implements Serializable{
         return emails;
     }
 
+    public HashMap<String, String> getProfileNames() {
+        return profileNames;
+    }
+
+    public HashMap<String, Integer> getProfileIDs() {
+        return profileIDs;
+    }
+
     /**
      * Sets the last message.
      */
@@ -125,10 +139,19 @@ public class Chatroom implements Serializable{
     }
 
     @PostLoad
-    public void populateEmails() {
-        for(int i = 1; i <= profiles.size(); i++) {
-            emails.put("Profile " + i, profiles.get(i - 1).getEmail());
+    public void populateTransient() {
+        for(int i = 0; i < profiles.size(); i++) {
+            Profile p = profiles.get(i);
+            String current = Integer.toString(i + 1);
+            emails.put("Profile " + current, p.getEmail());
+            profileNames.put("Profile " + current , p.getName());
+            profileIDs.put("Profile " + current, p.getId());
         }
+
+
     }
+
+
+    
 
 }
