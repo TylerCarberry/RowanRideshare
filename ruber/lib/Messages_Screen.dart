@@ -6,7 +6,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ruber/Constants.dart';
 import 'package:http/http.dart' as http;
 import 'AuthScreen.dart';
-
+import 'dart:async';
+import 'dart:async' show Future;
+import 'dart:convert';
+import 'dart:io';
 int id;
 
 Container launchChatMessageContainer(context, text, _name) {
@@ -88,3 +91,4 @@ Future<ChatList> getChatrooms() async {
   print(listFromJsonChat(response.body));
   return listFromJsonChat(response.body);
 }
+

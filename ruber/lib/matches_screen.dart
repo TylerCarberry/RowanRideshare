@@ -11,10 +11,12 @@ import 'ProfileModel.dart';
 
 import 'main.dart';
 import 'dart:async' show Future;
+import 'ChatroomModel.dart';
 import 'ProfileModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 List profileMatches;
+
 
 getId() async {
   int id;
@@ -132,6 +134,24 @@ class matchesScreenState extends State<matchesScreen> {
                       child: RaisedButton(
                 child: Text('Send Ride Request!'),
                         onPressed: () {
+                  //create new chatroom
+                          //change end line 151
+//                          int id1 = getId();
+//                          print(id1);
+                          String matchEmail = profileMatches[index]["email"];
+                          getMatchesId(matchEmail);
+
+//                  ProfileIDs ids = new ProfileIDs(profileOneID: 4, profile2: 287);
+//                  print(ids);
+                  ChatRoom newRoom = new ChatRoom(profileOneID: getMyId(), profileTwoID: getMatchIdInt());
+                          createChatRoom(newRoom).then((response) {
+                            if (response.statusCode > 200)
+                              print(response.body);
+                            else
+                              print(response.statusCode);
+                          }).catchError((error) {
+                            print('error : $error');
+                          });
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -177,4 +197,70 @@ Future<List<Post>> getAllPost() async {
   String postUrl = BASE_URL + '/rides/matching/$userId/20';
   final response = await http.get(postUrl);
   return allPostsFromJson(response.body);
+}
+
+
+Future<http.Response> createChatRoom(ChatRoom chatroom) async {
+  int userId = await getId();
+  //print(userId);
+  String newMessageUrl = BASE_URL + '/rides/chatroom/new';
+  final response = await http.post('$newMessageUrl',
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.authorizationHeader: ''
+      },
+      body: chatroomPostToJson(chatroom));
+  print(response.body);
+  return response;
+}
+
+Future<int> getMatchesId(String tempEmail) async {
+  String addressUrl = BASE_URL + '/rides/profile/getmyid/$tempEmail';
+  final response2 = await http.get(addressUrl);
+  var res = response2.body;
+  await setMatchId(int.parse(res));
+  print(res);
+  return int.parse(res);
+}
+
+int matchId;
+
+getMatchId() async {
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  int tempId = prefs.getInt("matchID");
+  if (tempId != 0 && tempId != null) {
+    matchId = tempId;
+  }
+
+  return matchId;
+}
+
+getMatchIdInt(){
+  return matchId;
+}
+
+setMatchId(int newId) async {
+  if (newId != null && newId != 0) {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt("matchID", newId);
+    //print(newId);
+    matchId = newId;
+  }
+}
+
+
+int id;
+getMyProfileId() async{
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  int tempId = prefs.getInt("id");
+  if (tempId != 0 && tempId != null) {
+    id = tempId;
+  }
+
+  return id;
+}
+
+getMyId(){
+  return id;
 }

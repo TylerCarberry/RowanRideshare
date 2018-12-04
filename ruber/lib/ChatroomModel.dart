@@ -9,6 +9,18 @@ String listToJsonChat(ChatList data) {
   final dyn = data.toJson();
   return json.encode(dyn);
 }
+
+String messagePostToJson(Messages data) {
+  final dyn = data.toJson();
+  return json.encode(dyn);
+}
+
+
+String chatroomPostToJson(ChatRoom data) {
+  final dyn = data.toJson();
+  return json.encode(dyn);
+}
+
 List<ChatList> allChatsFromJson(String str) {
   final jsonData = json.decode(str);
   return new List<ChatList>.from(jsonData.map((x) => ChatList.fromJsonChat(x)));
@@ -39,6 +51,8 @@ class ChatRoom {
   String createdDate;
   List<Messages> messages;
   ProfileIDs profileIDs;
+  int profileOneID;
+  int profileTwoID;
   ProfileNames profileNames;
   int lastMessageId;
   ChatRoom({
@@ -47,6 +61,8 @@ class ChatRoom {
     this.messages,
     this.profileIDs,
     this.profileNames,
+    this.profileOneID,
+    this.profileTwoID,
     this.lastMessageId,
   });
   factory ChatRoom.fromJsonChatRoom(Map<String, dynamic> parsedJson) {
@@ -60,6 +76,8 @@ class ChatRoom {
       messages: messageList,
       profileIDs: ProfileIDs.fromJsonIDs(parsedJson["profileIDs"]),
       profileNames: ProfileNames.fromJsonNames(parsedJson["profileNames"]),
+      profileOneID: parsedJson['profileOneID'],
+      profileTwoID: parsedJson['profileTwoID'],
       //emails: Email.fromJsonEmail(parsedJson["email"]),
       lastMessageId: parsedJson['lastMessageId'],
     );
@@ -70,6 +88,8 @@ class ChatRoom {
     "messages": messages,
     "profileIDs": profileIDs,
     "profileNames": profileNames,
+    "profileOneID":profileOneID,
+    "profileTwoID":profileTwoID,
     //"emails": emails,
     "lastMessageId": lastMessageId,
   };
