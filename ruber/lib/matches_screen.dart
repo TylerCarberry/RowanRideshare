@@ -13,6 +13,7 @@ import 'main.dart';
 import 'dart:async' show Future;
 import 'ChatroomModel.dart';
 import 'ProfileModel.dart';
+import 'ChatRoomScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 List profileMatches;
@@ -155,7 +156,7 @@ class matchesScreenState extends State<matchesScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => MessagesScreen()));
+                                  builder: (context) => ChatRoomScreen()));
                         },
               )))
             ],
@@ -210,6 +211,21 @@ Future<http.Response> createChatRoom(ChatRoom chatroom) async {
         HttpHeaders.authorizationHeader: ''
       },
       body: chatroomPostToJson(chatroom));
+  print(response.body);
+  return response;
+}
+
+
+Future<http.Response> createMessage(Messages message) async {
+  int userId = await getId();
+  //print(userId);
+  String newMessageUrl = BASE_URL + '/rides/message/new';
+  final response = await http.post('$newMessageUrl',
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.authorizationHeader: ''
+      },
+      body: messagePostToJson(message));
   print(response.body);
   return response;
 }

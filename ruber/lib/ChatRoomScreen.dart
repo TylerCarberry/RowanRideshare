@@ -44,7 +44,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
 
     var response = await http.get(
       /// Change the URL to the end point from the database
-        Uri.encodeFull(BASE_URL + '/rides/profile/4/chatrooms'),
+        Uri.encodeFull(BASE_URL + '/rides/profile/$userId/chatrooms'),
         headers: {"Accept": "application/json"});
     print(json.decode(response.body));
     
@@ -67,7 +67,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
         appBar: AppBar(title: Text('Messages'), centerTitle: true),
         drawer: launchAppDrawer(context),
         body: ListView.builder(
-          itemCount: profileChats == null ? 0 : profileChats.length,
+          itemCount: profileChats == null ? 0 : profileChats["chatrooms"].length,
           itemBuilder: (BuildContext context, int index) {
             return new ListTile(
               leading: CircleAvatar(
@@ -75,8 +75,9 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
                     "http://s3.amazonaws.com/nvest/Blank_Club_Website_Avatar_Gray.jpg"),
               ),
               title: Text(profileChats["chatrooms"][index]["profileNames"]["Profile 2"].toString()),//name
-              subtitle: Text(
-                  profileChats["chatrooms"][index]["messages"][profileChats["chatrooms"][index]["messages"].length -1]["text"]),
+
+//              subtitle: Text(
+//                  profileChats["chatrooms"][index]["messages"][profileChats["chatrooms"][index]["messages"].length -1]["text"]),
 
               onTap: () {
                 Navigator.push(
@@ -351,3 +352,17 @@ Future<http.Response> createMessage(Messages myMessage) async {
   return response;
 }
 
+int id;
+getMyProfileId() async{
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  int tempId = prefs.getInt("id");
+  if (tempId != 0 && tempId != null) {
+    id = tempId;
+  }
+
+  return id;
+}
+
+getMyId(){
+  return id;
+}
