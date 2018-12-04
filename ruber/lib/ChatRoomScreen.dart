@@ -106,8 +106,8 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
                       bottom: 5.0, left: 5.0, right: 5.0, top: 5.0),
                   width: 40.0,
                   height: 50.0,
-                  child: new CircleAvatar(child: new Text(profileChats["chatrooms"][index]["profileNames"]["Profile 2"].toString().substring(0,1), style: TextStyle(fontSize: 20),))),
-              title: Text(profileChats["chatrooms"][index]["profileNames"]["Profile 2"].toString()),
+                  child: new CircleAvatar(child: new Text(profileChats["chatrooms"][index]["profileNames"]["Profile 2"].toString().substring(0,1) + profileChats["chatrooms"][index]["profileNames"]["Profile 1"].toString().substring(0,1), style: TextStyle(fontSize: 20),))),
+              title: Text(profileChats["chatrooms"][index]["profileNames"]["Profile 2"].toString() + " & " + profileChats["chatrooms"][index]["profileNames"]["Profile 1"].toString()),
 
             //name}
 //              subtitle: Text(
@@ -197,7 +197,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
     return Scaffold(
         appBar: AppBar(
 //            title: Text(profileChats["chatrooms"][index]["messages"].length.toString()),
-            title: Text(profileChats["chatrooms"][index]["profileNames"]["Profile 2"].toString()),
+            title: Text(profileChats["chatrooms"][index]["profileNames"]["Profile 2"].toString() + " & " + profileChats["chatrooms"][index]["profileNames"]["Profile 1"].toString()),
             // TODO - Grab from the db using the index
             centerTitle: true,
             actions: <Widget>[
