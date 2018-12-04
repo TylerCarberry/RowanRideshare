@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:ruber/AuthScreen.dart';
 
-import 'AuthScreen.dart';
-import 'Login.dart';
+import 'ChatRoomScreen.dart';
 import 'Messages_Screen.dart';
 import 'RideScreen.dart';
 import 'editschedule.dart';
 import 'profile.dart';
 import 'settings_Screen.dart';
+import 'AppDrawer.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -23,7 +23,7 @@ void main() => runApp(new RUber());
 class RUber extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'RUber', home: WelcomeScreen());
+    return MaterialApp(title: 'Ryde', home: WelcomeScreen());
   }
 }
 
@@ -34,7 +34,7 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Welcome to RUber'),
+          title: Text('Welcome to Ryde'),
           centerTitle: true,
           automaticallyImplyLeading: false,
         ),
@@ -44,32 +44,52 @@ class WelcomeScreen extends StatelessWidget {
               Container(
                 margin: EdgeInsets.only(top: 15.0, bottom: 15.0),
                 child: Text(
-                  'RUber',
+                  'Ryde',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.orange,
                       fontSize: 48.0),
                 ),
               ),
+              Image.network(
+                'https://www.tlcrentalmarketplace.com/wp-content/uploads/2018/03/rideshare.png',
+                height: 150,
+              ),
               Container(
-                margin: EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
+                margin: EdgeInsets.only(
+                    top: 40.0, left: 15.0, right: 15.0, bottom: 15.0),
                 child: Text(
-                  '• Find people to carpool with that have similar class schedules and who live nearby.\n\n• Only available to Rowan University students.\n\n• More schools coming soon.',
-                  style: TextStyle(color: Colors.black, fontSize: 18.0),
+                  'Exclusively for Rowan University students\n\n Commute with other students near you\n\n Match based on class schedule and distance\n\n Save gas and the planet!',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18.0,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
               ),
-              RaisedButton(
-                child: Text("Start"),
+              MaterialButton(
+                child: Text(
+                  "Continue",
+                  style: TextStyle(fontSize: 19),
+                ),
+                textColor: Colors.white,
+                color: Colors.blue,
+                minWidth: 200.0,
+                height: 100.0,
                 onPressed: () {
-                  // TODO - Grab all the info from the _message variable
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              AuthScreen())); // Should be changed to AuthScreen.dart which should go to InitialAddressForm.dart
-                  // TODO: Remember to change this back to AuthScreen()
+                              MyAuthScreen())); // Should be changed to AuthScreen.dart which should go to InitialAddressForm.dart
                 },
-              )
+              ),
+/*              MaterialButton(
+                child: Text(" ", style: TextStyle(fontSize: 19),),
+                textColor: Colors.white,
+                minWidth: 200.0,
+                height: 50.0,
+              ),*/
             ],
           ),
         ));
@@ -79,98 +99,80 @@ class WelcomeScreen extends StatelessWidget {
 // =========================== END WELCOME SCREEN ====================== //
 
 class MainScreen extends StatelessWidget {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   final String title;
 
   MainScreen({Key key, this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('RUber'),
-          centerTitle: true,
-          automaticallyImplyLeading: false,
-        ),
-        body: Center(
-          child: Column(children: [
-            RaisedButton(
-              child: Text('New Ride'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => launchRideScreen()),
-                );
-              },
+    return WillPopScope(
+        onWillPop: () async => false,
+        child: Scaffold(
+            appBar: AppBar(
+              title: Text('Ryde'),
+              centerTitle: true,
+              leading: IconButton(
+                  icon: new Image.network(
+                      'https://www.tlcrentalmarketplace.com/wp-content/uploads/2018/03/rideshare.png'),
+                  onPressed: () => _scaffoldKey.currentState.openDrawer()),
             ),
-            RaisedButton(
-                child: Text('Messages'),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MessagesScreen()),
-                  );
-                }),
-            RaisedButton(
-                child: Text('Profile'),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ProfileScreen()),
-                  );
-                }),
-            RaisedButton(
-              child: Text('Schedule'),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ScheduleForm()));
-              },
-            ),
-            RaisedButton(
-                child: Text('Settings'),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SettingsScreen()),
-                  );
-                }),
-           RaisedButton(
-                child: Text('Login'),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => AuthScreen()),
-                  );
-                }),
-          ]),
-        ));
+            drawer: launchAppDrawer(context),
+            key: _scaffoldKey,
+            body: Center(
+              child: Column(children: [
+                Image.network(
+                  'https://www.tlcrentalmarketplace.com/wp-content/uploads/2018/03/rideshare.png',
+                  height: 150,
+                ),
+                ListTile(
+                    leading: Icon(Icons.directions_car),
+                    title: Text('New Ryde'),
+                    contentPadding: new EdgeInsets.only(left: 100.0, top: 30.0),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => launchRideScreen()));
+                    }),
+                ListTile(
+                  leading: Icon(Icons.message),
+                  title: Text('Messages'),
+                  contentPadding: new EdgeInsets.only(left: 100.0),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ChatRoomScreen()),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.account_box),
+                  title: Text('Profile'),
+                  contentPadding: new EdgeInsets.only(left: 100.0),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ProfileScreen()),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.schedule),
+                  title: Text('Schedule'),
+                  contentPadding: new EdgeInsets.only(left: 100.0),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ScheduleForm()));
+                  },
+                )
+              ]),
+            )));
   }
 }
-
-// ==================== LOGIN SCREEN ======================== //
-
-class TextForm extends StatefulWidget {
-  _TextForm createState() => _TextForm();
-}
-
-class _TextForm extends State<TextForm> {
-  final myController = TextEditingController();
-  final myController2 = TextEditingController();
-  final myController3 = TextEditingController();
-  final myController1 = TextEditingController();
-
-  @override
-  void dispose() {
-    myController.dispose();
-    super.dispose();
-  }
-
-  Widget build(context) {
-    return launchLoginScreen(
-        myController, myController1, myController2, myController3, context);
-  }
-}
-
-// =================END LOGIN SCREEN ======================== //
 
 // ================== MESSAGES SCREEN ======================= //
 

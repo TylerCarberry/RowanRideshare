@@ -41,7 +41,7 @@ class Rest extends StatelessWidget {
     );
   }
 
-  String url = 'http://10.0.2.2:8080/rides/address/1';
+  String url = BASE_URL + '/rides/address/1';
 
   Future<List<Post>> getAllPosts() async {
     final response = await http.get(url);

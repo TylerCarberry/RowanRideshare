@@ -82,6 +82,14 @@ public class RuberController {
         return profileRepository.findByEmailAddress(emailAddress).get().getId();
     }
 
+    @GetMapping(path = "/profile/{profileID}/chatrooms")
+    public @ResponseBody
+    HashMap<String, List<Chatroom>> getChatroomMessages(@PathVariable int profileID) {
+        HashMap<String, List<Chatroom>> result = new HashMap<String, List<Chatroom>>();
+        result.put("chatrooms", getProfile(profileID).get().getChatrooms());
+        return result;
+    }
+
     /**
      * Get the chatroom.
      *
@@ -197,6 +205,35 @@ public class RuberController {
             e.printStackTrace();
         }
         return profileRepository.save(profile);
+    }
+
+    /**
+     * This method is for creating a chatroom using two profileID
+     * 
+     * @param map
+     * @return
+     */
+    @PostMapping(path = {"/chatroom/new"})
+    public @ResponseBody
+    Chatroom createChatroomTwo(@RequestBody Map<String, String> map){
+        Profile profileOne = null;
+        Profile profileTwo = null;
+        Chatroom chat = null;
+        try{
+            profileOne = profileRepository.findById(Integer.parseInt(map.get("profileOneID"))).get();
+            profileTwo = profileRepository.findById(Integer.parseInt(map.get("profileTwoID"))).get();
+
+            chat = chatroomRepository.save(new Chatroom(new Date()));
+
+            profileOne.getChatrooms().add(chat);
+            profileTwo.getChatrooms().add(chat);
+
+            profileRepository.save(profileOne);
+            profileRepository.save(profileTwo);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return chat;
     }
 
     @PostMapping(path = "/message/new")

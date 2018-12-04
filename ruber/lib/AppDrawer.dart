@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'ChatRoomScreen.dart';
 import 'RideScreen.dart';
 import 'editschedule.dart';
 import 'main.dart';
@@ -10,11 +11,13 @@ Drawer launchAppDrawer(context) {
       child: ListView(
     children: <Widget>[
       DrawerHeader(
-        child: Text('RUber Menu'),
-        decoration: BoxDecoration(color: Colors.blue),
+        child: Image.network(
+          'https://www.tlcrentalmarketplace.com/wp-content/uploads/2018/03/rideshare.png',
+          height: 150,
+        ),
       ),
       ListTile(
-        leading: Icon(Icons.arrow_back),
+        leading: Icon(Icons.home),
         title: Text('Main Menu'),
         onTap: () {
           Navigator.push(
@@ -36,7 +39,7 @@ Drawer launchAppDrawer(context) {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => MessagesScreen()),
+            MaterialPageRoute(builder: (context) => ChatRoomScreen()),
           );
         },
       ),
@@ -56,16 +59,6 @@ Drawer launchAppDrawer(context) {
         onTap: () {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => ScheduleForm()));
-        },
-      ),
-      ListTile(
-        leading: Icon(Icons.settings),
-        title: Text('Settings'),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => SettingsScreen()),
-          );
         },
       ),
     ],

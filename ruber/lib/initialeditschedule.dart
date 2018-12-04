@@ -9,8 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:ruber/Main.dart';
 
+import 'Constants.dart';
 import 'ProfileModel.dart';
 import 'ScheduleModel.dart';
+import 'AuthScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // This is the map that is to be sent to the database
 // If any of the 4 blocks are 0000 - that means that the user didn't
@@ -1592,8 +1594,13 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
                       MaterialPageRoute(
                           builder: (context) =>
                               MainScreen()) //Change this to AuthScreen()
+
+
                       );
-                } else {
+                 _LoggedIn();
+                }
+
+                else {
                   return null;
                 }
               },
@@ -1601,22 +1608,68 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
           ],
         )));
   }
+
+  Future<void> _LoggedIn() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Logged In!', textAlign: TextAlign.center,),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Welcome , ' + getUserName() + '!', textAlign: TextAlign.center, style: TextStyle(color: Colors.blue), ),
+                Text(' '),
+                Container(
+                    margin: EdgeInsets.only(
+                        bottom: 0.0, left: 40.0, right: 40.0, top: 0.0),
+                    width: 90.0,
+                    height: 150.0,
+                    decoration: new BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: new DecorationImage(
+                            fit: BoxFit.fill,
+                            image: NetworkImage(userProfilePic)))),
+                Text(' '),
+                Text('Google Account',textAlign: TextAlign.center, style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),),
+                Text(getUserName(), textAlign: TextAlign.center, style: TextStyle(color: Colors.blue), ),
+                Text(getEmailAddress(), textAlign: TextAlign.center, style: TextStyle(color: Colors.blue), ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Close'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }
 
 Future<Post> getPost() async {
-  String postUrl = 'http://10.0.2.2:8080/rides/profile/1';
+  String postUrl = BASE_URL + '/rides/profile/1';
   final response = await http.get(postUrl);
   return postFromJson(response.body);
 }
 
 //Future<Schedule> getSchedulePost() async {
-//  String addressUrl = 'http://10.0.2.2:8080/rides/profile/7/schedule';
+//  String addressUrl = BASE_URL + '/rides/profile/7/schedule';
 //  final response2 = await http.get(addressUrl);
 //  return scheduleFromJson(response2.body);
 //}
 
 Future<http.Response> updateSchedule(Schedule schedule) async {
-  String updateUrl = 'http://10.0.2.2:8080/rides/profile/1/schedule/update';
+  int userId = await getId();
+  String updateUrl = BASE_URL + '/rides/profile/$userId/schedule/update';
+//  String updateUrl = 'http://680285ec.ngrok.io/rides/profile/1/schedule/update';
+
   final response = await http.post('$updateUrl',
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
@@ -1628,7 +1681,8 @@ Future<http.Response> updateSchedule(Schedule schedule) async {
 
 Future<http.Response> newSchedule(Schedule newSchedule) async{
   int userId = await getId();
-  String updateUrl = 'http://10.0.2.2:8080/rides/profile/$userId/schedule/new';
+
+  String updateUrl = BASE_URL + '/rides/profile/$userId/schedule/new';
   final response = await http.post('$updateUrl',
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
