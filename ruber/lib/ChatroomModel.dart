@@ -49,7 +49,7 @@ class ChatList {
 class ChatRoom {
   int chatRoomId;
   String createdDate;
-  List<Messages> messages;
+  List<GetMessage> messages;
   ProfileIDs profileIDs;
   int profileOneID;
   int profileTwoID;
@@ -68,8 +68,8 @@ class ChatRoom {
   factory ChatRoom.fromJsonChatRoom(Map<String, dynamic> parsedJson) {
     var list = parsedJson['messages'] as List;
     //print(list);
-    List<Messages> messageList =
-    list.map((i) => Messages.fromJsonMessages(i)).toList();
+    List<GetMessage> messageList =
+    list.map((i) => GetMessage.fromJsonGetMessages(i)).toList();
     return ChatRoom(
       chatRoomId: parsedJson['chatRoomId'],
       createdDate: parsedJson['createdDate'],
@@ -95,27 +95,70 @@ class ChatRoom {
   };
 }
 class Messages {
-  int id;
-  int senderId;
+//  int id;
+//  int senderId;
+  int chatroomID;
+  int senderID;
   String text;
   String timeSent;
   Messages({
-    this.id,
-    this.senderId,
+//    this.id,
+//    this.senderId,
+    this.chatroomID,
+    this.senderID,
     this.text,
     this.timeSent,
   });
-  factory Messages.fromJsonMessages(Map<String, dynamic> parsedJson) {
+  factory Messages.fromJsonGetMessages(Map<String, dynamic> parsedJson) {
     return Messages(
-      id: parsedJson['id'],
-      senderId: parsedJson['senderId'],
+//      id:parsedJson['id'],
+//      senderId: parsedJson['senderId'],
+      chatroomID: parsedJson['chatroomID'],
+      senderID: parsedJson['senderID'],
       text: parsedJson['text'],
       timeSent: parsedJson['timeSent'],
     );
   }
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "senderId": senderId,
+//    "id:": id,
+//    "senderId":senderId,
+    "chatroomID": chatroomID,
+    "senderID": senderID,
+    "text": text,
+    "timeSent": timeSent,
+  };
+}
+class GetMessage{
+  int id;
+//  int senderId;
+//  int chatroomID;
+  int senderID;
+  String text;
+  String timeSent;
+
+  GetMessage({
+    this.id,
+//    this.senderId,
+//    this.chatroomID,
+    this.senderID,
+    this.text,
+    this.timeSent,
+  });
+  factory GetMessage.fromJsonGetMessages(Map<String, dynamic> parsedJson) {
+    return GetMessage(
+      id:parsedJson['id'],
+//      senderId: parsedJson['senderId'],
+//      chatroomID: parsedJson['chatroomID'],
+      senderID: parsedJson['senderID'],
+      text: parsedJson['text'],
+      timeSent: parsedJson['timeSent'],
+    );
+  }
+  Map<String, dynamic> toJson() => {
+    "id:": id,
+//    "senderId":senderId,
+//    "chatroomID": chatroomID,
+    "senderID": senderID,
     "text": text,
     "timeSent": timeSent,
   };

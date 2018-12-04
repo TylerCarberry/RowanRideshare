@@ -141,10 +141,15 @@ class matchesScreenState extends State<matchesScreen> {
 //                          print(id1);
                           String matchEmail = profileMatches[index]["email"];
                           getMatchesId(matchEmail);
-
+                        getMyProfileId();
 //                  ProfileIDs ids = new ProfileIDs(profileOneID: 4, profile2: 287);
 //                  print(ids);
-                  ChatRoom newRoom = new ChatRoom(profileOneID: getMyId(), profileTwoID: getMatchIdInt());
+//                          print(getMyId());
+                          print(id);
+                  ChatRoom newRoom = new ChatRoom(profileOneID: id, profileTwoID: getMatchIdInt());
+                  print(newRoom.profileOneID);
+                  print("hello");
+                          print(newRoom.profileTwoID);
                           createChatRoom(newRoom).then((response) {
                             if (response.statusCode > 200)
                               print(response.body);

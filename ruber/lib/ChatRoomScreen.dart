@@ -11,9 +11,19 @@ import 'dart:convert';
 import 'dart:io';
 
 
-List<String> messages = ["1 Hey!", "2 Hello!", "1 How are you"];
+//List<String> messages = ["1 Hey!", "2 Hello!", "1 How are you"];
 Map<String,dynamic> profileChats;
 String myInputText;
+
+int chatRoomId;
+
+getChatRoomId(){
+  return chatRoomId;
+}
+
+setChatRoomId(int tempID){
+  chatRoomId = tempID;
+}
 
 getProfiles() {
   return profileChats;
@@ -46,13 +56,13 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
       /// Change the URL to the end point from the database
         Uri.encodeFull(BASE_URL + '/rides/profile/$userId/chatrooms'),
         headers: {"Accept": "application/json"});
-    print(json.decode(response.body));
+//    print(json.decode(response.body));
     
     this.setState(() {
       profileChats = json.decode(response.body);
     });
 
-    print(profileChats);
+//    print(profileChats);
 
     return listFromJsonChat(response.body);
   }
@@ -69,13 +79,20 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
         body: ListView.builder(
           itemCount: profileChats == null ? 0 : profileChats["chatrooms"].length,
           itemBuilder: (BuildContext context, int index) {
+            int chatid = profileChats["chatrooms"][index]["chatRoomId"];
+//            print(chatid);
+            setChatRoomId(chatid);
+//            print(chatid);
+//            print(getChatRoomId());
             return new ListTile(
               leading: CircleAvatar(
                 backgroundImage: NetworkImage(
                     "http://s3.amazonaws.com/nvest/Blank_Club_Website_Avatar_Gray.jpg"),
               ),
-              title: Text(profileChats["chatrooms"][index]["profileNames"]["Profile 2"].toString()),//name
 
+              title: Text(profileChats["chatrooms"][index]["profileNames"]["Profile 2"].toString()),
+
+            //name}
 //              subtitle: Text(
 //                  profileChats["chatrooms"][index]["messages"][profileChats["chatrooms"][index]["messages"].length -1]["text"]),
 
@@ -95,7 +112,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
   void _afterMessageSubmission(String text) {
     setState(() {
       if (_textController.text.isEmpty) {} else
-        messages..insert(0, _textController.text);
+//        messages..insert(0, _textController.text);
       setMyInputText(_textController.text);
     });
     _textController.clear();
@@ -127,9 +144,11 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
                     icon: new Icon(Icons.send),
                     onPressed: () {
                       String newText = getMyInputText();
-                      Messages newMessage = Messages(id: 3, senderId: 4,text: newText);
-                      //print(newText);
-                      print(newMessage.text.toString());
+//                      print(id);
+//                      print(getChatRoomId());
+                      Messages newMessage = Messages(chatroomID: getChatRoomId(), senderID: id,text: newText);
+//                      print(newText);
+//                      print(newMessage.text.toString());
                       createMessage(newMessage).then((response) {
                         if (response.statusCode > 200)
                           print(response.body);
@@ -155,7 +174,8 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
   Widget IndividualChatThread(BuildContext context, int index) {
     return Scaffold(
         appBar: AppBar(
-            title: Text("Tapan Soni"),
+//            title: Text(profileChats["chatrooms"][index]["messages"].length.toString()),
+            title: Text(profileChats["chatrooms"][index]["profileNames"]["Profile 1"].toString()),
             // TODO - Grab from the db using the index
             centerTitle: true,
             actions: <Widget>[
@@ -177,15 +197,18 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
               child: ListView.builder(
                 padding: new EdgeInsets.all(8.0),
                 reverse: true,
-                itemCount: messages == null ? 0 : messages.length,
+
+                itemCount: profileChats == null ? 0 : profileChats["chatrooms"][index]["messages"].length,
+
                 // todo - change this to get the length of the chat room
                 /// REMOVE THE BUILD CONTEXT - ONLY THERE FOR TESTING
-                itemBuilder: (BuildContext context, int index) {
+
+                itemBuilder: (BuildContext context, int index2) {
                   return Container(
                       child: Row(
-                          children: messages[index].substring(0, 1) == '1'
-                              ? rightSide(index)
-                              : leftSide(index)));
+                          children: profileChats["chatrooms"][index]["messages"][index2]["senderID"] == id
+                              ? rightSide(index, index2)
+                              : leftSide(index, index2)));
                   // TODO -- CHANGE THE LOGIC SO IT COMPARES USERid from shared preferences WITH SENDERid
                 },
               ),
@@ -204,7 +227,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
    * This method shifts the message to the right hand side - used when the user
    * types in their message
    */
-  List<Widget> rightSide(int index) {
+  List<Widget> rightSide(int index, int index2) {
     return <Widget>[
       Expanded(
         child: Column(
@@ -220,14 +243,17 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
                     child: FutureBuilder<ChatList>(
                         future: getChatrooms(),
                         builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            print(snapshot.data.chatrooms[0].messages[1].text.toString());
-                            return Text('${snapshot.data.chatrooms[0].messages[0].text.toString()}', style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold
-                            ) );
-                          } else
-                            return CircularProgressIndicator();
+                          //                          if (snapshot.hasData) {
+//                            print(snapshot.data.chatrooms[index].messages[index2].text.toString());
+//                          print(id);
+//                          print(profileChats["chatrooms"][index]["messages"][index2]["senderId"]);
+                          return Text(profileChats["chatrooms"][index]["messages"][index2]["text"].toString(), style: TextStyle(
+                              fontSize: 18.0,
+                              color: Colors.lightBlue,
+                              fontWeight: FontWeight.bold
+                          ) );
+//                          } else
+//                            return CircularProgressIndicator();
                         }))),
             new Container (
                 margin: const EdgeInsets.only(top: 5.0),
@@ -235,15 +261,15 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
                     child: FutureBuilder<ChatList>(
                         future: getChatrooms(),
                         builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            print(snapshot.data.chatrooms[0].messages[1].timeSent.toString());
-                            return Text('${snapshot.data.chatrooms[0].messages[1].timeSent.toString()}', style: TextStyle(
-                                fontSize: 14.0,
-                                color: Colors.grey,
-                                fontWeight: FontWeight.normal
-                            ) );
-                          } else
-                            return CircularProgressIndicator();
+                          //                          if (snapshot.hasData) {
+//                            print(snapshot.data.chatrooms[index].messages[index2].timeSent.toString());
+                          return Text(profileChats["chatrooms"][index]["messages"][index2]["timeSent"].toString(), style: TextStyle(
+                              fontSize: 14.0,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.normal
+                          ) );
+//                          } else
+//                            return CircularProgressIndicator();
                         }))),
           ],
         ),
@@ -265,7 +291,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
    * This method shifts the message to the left hand side - used when receiving
    * a message
    */
-  List<Widget> leftSide(int index) {
+  List<Widget> leftSide(int index, int index2) {
     return <Widget>[
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -289,15 +315,18 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
                     child: FutureBuilder<ChatList>(
                         future: getChatrooms(),
                         builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            print(snapshot.data.chatrooms[0].messages[1].text.toString());
-                            return Text('${snapshot.data.chatrooms[0].messages[1].text.toString()}', style: TextStyle(
+//                          if (snapshot.hasData) {
+//                            print(snapshot.data.chatrooms[index].messages[index2].text.toString());
+//                            print(index2);
+//                          print(id);
+//                          print(profileChats["chatrooms"][index]["messages"][index2]["senderId"]);
+                            return Text(profileChats["chatrooms"][index]["messages"][index2]["text"].toString(), style: TextStyle(
                                 fontSize: 18.0,
                                 color: Colors.lightBlue,
                                 fontWeight: FontWeight.bold
                             ) );
-                          } else
-                            return CircularProgressIndicator();
+//                          } else
+//                            return CircularProgressIndicator();
                         }))),
             new Container (
                 margin: const EdgeInsets.only(top: 5.0),
@@ -305,15 +334,15 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
                     child: FutureBuilder<ChatList>(
                         future: getChatrooms(),
                         builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            print(snapshot.data.chatrooms[0].messages[1].timeSent.toString());
-                            return Text('${snapshot.data.chatrooms[0].messages[1].timeSent.toString()}', style: TextStyle(
+//                          if (snapshot.hasData) {
+//                            print(snapshot.data.chatrooms[index].messages[index2].timeSent.toString());
+                            return Text(profileChats["chatrooms"][index]["messages"][index2]["timeSent"].toString(), style: TextStyle(
                                 fontSize: 14.0,
                                 color: Colors.grey,
                                 fontWeight: FontWeight.normal
                             ) );
-                          } else
-                            return CircularProgressIndicator();
+//                          } else
+//                            return CircularProgressIndicator();
                         }))),
           ],
         ),
@@ -332,9 +361,9 @@ getId() async {
 Future<ChatList> getChatrooms() async {
   int userid = await getId();
 //  print(userid);
-  String postUrl = BASE_URL + '/rides/profile/4/chatrooms';
+  String postUrl = BASE_URL + '/rides/profile/$userid/chatrooms';
   final response = await http.get(postUrl);
-  print(listFromJsonChat(response.body));
+//  print(listFromJsonChat(response.body));
   return listFromJsonChat(response.body);
 }
 
@@ -348,21 +377,21 @@ Future<http.Response> createMessage(Messages myMessage) async {
         HttpHeaders.authorizationHeader: ''
       },
       body: messagePostToJson(myMessage));
-  print(response.body);
+//  print(response.body);
   return response;
 }
 
-int id;
-getMyProfileId() async{
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  int tempId = prefs.getInt("id");
-  if (tempId != 0 && tempId != null) {
-    id = tempId;
-  }
-
-  return id;
-}
-
-getMyId(){
-  return id;
-}
+//int id;
+//getMyProfileId() async{
+//  SharedPreferences prefs = await SharedPreferences.getInstance();
+//  int tempId = prefs.getInt("id");
+//  if (tempId != 0 && tempId != null) {
+//    id = tempId;
+//  }
+//
+//  return id;
+//}
+//
+//getMyId(){
+//  return id;
+//}
