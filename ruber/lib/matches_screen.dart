@@ -11,10 +11,13 @@ import 'ProfileModel.dart';
 
 import 'main.dart';
 import 'dart:async' show Future;
+import 'ChatroomModel.dart';
 import 'ProfileModel.dart';
+import 'ChatRoomScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 List profileMatches;
+
 
 getId() async {
   int id;
@@ -72,17 +75,10 @@ class matchesScreenState extends State<matchesScreen> {
               /// User image: avatar
               Container(
                   margin: EdgeInsets.only(
-                      bottom: 0.0, left: 90.0, right: 90.0, top: 0.0),
-                  width: 180.0,
-                  height: 190.0,
-                  decoration: new BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: new DecorationImage(
-                          fit: BoxFit.fill,
-                          // This is where we would retrieve the image from the data base
-                          image: NetworkImage(
-                              "http://s3.amazonaws.com/nvest/Blank_Club_Website_Avatar_Gray.jpg")))),
-
+                      bottom: 0.0, left: 90.0, right: 90.0, top: 15.0),
+                  width: 150.0,
+                  height: 160.0,
+                  child: new CircleAvatar(child: new Text(profileMatches[index]["name"].toString().substring(0,1), style: TextStyle(fontSize: 65),))),
               /// Full Name
 
               Container(
@@ -132,10 +128,35 @@ class matchesScreenState extends State<matchesScreen> {
                       child: RaisedButton(
                 child: Text('Send Ride Request!'),
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MessagesScreen()));
+                  //create new chatroom
+                          //change end line 151
+//                          int id1 = getId();
+//                          print(id1);
+                          String matchEmail = profileMatches[index]["email"];
+                          getMatchesId(matchEmail);
+                        getMyProfileId();
+//                  ProfileIDs ids = new ProfileIDs(profileOneID: 4, profile2: 287);
+//                  print(ids);
+//                          print(getMyId());
+                          print(id);
+                  ChatRoom newRoom = new ChatRoom(profileOneID: id, profileTwoID: getMatchIdInt());
+                  print(newRoom.profileOneID);
+                  print("hello");
+                          print(newRoom.profileTwoID);
+                          createChatRoom(newRoom).then((response) {
+                            if (response.statusCode > 200)
+                              print(response.body);
+                            else
+                              print(response.statusCode);
+                            sleep(Duration(milliseconds: 500));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ChatRoomScreen()));
+                          }).catchError((error) {
+                            print('error : $error');
+                          });
+
                         },
               )))
             ],
@@ -152,9 +173,12 @@ class matchesScreenState extends State<matchesScreen> {
             itemCount: profileMatches == null ? 0 : profileMatches.length,
             itemBuilder: (BuildContext context, int index) {
               return new ListTile(
-                leading: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        "http://s3.amazonaws.com/nvest/Blank_Club_Website_Avatar_Gray.jpg")),
+                leading: Container(
+                    margin: EdgeInsets.only(
+                        bottom: 0.0, left: 5.0, right: 5.0, top: 0.0),
+                    width: 40.0,
+                    height: 50.0,
+                    child: new CircleAvatar(child: new Text(profileMatches[index]["name"].toString().substring(0,1), style: TextStyle(fontSize: 20),))),
                 title: Text(profileMatches[index]["name"]),
                 subtitle: Text(
                     profileMatches[index]["distanceRounded"].toString() +
@@ -177,4 +201,85 @@ Future<List<Post>> getAllPost() async {
   String postUrl = BASE_URL + '/rides/matching/$userId/20';
   final response = await http.get(postUrl);
   return allPostsFromJson(response.body);
+}
+
+
+Future<http.Response> createChatRoom(ChatRoom chatroom) async {
+  int userId = await getId();
+  //print(userId);
+  String newMessageUrl = BASE_URL + '/rides/chatroom/new';
+  final response = await http.post('$newMessageUrl',
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.authorizationHeader: ''
+      },
+      body: chatroomPostToJson(chatroom));
+  print(response.body);
+  return response;
+}
+
+
+Future<http.Response> createMessage(Messages message) async {
+  int userId = await getId();
+  //print(userId);
+  String newMessageUrl = BASE_URL + '/rides/message/new';
+  final response = await http.post('$newMessageUrl',
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.authorizationHeader: ''
+      },
+      body: messagePostToJson(message));
+  print(response.body);
+  return response;
+}
+
+Future<int> getMatchesId(String tempEmail) async {
+  String addressUrl = BASE_URL + '/rides/profile/getmyid/$tempEmail';
+  final response2 = await http.get(addressUrl);
+  var res = response2.body;
+  await setMatchId(int.parse(res));
+  print(res);
+  return int.parse(res);
+}
+
+int matchId;
+
+getMatchId() async {
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  int tempId = prefs.getInt("matchID");
+  if (tempId != 0 && tempId != null) {
+    matchId = tempId;
+  }
+
+  return matchId;
+}
+
+getMatchIdInt(){
+  return matchId;
+}
+
+setMatchId(int newId) async {
+  if (newId != null && newId != 0) {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt("matchID", newId);
+    //print(newId);
+    matchId = newId;
+  }
+}
+
+
+int id;
+getMyProfileId() async{
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  int tempId = prefs.getInt("id");
+  if (tempId != 0 && tempId != null) {
+    id = tempId;
+  }
+
+  return id;
+}
+
+getMyId(){
+  return id;
 }

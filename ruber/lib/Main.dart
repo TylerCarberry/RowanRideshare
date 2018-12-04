@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:ruber/AuthScreen.dart';
 
-import 'AuthScreen.dart';
 import 'ChatRoomScreen.dart';
 import 'Messages_Screen.dart';
 import 'RideScreen.dart';
 import 'editschedule.dart';
 import 'profile.dart';
 import 'settings_Screen.dart';
+import 'AppDrawer.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -99,68 +99,78 @@ class WelcomeScreen extends StatelessWidget {
 // =========================== END WELCOME SCREEN ====================== //
 
 class MainScreen extends StatelessWidget {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   final String title;
 
   MainScreen({Key key, this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('Ryde'),
-          centerTitle: true,
-          automaticallyImplyLeading: false,
-        ),
-        body: Center(
-          child: Column(children: [
-            Image.network(
-              'https://www.tlcrentalmarketplace.com/wp-content/uploads/2018/03/rideshare.png',
-              height: 150,
+    return WillPopScope(
+        onWillPop: () async => false,
+        child: Scaffold(
+            appBar: AppBar(
+              title: Text('Ryde'),
+              centerTitle: true,
+              leading: IconButton(
+                  icon: new Image.network(
+                      'https://www.tlcrentalmarketplace.com/wp-content/uploads/2018/03/rideshare.png'),
+                  onPressed: () => _scaffoldKey.currentState.openDrawer()),
             ),
-            ListTile(
-                leading: Icon(Icons.directions_car),
-                title: Text('New Ryde'),
-
-                contentPadding: new EdgeInsets.only(left: 100.0, top: 30.0),
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => launchRideScreen()));
-                }),
-            ListTile(
-              leading: Icon(Icons.message),
-              title: Text('Messages'),
-              contentPadding: new EdgeInsets.only(left: 100.0),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ChatRoomScreen()),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.account_box),
-              title: Text('Profile'),
-              contentPadding: new EdgeInsets.only(left: 100.0),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ProfileScreen()),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.schedule),
-              title: Text('Schedule'),
-              contentPadding: new EdgeInsets.only(left: 100.0),
-              onTap: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => ScheduleForm()));
-              },
-            )
-
-
-          ]),
-        ));
+            drawer: launchAppDrawer(context),
+            key: _scaffoldKey,
+            body: Center(
+              child: Column(children: [
+                Image.network(
+                  'https://www.tlcrentalmarketplace.com/wp-content/uploads/2018/03/rideshare.png',
+                  height: 150,
+                ),
+                ListTile(
+                    leading: Icon(Icons.directions_car),
+                    title: Text('New Ryde'),
+                    contentPadding: new EdgeInsets.only(left: 100.0, top: 30.0),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => launchRideScreen()));
+                    }),
+                ListTile(
+                  leading: Icon(Icons.message),
+                  title: Text('Messages'),
+                  contentPadding: new EdgeInsets.only(left: 100.0),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ChatRoomScreen()),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.account_box),
+                  title: Text('Profile'),
+                  contentPadding: new EdgeInsets.only(left: 100.0),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ProfileScreen()),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.schedule),
+                  title: Text('Schedule'),
+                  contentPadding: new EdgeInsets.only(left: 100.0),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ScheduleForm()));
+                  },
+                )
+              ]),
+            )));
   }
 }
 
