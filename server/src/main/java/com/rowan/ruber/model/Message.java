@@ -20,7 +20,7 @@ import java.util.Date;
 /** Class to set up the JPA Entity for the Message table in the DB. */
 @Entity
 @Table(name="message")
-public class Message implements Serializable{
+public class Message implements Serializable, Comparable<Message> {
     @Id
     @Column(name="MessageID")
     @GeneratedValue(strategy=GenerationType.IDENTITY)   //Identity strategy for MySQL is auto increment
@@ -135,4 +135,8 @@ public class Message implements Serializable{
         this.timeSent = timeSent;
     }
 
+    @Override
+    public int compareTo(Message o) {
+        return o.timeSent.compareTo(timeSent);
+    }
 }
