@@ -141,7 +141,7 @@ class matchesScreenState extends State<matchesScreen> {
                           print(id);
                   ChatRoom newRoom = new ChatRoom(profileOneID: id, profileTwoID: matchId);
                   print(newRoom.profileOneID);
-                  print("hello");
+                  print(newRoom.profileTwoID);
                           print(newRoom.profileTwoID);
                           createChatRoom(newRoom).then((response) {
                             if (response.statusCode > 200)

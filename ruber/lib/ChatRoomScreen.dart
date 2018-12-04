@@ -137,7 +137,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
       setMyInputText(_textController.text);
 
     });
-    _textController.clear();
+    //_textController.clear();
   }
 
   /**
@@ -154,6 +154,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
               new Flexible(
                 child: new TextField(
                   controller: _textController,
+                  onChanged: _afterMessageSubmission,
                   onSubmitted: _afterMessageSubmission,
                   decoration:
                       new InputDecoration.collapsed(hintText: "Send a message"),
@@ -178,10 +179,11 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
                       }).catchError((error) {
                         print('error : $error');
                       });
+                      _textController.clear();
 
 
 
-                      _afterMessageSubmission(_textController.text);
+                      //_afterMessageSubmission(_textController.text);
                     }),
               ),
             ],
