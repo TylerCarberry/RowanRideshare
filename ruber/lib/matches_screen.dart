@@ -75,17 +75,10 @@ class matchesScreenState extends State<matchesScreen> {
               /// User image: avatar
               Container(
                   margin: EdgeInsets.only(
-                      bottom: 0.0, left: 90.0, right: 90.0, top: 0.0),
-                  width: 180.0,
-                  height: 190.0,
-                  decoration: new BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: new DecorationImage(
-                          fit: BoxFit.fill,
-                          // This is where we would retrieve the image from the data base
-                          image: NetworkImage(
-                              "http://s3.amazonaws.com/nvest/Blank_Club_Website_Avatar_Gray.jpg")))),
-
+                      bottom: 0.0, left: 90.0, right: 90.0, top: 15.0),
+                  width: 150.0,
+                  height: 160.0,
+                  child: new CircleAvatar(child: new Text(profileMatches[index]["name"].toString().substring(0,1), style: TextStyle(fontSize: 65),))),
               /// Full Name
 
               Container(
@@ -178,9 +171,12 @@ class matchesScreenState extends State<matchesScreen> {
             itemCount: profileMatches == null ? 0 : profileMatches.length,
             itemBuilder: (BuildContext context, int index) {
               return new ListTile(
-                leading: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        "http://s3.amazonaws.com/nvest/Blank_Club_Website_Avatar_Gray.jpg")),
+                leading: Container(
+                    margin: EdgeInsets.only(
+                        bottom: 0.0, left: 5.0, right: 5.0, top: 0.0),
+                    width: 40.0,
+                    height: 50.0,
+                    child: new CircleAvatar(child: new Text(profileMatches[index]["name"].toString().substring(0,1), style: TextStyle(fontSize: 20),))),
                 title: Text(profileMatches[index]["name"]),
                 subtitle: Text(
                     profileMatches[index]["distanceRounded"].toString() +

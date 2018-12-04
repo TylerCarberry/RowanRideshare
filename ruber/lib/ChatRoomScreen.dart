@@ -85,11 +85,12 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
 //            print(chatid);
 //            print(getChatRoomId());
             return new ListTile(
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage(
-                    "http://s3.amazonaws.com/nvest/Blank_Club_Website_Avatar_Gray.jpg"),
-              ),
-
+              leading: Container(
+                  margin: EdgeInsets.only(
+                      bottom: 5.0, left: 5.0, right: 5.0, top: 5.0),
+                  width: 40.0,
+                  height: 50.0,
+                  child: new CircleAvatar(child: new Text(profileChats["chatrooms"][index]["profileNames"]["Profile 2"].toString().substring(0,1), style: TextStyle(fontSize: 20),))),
               title: Text(profileChats["chatrooms"][index]["profileNames"]["Profile 2"].toString()),
 
             //name}
@@ -139,7 +140,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
                 ),
               ),
               new Container(
-                margin: new EdgeInsets.symmetric(horizontal: 4.0),
+                margin: new EdgeInsets.symmetric(horizontal: 8.0),
                 child: new IconButton(
                     icon: new Icon(Icons.send),
                     onPressed: () {
@@ -175,7 +176,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
     return Scaffold(
         appBar: AppBar(
 //            title: Text(profileChats["chatrooms"][index]["messages"].length.toString()),
-            title: Text(profileChats["chatrooms"][index]["profileNames"]["Profile 1"].toString()),
+            title: Text(profileChats["chatrooms"][index]["profileNames"]["Profile 2"].toString()),
             // TODO - Grab from the db using the index
             centerTitle: true,
             actions: <Widget>[
@@ -195,7 +196,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
           children: <Widget>[
             Flexible(
               child: ListView.builder(
-                padding: new EdgeInsets.all(8.0),
+                padding: new EdgeInsets.all(15.0),
                 reverse: true,
 
                 itemCount: profileChats == null ? 0 : profileChats["chatrooms"][index]["messages"].length,
@@ -213,7 +214,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
                 },
               ),
             ),
-            Divider(height: 1.0),
+            Divider(height: 0.0),
             Container(
                 child: MessageContainer(),
                 decoration:
@@ -238,7 +239,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
 //                fontWeight: FontWeight.bold
 //            )),
             new Container (
-                margin: const EdgeInsets.only(top: 5.0),
+                margin: const EdgeInsets.only(top: 15.0),
                 child: Container(
                     child: FutureBuilder<ChatList>(
                         future: getChatrooms(),
@@ -256,7 +257,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
 //                            return CircularProgressIndicator();
                         }))),
             new Container (
-                margin: const EdgeInsets.only(top: 5.0),
+                margin: const EdgeInsets.only(top: 10.0),
                 child: Container(
                     child: FutureBuilder<ChatList>(
                         future: getChatrooms(),
@@ -278,11 +279,17 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
           new Container(
-              child: new CircleAvatar(
-                backgroundImage:
-                NetworkImage(
-                    "http://s3.amazonaws.com/nvest/Blank_Club_Website_Avatar_Gray.jpg"),
-              )),
+              margin: EdgeInsets.only(
+                  bottom: 0.0, left: 5.0, right:5.0, top: 0.0),
+              width: 42.0,
+              height: 38.0,
+              decoration: new BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: new DecorationImage(
+                      fit: BoxFit.fill,
+                      // This is where we would retrieve the image from the data base
+                      image: NetworkImage(userProfilePic)))),
+
         ],
       )
     ];
@@ -297,12 +304,11 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           new Container(
-              margin: const EdgeInsets.only(right: 8.0),
-              child: new CircleAvatar(
-                backgroundImage:
-                NetworkImage(
-                    "http://s3.amazonaws.com/nvest/Blank_Club_Website_Avatar_Gray.jpg"),
-              )),
+              margin: EdgeInsets.only(
+                  bottom: 0.0, left: 0.0, right: 5.0, top: 0.0),
+              width: 40.0,
+              height: 50.0,
+              child: new CircleAvatar(child: new Text(profileChats["chatrooms"][index]["profileNames"]["Profile 2"].toString().substring(0,1), style: TextStyle(fontSize: 20),))),
         ],
       ),
       Expanded(
@@ -310,7 +316,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             new Container (
-                margin: const EdgeInsets.only(top: 5.0),
+                margin: const EdgeInsets.only(top: 15.0),
                 child: Container(
                     child: FutureBuilder<ChatList>(
                         future: getChatrooms(),
