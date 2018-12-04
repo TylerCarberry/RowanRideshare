@@ -148,13 +148,15 @@ class matchesScreenState extends State<matchesScreen> {
                               print(response.body);
                             else
                               print(response.statusCode);
+                            sleep(Duration(milliseconds: 500));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ChatRoomScreen()));
                           }).catchError((error) {
                             print('error : $error');
                           });
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ChatRoomScreen()));
+
                         },
               )))
             ],
