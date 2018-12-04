@@ -34,8 +34,8 @@ Container launchChatMessageContainer(context, text, _name) {
                           future: getChatrooms(),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
-                              print(snapshot.data.chatrooms[0].messages[14].text.toString());
-                              return Text('${snapshot.data.chatrooms[0].messages[14].text.toString()}');
+                              print(snapshot.data.chatrooms[0].messages[1].text.toString());
+                              return Text('${snapshot.data.chatrooms[0].messages[1].text.toString()}');
                             } else
                               return CircularProgressIndicator();
                           }))),
@@ -86,7 +86,7 @@ getId() async {
 Future<ChatList> getChatrooms() async {
   int userid = await getId();
 //  print(userid);
-  String postUrl = BASE_URL + '/rides/profile/287/chatrooms';
+  String postUrl = BASE_URL + '/rides/profile/2/chatrooms';
   final response = await http.get(postUrl);
   print(listFromJsonChat(response.body));
   return listFromJsonChat(response.body);
