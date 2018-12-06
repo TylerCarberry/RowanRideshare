@@ -139,16 +139,15 @@ class matchesScreenState extends State<matchesScreen> {
 //                  print(ids);
 //                          print(getMyId());
                           print(id);
-                  ChatRoom newRoom = new ChatRoom(profileOneID: id, profileTwoID: getMatchIdInt());
+                  ChatRoom newRoom = new ChatRoom(profileOneID: id, profileTwoID: matchId);
                   print(newRoom.profileOneID);
-                  print("hello");
+                  print(newRoom.profileTwoID);
                           print(newRoom.profileTwoID);
                           createChatRoom(newRoom).then((response) {
                             if (response.statusCode > 200)
                               print(response.body);
                             else
                               print(response.statusCode);
-                            sleep(Duration(milliseconds: 500));
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -158,6 +157,8 @@ class matchesScreenState extends State<matchesScreen> {
                           });
 
                         },
+
+
               )))
             ],
           ),

@@ -252,6 +252,9 @@ public class RuberController {
                 throw new Exception("This profile is not in this chatroom");
 
             String text = map.get("text");
+            if (text == null) {
+                text = " ";
+            }
             Date timeSent = new Date();
             message = new Message(chatroom, senderID, text, timeSent);
             chatroom.setLastMessage(message);

@@ -23,7 +23,7 @@ void main() => runApp(new RUber());
 class RUber extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'Ryde', home: WelcomeScreen());
+    return MaterialApp(title: 'Ryde', debugShowCheckedModeBanner: false, home: WelcomeScreen());
   }
 }
 
