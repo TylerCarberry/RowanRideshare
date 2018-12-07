@@ -1,15 +1,15 @@
-import 'package:flutter/material.dart';
-
-import 'AppDrawer.dart';
-import 'ChatroomModel.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:ruber/Constants.dart';
-import 'package:http/http.dart' as http;
-import 'AuthScreen.dart';
 import 'dart:async';
 import 'dart:async' show Future;
-import 'dart:convert';
-import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:ruber/Constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'AppDrawer.dart';
+import 'AuthScreen.dart';
+import 'ChatroomModel.dart';
+
 int id;
 
 Container launchChatMessageContainer(context, text, _name) {
@@ -20,7 +20,8 @@ Container launchChatMessageContainer(context, text, _name) {
       children: <Widget>[
         new Container(
           margin: const EdgeInsets.only(right: 16.0),
-          child: new CircleAvatar(child: new Text(getUserName().toString().substring(0,1))),
+          child: new CircleAvatar(
+              child: new Text(getUserName().toString().substring(0, 1))),
         ),
         new Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,8 +35,10 @@ Container launchChatMessageContainer(context, text, _name) {
                           future: getChatrooms(),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
-                              print(snapshot.data.chatrooms[0].messages[1].text.toString());
-                              return Text('${snapshot.data.chatrooms[0].messages[1].text.toString()}');
+                              print(snapshot.data.chatrooms[0].messages[1].text
+                                  .toString());
+                              return Text(
+                                  '${snapshot.data.chatrooms[0].messages[1].text.toString()}');
                             } else
                               return CircularProgressIndicator();
                           }))),
@@ -66,14 +69,12 @@ Scaffold launchMessagesScreen(context, _messages, _buildTextComposer) {
           decoration: new BoxDecoration(color: Theme.of(context).cardColor),
           child: _buildTextComposer(),
         ),
-
       ],
     ),
   );
 }
 
 getId() async {
-
   SharedPreferences prefs = await SharedPreferences.getInstance();
   int tempId = prefs.getInt("id");
   if (tempId != 0 && tempId != null) {
@@ -85,10 +86,8 @@ getId() async {
 
 Future<ChatList> getChatrooms() async {
   int userid = await getId();
-//  print(userid);
   String postUrl = BASE_URL + '/rides/profile/2/chatrooms';
   final response = await http.get(postUrl);
   print(listFromJsonChat(response.body));
   return listFromJsonChat(response.body);
 }
-

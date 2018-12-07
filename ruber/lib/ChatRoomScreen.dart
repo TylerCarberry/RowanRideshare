@@ -374,7 +374,6 @@ Future<ChatList> getChatrooms() async {
   int userid = await getId();
   String postUrl = BASE_URL + '/rides/profile/$userid/chatrooms';
   final response = await http.get(postUrl);
-//  print(listFromJsonChat(response.body));
   return listFromJsonChat(response.body);
 }
 

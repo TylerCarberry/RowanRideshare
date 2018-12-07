@@ -1,13 +1,9 @@
-// TODO: Work on the going to rowan and coming from rowan screens
-// TODO: Finish the scheduling shit
-// TODO: Make the user mandatorily enter the schedule and the edit address - might need new screen for edit schedule with just changing the submit button
-
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'AppDrawer.dart';
 import 'GoingToRowan.dart';
 import 'matches_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class launchRideScreen extends StatefulWidget {
   @override
@@ -55,11 +51,8 @@ class _gtr extends State<launchRideScreen> {
               textColor: Colors.white,
               onPressed: () {
                 saveRadius(radius);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            matchesScreen())); // Should be changed to Au
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => matchesScreen()));
               },
             )
           ],
