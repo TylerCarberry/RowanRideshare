@@ -107,7 +107,6 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
                   " & " +
                   profileChats["chatrooms"][index]["profileNames"]["Profile 1"]
                       .toString()),
-
               onTap: () {
                 Navigator.push(
                     context,
@@ -213,7 +212,6 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
               child: ListView.builder(
                 padding: new EdgeInsets.all(15.0),
                 reverse: true,
-
                 itemCount: profileChats == null
                     ? 0
                     : profileChats["chatrooms"][index]["messages"].length,
