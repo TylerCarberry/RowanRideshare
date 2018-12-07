@@ -340,6 +340,8 @@ class ProfileScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 RaisedButton(
+                  color: Colors.blue,
+                  textColor: Colors.white,
                   padding: EdgeInsets.all(5.0),
                   child: Text('Edit Address'),
                   onPressed: () {
@@ -348,6 +350,8 @@ class ProfileScreen extends StatelessWidget {
                   },
                 ),
                 RaisedButton(
+                  color: Colors.blue,
+                  textColor: Colors.white,
                   padding: EdgeInsets.all(5.0),
                   child: Text('Edit Schedule'),
                   onPressed: () {
@@ -503,6 +507,8 @@ class _MyAddressForm extends State<AddressForm> {
             Container(
                 margin: EdgeInsets.only(top: 40.0, left: 70.0, right: 70.0),
                 child: RaisedButton(
+                  color: Colors.blue,
+                  textColor: Colors.white,
                   child: Text('Save Changes'),
                   onPressed: () {
                     if (streetNameController.text.isEmpty != true) {

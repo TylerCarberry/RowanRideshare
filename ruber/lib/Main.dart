@@ -69,7 +69,7 @@ class WelcomeScreen extends StatelessWidget {
               ),
               MaterialButton(
                 child: Text(
-                  "Continue",
+                  "Start",
                   style: TextStyle(fontSize: 19),
                 ),
                 textColor: Colors.white,
@@ -84,12 +84,6 @@ class WelcomeScreen extends StatelessWidget {
                               MyAuthScreen())); // Should be changed to AuthScreen.dart which should go to InitialAddressForm.dart
                 },
               ),
-/*              MaterialButton(
-                child: Text(" ", style: TextStyle(fontSize: 19),),
-                textColor: Colors.white,
-                minWidth: 200.0,
-                height: 50.0,
-              ),*/
             ],
           ),
         ));

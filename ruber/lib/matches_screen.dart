@@ -126,6 +126,8 @@ class matchesScreenState extends State<matchesScreen> {
                   margin: EdgeInsets.only(top: 20.0),
                   child: Center(
                       child: RaisedButton(
+                        color: Colors.blue,
+                textColor: Colors.white,
                 child: Text('Send Ride Request!'),
                         onPressed: () {
                   //create new chatroom

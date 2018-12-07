@@ -237,7 +237,9 @@ class _MyAddressForm extends State<InitialAddressForm> {
             Container(
                 margin: EdgeInsets.only(top: 40.0, left: 70.0, right: 70.0),
                 child: RaisedButton(
-                  child: Text('Save Changes'),
+                  color: Colors.blue,
+                  textColor: Colors.white,
+                  child: Text('Save Address'),
                   onPressed: () {
                     // TODO: Fix the capture of fields -- current output is null201 mullica Hill roadglassboro08043NJ
 

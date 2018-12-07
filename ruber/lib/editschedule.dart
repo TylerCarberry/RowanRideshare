@@ -1483,6 +1483,8 @@ class _MyScheduleForm extends State<ScheduleForm> {
                     ]),
                 RaisedButton(
                     child: Text("Submit"),
+                    color: Colors.blue,
+                    textColor: Colors.white,
                     onPressed: () {
                       if (getScheduleMapMonday().toString().contains("0000", 0) ||
                           getScheduleMapMonday() == "") {

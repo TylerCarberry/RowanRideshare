@@ -51,6 +51,8 @@ class _gtr extends State<launchRideScreen> {
             ),
             RaisedButton(
               child: Text('Find Rides!'),
+              color: Colors.blue,
+              textColor: Colors.white,
               onPressed: () {
                 saveRadius(radius);
                 Navigator.push(
