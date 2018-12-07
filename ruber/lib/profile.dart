@@ -1,18 +1,17 @@
 import 'dart:async';
 import 'dart:async' show Future;
 import 'dart:io';
-import 'package:ruber/Constants.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:ruber/Constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'AddressModel.dart';
 import 'AppDrawer.dart';
+import 'AuthScreen.dart';
 import 'ProfileModel.dart';
 import 'editschedule.dart';
-import 'AuthScreen.dart';
-
 
 String streetName = "";
 String city = "";
@@ -23,7 +22,6 @@ String email = "";
 
 String name = "";
 int id;
-// SETTERS
 
 setName(String newName) {
   name = newName;
@@ -48,8 +46,6 @@ setZip(String newZip) {
 setEmail(String newEmail) {
   email = newEmail;
 }
-
-
 
 // GETTERS
 
@@ -77,18 +73,7 @@ getEmail() {
   return email;
 }
 
-
-//getId() async {
-//  if(id == 0 || id == null)
-//  {
-//    SharedPreferences prefs = await SharedPreferences.getInstance();
-//    id = prefs.getInt("id");
-//  };
-//  return id;
-//}
-
 getId() async {
-
   SharedPreferences prefs = await SharedPreferences.getInstance();
   int tempId = prefs.getInt("id");
   if (tempId != 0 && tempId != null) {
@@ -110,8 +95,6 @@ setId(int newId) async {
 class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       appBar: AppBar(
         title: Text('My Profile'),
@@ -149,15 +132,6 @@ class ProfileScreen extends StatelessWidget {
                         color: Colors.blueAccent))),
             Container(
                 child: Center(
-//                    child: FutureBuilder<List<Post>>(
-//                        future: getAllPost(),
-//                        builder: (context, snapshot) {
-//                          if (snapshot.hasData)
-//                            return Text(
-//                                'matched users ${snapshot.data[1].name}');
-//                          else
-//                            return CircularProgressIndicator();
-//                        }))),
                     child: FutureBuilder<Post>(
                         future: getPost(),
                         builder: (context, snapshot) {
@@ -182,15 +156,6 @@ class ProfileScreen extends StatelessWidget {
             Container(
                 child: Center(
                     child: FutureBuilder<Post>(
-//                        future: getPost(),
-//                        builder: (context, snapshot) {
-//                          if (snapshot.hasData){
-//                            print(snapshot.data.schedules);
-//                            return Text(
-//                                '${snapshot.data.schedules[0].day}');}
-//                          else
-//                            return CircularProgressIndicator();
-//                        }))),
                         future: getPost(),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
@@ -222,7 +187,6 @@ class ProfileScreen extends StatelessWidget {
                           } else
                             return CircularProgressIndicator();
                         }))),
-            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             Container(
               margin: EdgeInsets.only(top: 15.0),
               child: Text(
@@ -340,6 +304,8 @@ class ProfileScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 RaisedButton(
+                  color: Colors.blue,
+                  textColor: Colors.white,
                   padding: EdgeInsets.all(5.0),
                   child: Text('Edit Address'),
                   onPressed: () {
@@ -348,6 +314,8 @@ class ProfileScreen extends StatelessWidget {
                   },
                 ),
                 RaisedButton(
+                  color: Colors.blue,
+                  textColor: Colors.white,
                   padding: EdgeInsets.all(5.0),
                   child: Text('Edit Schedule'),
                   onPressed: () {
@@ -503,6 +471,8 @@ class _MyAddressForm extends State<AddressForm> {
             Container(
                 margin: EdgeInsets.only(top: 40.0, left: 70.0, right: 70.0),
                 child: RaisedButton(
+                  color: Colors.blue,
+                  textColor: Colors.white,
                   child: Text('Save Changes'),
                   onPressed: () {
                     if (streetNameController.text.isEmpty != true) {
@@ -567,7 +537,6 @@ Future<int> getMyId() async {
 }
 
 Future<Post> getPost() async {
-
   int userid = await getId();
   print(userid);
   print(userid.toString());
@@ -608,4 +577,3 @@ Future<http.Response> createAddress(Address address) async {
       body: addressToJson(address));
   return response;
 }
-

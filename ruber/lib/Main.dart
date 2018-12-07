@@ -9,11 +9,7 @@ import 'Messages_Screen.dart';
 import 'RideScreen.dart';
 import 'editschedule.dart';
 import 'profile.dart';
-import 'settings_Screen.dart';
 import 'AppDrawer.dart';
-
-final FirebaseAuth _auth = FirebaseAuth.instance;
-final GoogleSignIn _googleSignIn = GoogleSignIn();
 
 var api_key = "AIzaSyDrHKl8IxB4cGXIoELXQOzzZwiH1xtsRf4";
 const String _name = "Your Name";
@@ -69,7 +65,7 @@ class WelcomeScreen extends StatelessWidget {
               ),
               MaterialButton(
                 child: Text(
-                  "Continue",
+                  "Start",
                   style: TextStyle(fontSize: 19),
                 ),
                 textColor: Colors.white,
@@ -84,12 +80,6 @@ class WelcomeScreen extends StatelessWidget {
                               MyAuthScreen())); // Should be changed to AuthScreen.dart which should go to InitialAddressForm.dart
                 },
               ),
-/*              MaterialButton(
-                child: Text(" ", style: TextStyle(fontSize: 19),),
-                textColor: Colors.white,
-                minWidth: 200.0,
-                height: 50.0,
-              ),*/
             ],
           ),
         ));
@@ -235,13 +225,5 @@ class MessagesScreenState extends State<MessagesScreen> {
 
   Widget build(BuildContext context) {
     return launchMessagesScreen(context, _messages, _buildTextComposer);
-  }
-}
-
-// ======================== END MESSAGES SCREEN ====================== //
-
-class SettingsScreen extends StatelessWidget {
-  Widget build(context) {
-    return launchSettingsScreen(context);
   }
 }
