@@ -261,7 +261,7 @@ class _MyAddressForm extends State<InitialAddressForm> {
                     }
 
                     // Only activates after all the fields have information in them
-                    if (true || (a && b && c && d) == true) {
+                    if (true) {
                       String streetNameEdit = getStreetName();
                       String cityNameFinal = getCity();
                       String zipCodeEdit = getZip();
@@ -339,13 +339,3 @@ Future<http.Response> createAddress(AddressPost address) async {
       body: addressPostToJson(address));
   return response;
 }
-
-/*
-Future<Post> getMyAddressId() async {
-  String emailUrl = getEmailAddress();
-  String addressUrl = BASE_URL + '/rides/profile/email/$emailUrl';
-  final response2 = await http.get(addressUrl);
-  return postFromJson(response2.body);
-}
-
-*/
