@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:ruber/AuthScreen.dart';
 
 import 'AppDrawer.dart';
 import 'ChatRoomScreen.dart';
@@ -106,7 +105,6 @@ class MainScreen extends StatelessWidget {
         onWillPop: () async => false,
         child: Scaffold(
             appBar: AppBar(
-              // Orange because BDM said so
               title: Text('Ryde', style: TextStyle(fontSize: 30, fontFamily: "Audiowide", color: Colors.yellowAccent)),
               centerTitle: true,
               leading: IconButton(

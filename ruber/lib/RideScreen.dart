@@ -20,7 +20,6 @@ class _gtr extends State<launchRideScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
         appBar: AppBar(
           title: Text("New Ride"),
@@ -32,7 +31,7 @@ class _gtr extends State<launchRideScreen> {
           children: <Widget>[
             Text('Select the radius for searching',
                 style: TextStyle(
-                    color: Colors.lightBlueAccent,
+                    color: Colors.blue,
                     fontSize: 23.0,
                     fontWeight: FontWeight.bold)),
             Text(
