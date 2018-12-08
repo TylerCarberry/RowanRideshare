@@ -1,5 +1,9 @@
 import 'dart:convert';
 
+///The address model holds the information of a persons address
+///This includes the following information:
+///street address, city, zip, state, longitude, latitude
+
 Address addressFromJson(String str) {
   final jsonData = json.decode(str);
   return Address.fromJson(jsonData);

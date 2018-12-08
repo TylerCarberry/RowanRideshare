@@ -6,6 +6,11 @@ import 'editschedule.dart';
 import 'main.dart';
 import 'profile.dart';
 
+///The app drawer is the sub menu that can be accessed from anywhere in the app
+///
+///The submenu includes the follow selections:
+///   Home, New ride, Messages, Profile, Schedule
+
 Drawer launchAppDrawer(context) {
   return Drawer(
       child: ListView(

@@ -12,6 +12,10 @@ import 'ChatroomModel.dart';
 
 int id;
 
+///The messages screen allows the user to communicate to other users
+///It achieves this by allowing said user to type in messages that are sent
+///to other specified users
+
 Container launchChatMessageContainer(context, text, _name) {
   return new Container(
     margin: const EdgeInsets.symmetric(vertical: 10.0),
