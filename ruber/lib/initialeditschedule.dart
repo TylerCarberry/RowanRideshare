@@ -1,6 +1,3 @@
-// TODO: Get the value from the drop down menu and make that into a map - to send it to the back end
-// TODO: The individial day schedules should pull directly from the database
-
 import 'dart:async';
 import 'dart:async' show Future;
 import 'dart:io';
@@ -8,12 +5,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:ruber/Main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'AuthScreen.dart';
 import 'Constants.dart';
 import 'ProfileModel.dart';
 import 'ScheduleModel.dart';
-import 'AuthScreen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 // This is the map that is to be sent to the database
 // If any of the 4 blocks are 0000 - that means that the user didn't
 // put in a time for that block and that entire day is invalid
@@ -25,18 +23,15 @@ var scheduleMap = {
   "friday": ""
 };
 
-
-
 getId() async {
   int id;
-  if(id == 0 || id == null)
-  {
+  if (id == 0 || id == null) {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     id = prefs.getInt("id");
-  };
+  }
+  ;
   return id;
 }
-
 
 /// Getter methods for the scheduleMap variable
 getScheduleMapMonday() {
@@ -445,38 +440,9 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
                                 print("Mondays schedule " +
                                     getScheduleMapMonday());
 
-//                                bool update = true;
-//                                int prof = 0;
-//                                FutureBuilder<Post>(
-//                                    future: getPost(),
-//                                    builder: (context, snapshot){
-//                                      print(snapshot.data.schedules);
-//                                      prof = snapshot.data.id;
-//                                      if(snapshot.data.schedules[1] == []) {
-//                                        update = false;
-//                                      }
-//                                      else{
-//                                        update = true;
-//                                      }
-//                                    });
-
                                 Schedule monday = new Schedule(
                                   monday: getScheduleMapMonday(),
-//                                    goingToRangeStart: mondaySchedule["a"].toString(),
-//                                    goingToRangeEnd: mondaySchedule["b"].toString(),
-//                                    leavingRangeEnd: mondaySchedule["c"].toString(),
-//                                    leavingRangeStart: mondaySchedule["d"].toString()
                                 );
-//                                print(monday.leavingRangeStart);
-//                                NewSchedule newMonday = new NewSchedule(
-//                                    day:"monday",
-//                                    goingToRangeStart: mondaySchedule["a"],
-//                                    goingToRangeEnd: mondaySchedule["b"],
-//                                    leavingRangeEnd: mondaySchedule["c"],
-//                                    leavingRangeStart: mondaySchedule["d"]
-//                                );
-
-//                                if(!update){
                                 newSchedule(monday).then((response) {
                                   if (response.statusCode > 200)
                                     print(response.body);
@@ -485,17 +451,6 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
                                 }).catchError((error) {
                                   print('error : $error');
                                 });
-////                                }
-//                                else{
-//                                updateSchedule(monday).then((response){
-//                                  if(response.statusCode > 200)
-//                                    print(response.body);
-//                                  else
-//                                    print(response.statusCode);
-//                                }).catchError((error){
-//                                  print('error : $error');
-//                                });
-//                                }
                               },
                             ),
                           ],
@@ -1551,7 +1506,9 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
                   // ================== FRIDAY END ==================== //
                 ]),
             RaisedButton(
-              child: Text("Submit"),
+              color: Colors.blue,
+              textColor: Colors.white,
+              child: Text("Save Schedule"),
               onPressed: () {
                 if (getScheduleMapMonday().toString().contains("0000", 0) ||
                     getScheduleMapMonday() == "") {
@@ -1595,12 +1552,9 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
                           builder: (context) =>
                               MainScreen()) //Change this to AuthScreen()
 
-
                       );
-                 _LoggedIn();
-                }
-
-                else {
+                  _LoggedIn();
+                } else {
                   return null;
                 }
               },
@@ -1615,11 +1569,18 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
       barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Logged In!', textAlign: TextAlign.center,),
+          title: Text(
+            'Logged In!',
+            textAlign: TextAlign.center,
+          ),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('Welcome , ' + getUserName() + '!', textAlign: TextAlign.center, style: TextStyle(color: Colors.blue), ),
+                Text(
+                  'Welcome , ' + getUserName() + '!',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.blue),
+                ),
                 Text(' '),
                 Container(
                     margin: EdgeInsets.only(
@@ -1632,9 +1593,22 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
                             fit: BoxFit.fill,
                             image: NetworkImage(userProfilePic)))),
                 Text(' '),
-                Text('Google Account',textAlign: TextAlign.center, style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),),
-                Text(getUserName(), textAlign: TextAlign.center, style: TextStyle(color: Colors.blue), ),
-                Text(getEmailAddress(), textAlign: TextAlign.center, style: TextStyle(color: Colors.blue), ),
+                Text(
+                  'Google Account',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Colors.blue, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  getUserName(),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.blue),
+                ),
+                Text(
+                  getEmailAddress(),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.blue),
+                ),
               ],
             ),
           ),
@@ -1650,7 +1624,6 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
       },
     );
   }
-
 }
 
 Future<Post> getPost() async {
@@ -1658,12 +1631,6 @@ Future<Post> getPost() async {
   final response = await http.get(postUrl);
   return postFromJson(response.body);
 }
-
-//Future<Schedule> getSchedulePost() async {
-//  String addressUrl = BASE_URL + '/rides/profile/7/schedule';
-//  final response2 = await http.get(addressUrl);
-//  return scheduleFromJson(response2.body);
-//}
 
 Future<http.Response> updateSchedule(Schedule schedule) async {
   int userId = await getId();
@@ -1679,7 +1646,7 @@ Future<http.Response> updateSchedule(Schedule schedule) async {
   return response;
 }
 
-Future<http.Response> newSchedule(Schedule newSchedule) async{
+Future<http.Response> newSchedule(Schedule newSchedule) async {
   int userId = await getId();
 
   String updateUrl = BASE_URL + '/rides/profile/$userId/schedule/new';

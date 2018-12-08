@@ -1,34 +1,29 @@
 import 'dart:async';
 import 'dart:async' show Future;
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:ruber/AppDrawer.dart';
 import 'package:ruber/Constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'ProfileModel.dart';
-
-import 'main.dart';
-import 'dart:async' show Future;
+import 'ChatRoomScreen.dart';
 import 'ChatroomModel.dart';
 import 'ProfileModel.dart';
-import 'ChatRoomScreen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:io';
-List profileMatches;
 
+List profileMatches;
 
 getId() async {
   int id;
-  if(id == 0 || id == null)
-  {
+  if (id == 0 || id == null) {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     id = prefs.getInt("id");
-  };
+  }
+  ;
   return id;
 }
-
 
 getProfile() {
   return profileMatches;
@@ -78,7 +73,12 @@ class matchesScreenState extends State<matchesScreen> {
                       bottom: 0.0, left: 90.0, right: 90.0, top: 15.0),
                   width: 150.0,
                   height: 160.0,
-                  child: new CircleAvatar(child: new Text(profileMatches[index]["name"].toString().substring(0,1), style: TextStyle(fontSize: 65),))),
+                  child: new CircleAvatar(
+                      child: new Text(
+                    profileMatches[index]["name"].toString().substring(0, 1),
+                    style: TextStyle(fontSize: 65),
+                  ))),
+
               /// Full Name
 
               Container(
@@ -106,7 +106,8 @@ class matchesScreenState extends State<matchesScreen> {
                         color: Colors.deepOrange)),
               ),
 
-              Container(child: Center(child: Text(profileMatches[index]["email"]))),
+              Container(
+                  child: Center(child: Text(profileMatches[index]["email"]))),
 
               Container(
                   margin: EdgeInsets.only(top: 15.0),
@@ -120,46 +121,43 @@ class matchesScreenState extends State<matchesScreen> {
                         color: Colors.deepPurpleAccent),
                   )),
 
-              Container(child: Center(child: Text(profileMatches[index]["distanceRounded"].toString() + " miles"))),
+              Container(
+                  child: Center(
+                      child: Text(
+                          profileMatches[index]["distanceRounded"].toString() +
+                              " miles"))),
 
               Container(
                   margin: EdgeInsets.only(top: 20.0),
                   child: Center(
                       child: RaisedButton(
-                child: Text('Send Ride Request!'),
-                        onPressed: () {
-                  //create new chatroom
-                          //change end line 151
-//                          int id1 = getId();
-//                          print(id1);
-                          String matchEmail = profileMatches[index]["email"];
-                          getMatchesId(matchEmail);
-                        getMyProfileId();
-//                  ProfileIDs ids = new ProfileIDs(profileOneID: 4, profile2: 287);
-//                  print(ids);
-//                          print(getMyId());
-                          print(id);
-                  ChatRoom newRoom = new ChatRoom(profileOneID: id, profileTwoID: matchId);
-                  print(newRoom.profileOneID);
-                  print(newRoom.profileTwoID);
-                          print(newRoom.profileTwoID);
-                          createChatRoom(newRoom).then((response) {
-                            if (response.statusCode > 200)
-                              print(response.body);
-                            else
-                              print(response.statusCode);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ChatRoomScreen()));
-                          }).catchError((error) {
-                            print('error : $error');
-                          });
-
-                        },
-
-
-              )))
+                    color: Colors.blue,
+                    textColor: Colors.white,
+                    child: Text('Send Ride Request!'),
+                    onPressed: () {
+                      String matchEmail = profileMatches[index]["email"];
+                      getMatchesId(matchEmail);
+                      getMyProfileId();
+                      print(id);
+                      ChatRoom newRoom =
+                          new ChatRoom(profileOneID: id, profileTwoID: matchId);
+                      print(newRoom.profileOneID);
+                      print(newRoom.profileTwoID);
+                      print(newRoom.profileTwoID);
+                      createChatRoom(newRoom).then((response) {
+                        if (response.statusCode > 200)
+                          print(response.body);
+                        else
+                          print(response.statusCode);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ChatRoomScreen()));
+                      }).catchError((error) {
+                        print('error : $error');
+                      });
+                    },
+                  )))
             ],
           ),
         ));
@@ -179,13 +177,16 @@ class matchesScreenState extends State<matchesScreen> {
                         bottom: 0.0, left: 5.0, right: 5.0, top: 0.0),
                     width: 40.0,
                     height: 50.0,
-                    child: new CircleAvatar(child: new Text(profileMatches[index]["name"].toString().substring(0,1), style: TextStyle(fontSize: 20),))),
+                    child: new CircleAvatar(
+                        child: new Text(
+                      profileMatches[index]["name"].toString().substring(0, 1),
+                      style: TextStyle(fontSize: 20),
+                    ))),
                 title: Text(profileMatches[index]["name"]),
                 subtitle: Text(
                     profileMatches[index]["distanceRounded"].toString() +
-
-                        " miles                    " + profileMatches[index]["schedulesString"].toString()),
-
+                        " miles                    " +
+                        profileMatches[index]["schedulesString"].toString()),
                 onTap: () {
                   Navigator.push(
                       context,
@@ -204,7 +205,6 @@ Future<List<Post>> getAllPost() async {
   return allPostsFromJson(response.body);
 }
 
-
 Future<http.Response> createChatRoom(ChatRoom chatroom) async {
   int userId = await getId();
   //print(userId);
@@ -219,10 +219,8 @@ Future<http.Response> createChatRoom(ChatRoom chatroom) async {
   return response;
 }
 
-
 Future<http.Response> createMessage(Messages message) async {
   int userId = await getId();
-  //print(userId);
   String newMessageUrl = BASE_URL + '/rides/message/new';
   final response = await http.post('$newMessageUrl',
       headers: {
@@ -246,7 +244,6 @@ Future<int> getMatchesId(String tempEmail) async {
 int matchId;
 
 getMatchId() async {
-
   SharedPreferences prefs = await SharedPreferences.getInstance();
   int tempId = prefs.getInt("matchID");
   if (tempId != 0 && tempId != null) {
@@ -256,7 +253,7 @@ getMatchId() async {
   return matchId;
 }
 
-getMatchIdInt(){
+getMatchIdInt() {
   return matchId;
 }
 
@@ -269,9 +266,9 @@ setMatchId(int newId) async {
   }
 }
 
-
 int id;
-getMyProfileId() async{
+
+getMyProfileId() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   int tempId = prefs.getInt("id");
   if (tempId != 0 && tempId != null) {
@@ -281,6 +278,6 @@ getMyProfileId() async{
   return id;
 }
 
-getMyId(){
+getMyId() {
   return id;
 }

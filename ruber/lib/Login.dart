@@ -51,18 +51,7 @@ Scaffold launchLoginScreen(
       ),
     ]),
     floatingActionButton: FloatingActionButton(
-      onPressed: () {
-//        return showDialog(
-//          context: context,
-//          builder: (context) {
-//            return AlertDialog(
-//              content: Text(
-//                  myController.text + " " + myController1.text + " " +
-//                      myController2.text + " " + myController3.text),
-//            );
-//          },
-//        );
-      },
+      onPressed: () {},
       tooltip: 'Show me the value!',
       child: Icon(Icons.text_fields),
     ),
