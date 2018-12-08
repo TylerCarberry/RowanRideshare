@@ -69,12 +69,12 @@ class WelcomeScreen extends StatelessWidget {
               MaterialButton(
                 child: Text(
                   "Start",
-                  style: TextStyle(fontSize: 19),
+                  style: TextStyle(fontSize: 20),
                 ),
                 textColor: Colors.white,
                 color: Colors.blue,
-                minWidth: 200.0,
-                height: 100.0,
+                minWidth: 100.0,
+                height: 70.0,
                 onPressed: () {
                   Navigator.push(
                       context,
