@@ -1,15 +1,13 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:ruber/AuthScreen.dart';
 
+import 'AppDrawer.dart';
 import 'ChatRoomScreen.dart';
 import 'Messages_Screen.dart';
 import 'RideScreen.dart';
 import 'editschedule.dart';
 import 'profile.dart';
-import 'AppDrawer.dart';
 
 var api_key = "AIzaSyDrHKl8IxB4cGXIoELXQOzzZwiH1xtsRf4";
 const String _name = "Your Name";
@@ -19,7 +17,10 @@ void main() => runApp(new RUber());
 class RUber extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'Ryde', debugShowCheckedModeBanner: false, home: WelcomeScreen());
+    return MaterialApp(
+        title: 'Ryde',
+        debugShowCheckedModeBanner: false,
+        home: WelcomeScreen());
   }
 }
 
@@ -45,8 +46,7 @@ class WelcomeScreen extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       color: Colors.orange,
                       fontSize: 80.0,
-                    fontFamily: "Audiowide"
-                  ),
+                      fontFamily: "Audiowide"),
                 ),
               ),
               Image.network(
@@ -69,7 +69,9 @@ class WelcomeScreen extends StatelessWidget {
               MaterialButton(
                 child: Text(
                   "Start",
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(
+                    fontSize: 20
+                  ),
                 ),
                 textColor: Colors.white,
                 color: Colors.blue,
@@ -80,7 +82,7 @@ class WelcomeScreen extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              MyAuthScreen())); // Should be changed to AuthScreen.dart which should go to InitialAddressForm.dart
+                              MainScreen())); // Should be changed to AuthScreen.dart which should go to InitialAddressForm.dart
                 },
               ),
             ],
@@ -104,7 +106,8 @@ class MainScreen extends StatelessWidget {
         onWillPop: () async => false,
         child: Scaffold(
             appBar: AppBar(
-              title: Text('Ryde'),
+              // Orange because BDM said so
+              title: Text('Ryde', style: TextStyle(fontSize: 30, fontFamily: "Audiowide", color: Colors.yellowAccent)),
               centerTitle: true,
               leading: IconButton(
                   icon: new Image.network(
