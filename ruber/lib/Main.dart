@@ -44,7 +44,9 @@ class WelcomeScreen extends StatelessWidget {
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.orange,
-                      fontSize: 48.0),
+                      fontSize: 80.0,
+                    fontFamily: "Audiowide"
+                  ),
                 ),
               ),
               Image.network(
@@ -59,6 +61,7 @@ class WelcomeScreen extends StatelessWidget {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 18.0,
+                    fontFamily: "",
                   ),
                   textAlign: TextAlign.center,
                 ),
