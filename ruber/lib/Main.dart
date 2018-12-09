@@ -7,6 +7,7 @@ import 'Messages_Screen.dart';
 import 'RideScreen.dart';
 import 'editschedule.dart';
 import 'profile.dart';
+import 'AuthScreen.dart';
 
 var api_key = "AIzaSyDrHKl8IxB4cGXIoELXQOzzZwiH1xtsRf4";
 const String _name = "Your Name";
@@ -81,8 +82,7 @@ class WelcomeScreen extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                          // TODO -- Change back to MyAuthScreen()
-                              MainScreen()));
+                              MyAuthScreen()));
                 },
               ),
             ],
@@ -106,7 +106,7 @@ class MainScreen extends StatelessWidget {
         onWillPop: () async => false,
         child: Scaffold(
             appBar: AppBar(
-              title: Text('Ryde', style: TextStyle(fontSize: 30, fontFamily: "Audiowide", color: Colors.yellowAccent)),
+              title: Text('Ryde', style: TextStyle(fontSize: 30, fontFamily: "Audiowide", color: Colors.white)),
               centerTitle: true,
               leading: IconButton(
                   icon: new Image.network(

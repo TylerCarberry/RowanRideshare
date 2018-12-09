@@ -211,7 +211,7 @@ class _MyAuthScreenState extends State<MyAuthScreen> {
                         height: 70,
                         width: 65),
                     Text(
-                      '     Sign in with Google',
+                      '     Sign into Ryde with Google',
                       style: TextStyle(fontSize: 19),
                     ),
                   ]),
