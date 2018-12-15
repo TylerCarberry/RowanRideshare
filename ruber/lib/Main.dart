@@ -1,15 +1,13 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:ruber/AuthScreen.dart';
 
+import 'AppDrawer.dart';
 import 'ChatRoomScreen.dart';
 import 'Messages_Screen.dart';
 import 'RideScreen.dart';
 import 'editschedule.dart';
 import 'profile.dart';
-import 'AppDrawer.dart';
+import 'AuthScreen.dart';
 
 var api_key = "AIzaSyDrHKl8IxB4cGXIoELXQOzzZwiH1xtsRf4";
 const String _name = "Your Name";
@@ -19,7 +17,10 @@ void main() => runApp(new RUber());
 class RUber extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'Ryde', debugShowCheckedModeBanner: false, home: WelcomeScreen());
+    return MaterialApp(
+        title: 'Ryde',
+        debugShowCheckedModeBanner: false,
+        home: WelcomeScreen());
   }
 }
 
@@ -44,7 +45,8 @@ class WelcomeScreen extends StatelessWidget {
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.orange,
-                      fontSize: 48.0),
+                      fontSize: 80.0,
+                      fontFamily: "Audiowide"),
                 ),
               ),
               Image.network(
@@ -59,6 +61,7 @@ class WelcomeScreen extends StatelessWidget {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 18.0,
+                    fontFamily: "",
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -66,18 +69,20 @@ class WelcomeScreen extends StatelessWidget {
               MaterialButton(
                 child: Text(
                   "Start",
-                  style: TextStyle(fontSize: 19),
+                  style: TextStyle(
+                    fontSize: 20
+                  ),
                 ),
                 textColor: Colors.white,
                 color: Colors.blue,
-                minWidth: 200.0,
-                height: 100.0,
+                minWidth: 100.0,
+                height: 70.0,
                 onPressed: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              MyAuthScreen())); // Should be changed to AuthScreen.dart which should go to InitialAddressForm.dart
+                              MyAuthScreen()));
                 },
               ),
             ],
@@ -101,7 +106,7 @@ class MainScreen extends StatelessWidget {
         onWillPop: () async => false,
         child: Scaffold(
             appBar: AppBar(
-              title: Text('Ryde'),
+              title: Text('Ryde', style: TextStyle(fontSize: 30, fontFamily: "Audiowide", color: Colors.white)),
               centerTitle: true,
               leading: IconButton(
                   icon: new Image.network(
