@@ -43,6 +43,9 @@ class ChatRoomScreen extends StatefulWidget {
 }
 
 class ChatRoomScreenState extends State<ChatRoomScreen> {
+
+  int index;
+
   /**
    * This Widget is the ChatRooms - People who are in contact with the user
    */
@@ -146,7 +149,6 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
               new Flexible(
                 child: new TextField(
                   controller: _textController,
-                  onChanged: _afterMessageSubmission,
                   onSubmitted: _afterMessageSubmission,
                   decoration:
                       new InputDecoration.collapsed(hintText: "Send a message"),
@@ -167,6 +169,15 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
                           print(response.body);
                         else
                           print(response.statusCode);
+
+                        getData().then((res) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      IndividualChatThread(context, index)));
+                        });
+
                       }).catchError((error) {
                         print('error : $error');
                       });
@@ -183,6 +194,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
    * main Chat Room
    */
   Widget IndividualChatThread(BuildContext context, int index) {
+    this.index = index;
     return Scaffold(
         appBar: AppBar(
             title: Text(profileChats["chatrooms"][index]["profileNames"]
@@ -197,12 +209,17 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
               IconButton(
                   icon: Icon(Icons.refresh),
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                IndividualChatThread(context, index)));
+
+                    getData().then((res) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  IndividualChatThread(context, index)));
+                    });
+
                   })
+
             ]),
         // TODO: Name should be pulled using the index or the profile ID
         drawer: launchAppDrawer(context),
