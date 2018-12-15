@@ -136,26 +136,36 @@ class matchesScreenState extends State<matchesScreen> {
                     child: Text('Send Ride Request!'),
                     onPressed: () {
                       String matchEmail = profileMatches[index]["email"];
-                      getMatchesId(matchEmail);
-                      getMyProfileId();
-                      print(id);
-                      ChatRoom newRoom =
-                          new ChatRoom(profileOneID: id, profileTwoID: matchId);
-                      print(newRoom.profileOneID);
-                      print(newRoom.profileTwoID);
-                      print(newRoom.profileTwoID);
-                      createChatRoom(newRoom).then((response) {
-                        if (response.statusCode > 200)
-                          print(response.body);
-                        else
-                          print(response.statusCode);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ChatRoomScreen()));
+                      getMatchesId(matchEmail).then((otherId) {
+
+
+
+                      getMyProfileId().then((myId) {
+                        print(myId);
+                        ChatRoom newRoom =
+                        new ChatRoom(profileOneID: myId, profileTwoID: otherId);
+                        //print(newRoom.profileOneID);
+                        //print(newRoom.profileTwoID);
+                        //print(newRoom.profileTwoID);
+                        createChatRoom(newRoom).then((response) {
+                          if (response.statusCode > 200)
+                            print(response.body);
+                          else
+                            print(response.statusCode);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ChatRoomScreen()));
+                        }).catchError((error) {
+                          print('error : $error');
+                        });
+
                       }).catchError((error) {
-                        print('error : $error');
+                        print('unable to get id. error : $error');
                       });
+                      });
+
+
                     },
                   )))
             ],
@@ -268,7 +278,7 @@ setMatchId(int newId) async {
 
 int id;
 
-getMyProfileId() async {
+Future<int> getMyProfileId() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   int tempId = prefs.getInt("id");
   if (tempId != 0 && tempId != null) {
