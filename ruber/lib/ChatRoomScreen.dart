@@ -149,6 +149,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
               new Flexible(
                 child: new TextField(
                   controller: _textController,
+                  onChanged: _afterMessageSubmission,
                   onSubmitted: _afterMessageSubmission,
                   decoration:
                       new InputDecoration.collapsed(hintText: "Send a message"),
