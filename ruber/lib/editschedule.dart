@@ -271,7 +271,6 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                     value: value, child: Text(value));
                               }).toList(),
                               // TODO: Need to figure out how to show the selection
-                              hint: new Text(mondaySchedule["as"]),
                               onChanged: (value) {
                                 setState(() {
                                   mondaySchedule["as"] = value;
@@ -324,7 +323,6 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                 return new DropdownMenuItem(
                                     value: value, child: Text(value));
                               }).toList(),
-                              hint: Text(mondaySchedule["ae"]),
                               onChanged: (value) {
                                 setState(() {
                                   mondaySchedule["ae"] = value;
@@ -378,7 +376,6 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                 return new DropdownMenuItem(
                                     value: value, child: Text(value));
                               }).toList(),
-                              hint: Text(mondaySchedule["ls"]),
                               onChanged: (value) {
                                 setState(() {
                                   mondaySchedule["ls"] = value;
@@ -430,7 +427,6 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                 return new DropdownMenuItem(
                                     value: value, child: Text(value));
                               }).toList(),
-                              hint: Text(mondaySchedule["le"]),
                               onChanged: (value) {
                                 setState(() {
                                   mondaySchedule["le"] = value;
@@ -523,7 +519,6 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                 return new DropdownMenuItem(
                                     value: value, child: Text(value));
                               }).toList(),
-                              hint: Text(tuesdaySchedule["as"]),
                               onChanged: (value) {
                                 setState(() {
                                   tuesdaySchedule["as"] = value;
@@ -576,7 +571,6 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                 return new DropdownMenuItem(
                                     value: value, child: Text(value));
                               }).toList(),
-                              hint: Text(tuesdaySchedule["ae"]),
                               onChanged: (value) {
                                 setState(() {
                                   tuesdaySchedule["ae"] = value;
@@ -630,7 +624,6 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                 return new DropdownMenuItem(
                                     value: value, child: Text(value));
                               }).toList(),
-                              hint: Text(tuesdaySchedule["ls"]),
                               onChanged: (value) {
                                 setState(() {
                                   tuesdaySchedule["ls"] = value;
@@ -682,7 +675,6 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                 return new DropdownMenuItem(
                                     value: value, child: Text(value));
                               }).toList(),
-                              hint: Text(tuesdaySchedule["le"]),
                               onChanged: (value) {
                                 setState(() {
                                   tuesdaySchedule["le"] = value;
@@ -772,7 +764,6 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                 return new DropdownMenuItem(
                                     value: value, child: Text(value));
                               }).toList(),
-                              hint: Text(wednesdaySchedule["as"]),
                               onChanged: (value) {
                                 setState(() {
                                   wednesdaySchedule["as"] = value;
@@ -825,7 +816,6 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                 return new DropdownMenuItem(
                                     value: value, child: Text(value));
                               }).toList(),
-                              hint: Text(wednesdaySchedule["ae"]),
                               onChanged: (value) {
                                 setState(() {
                                   wednesdaySchedule["ae"] = value;
@@ -879,7 +869,6 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                 return new DropdownMenuItem(
                                     value: value, child: Text(value));
                               }).toList(),
-                              hint: Text(wednesdaySchedule["ls"]),
                               onChanged: (value) {
                                 setState(() {
                                   wednesdaySchedule["ls"] = value;
@@ -931,7 +920,6 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                 return new DropdownMenuItem(
                                     value: value, child: Text(value));
                               }).toList(),
-                              hint: Text(wednesdaySchedule["le"]),
                               onChanged: (value) {
                                 setState(() {
                                   wednesdaySchedule["le"] = value;
@@ -1021,7 +1009,6 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                 return new DropdownMenuItem(
                                     value: value, child: Text(value));
                               }).toList(),
-                              hint: Text(thursdaySchedule["as"]),
                               onChanged: (value) {
                                 setState(() {
                                   thursdaySchedule["as"] = value;
@@ -1074,7 +1061,6 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                 return new DropdownMenuItem(
                                     value: value, child: Text(value));
                               }).toList(),
-                              hint: Text(thursdaySchedule["ae"]),
                               onChanged: (value) {
                                 setState(() {
                                   thursdaySchedule["ae"] = value;
@@ -1128,7 +1114,6 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                 return new DropdownMenuItem(
                                     value: value, child: Text(value));
                               }).toList(),
-                              hint: Text(thursdaySchedule["ls"]),
                               onChanged: (value) {
                                 setState(() {
                                   thursdaySchedule["ls"] = value;
@@ -1180,7 +1165,6 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                 return new DropdownMenuItem(
                                     value: value, child: Text(value));
                               }).toList(),
-                              hint: Text(thursdaySchedule["le"]),
                               onChanged: (value) {
                                 setState(() {
                                   thursdaySchedule["le"] = value;
@@ -1270,7 +1254,6 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                 return new DropdownMenuItem(
                                     value: value, child: Text(value));
                               }).toList(),
-                              hint: Text(fridaySchedule["as"]),
                               onChanged: (value) {
                                 setState(() {
                                   fridaySchedule["as"] = value;
@@ -1323,7 +1306,6 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                 return new DropdownMenuItem(
                                     value: value, child: Text(value));
                               }).toList(),
-                              hint: Text(fridaySchedule["ae"]),
                               onChanged: (value) {
                                 setState(() {
                                   fridaySchedule["ae"] = value;
@@ -1377,7 +1359,6 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                 return new DropdownMenuItem(
                                     value: value, child: Text(value));
                               }).toList(),
-                              hint: Text(fridaySchedule["ls"]),
                               onChanged: (value) {
                                 setState(() {
                                   fridaySchedule["ls"] = value;
@@ -1429,7 +1410,6 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                 return new DropdownMenuItem(
                                     value: value, child: Text(value));
                               }).toList(),
-                              hint: Text(fridaySchedule["le"]),
                               onChanged: (value) {
                                 setState(() {
                                   fridaySchedule["le"] = value;
