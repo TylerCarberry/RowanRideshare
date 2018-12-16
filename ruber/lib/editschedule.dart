@@ -1603,12 +1603,6 @@ Future<Post> getPost() async {
   return postFromJson(response.body);
 }
 
-//Future<Schedule> getSchedulePost() async {
-//  String addressUrl = 'http://e4325b2b.ngrok.io/rides/profile/7/schedule';
-//  final response2 = await http.get(addressUrl);
-//  return scheduleFromJson(response2.body);
-//}
-
 Future<http.Response> updateSchedule(Schedule schedule) async {
   int userId = await getId();
   String updateUrl = BASE_URL + '/rides/profile/$userId/schedule/update';
