@@ -289,25 +289,9 @@ class _MyAddressForm extends State<InitialAddressForm> {
                         MaterialPageRoute(
                             builder: (context) => InitialScheduleForm()),
                       );
-                    } else {
-                      return null;
                     }
                   },
                 )),
-
-            Container(
-                child: Center(
-                    child: FutureBuilder<int>(
-                        future: getMyId(),
-                        builder: (context2, snapshot2) {
-                          if (snapshot2.hasData) {
-                            int tempId = snapshot2.data;
-                            //setId(tempId);
-                            return Text(" ");
-                          }
-                          else
-                            return CircularProgressIndicator();
-                        }))),
           ],
         )));
   }
