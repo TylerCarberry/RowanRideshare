@@ -49,7 +49,6 @@ public class RuberController {
 
     /**
      * Every address of everybody
-     * @return
      */
     @GetMapping(path = "/address/all")
     public @ResponseBody
