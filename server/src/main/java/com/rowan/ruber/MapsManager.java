@@ -12,8 +12,6 @@ public class MapsManager {
 
     /**
      * Use the geoencoding api from google to convert the user's address in to latitude and longitude
-     * @param address
-     * @return
      */
     public static Location getCoordinatesFromAddress(String address) {
         String url = "https://maps.googleapis.com/maps/api/geocode/json?key=" + API_KEY + "&address=" + address;
