@@ -10,6 +10,9 @@ public class MapsManager {
     // To reactivate this API key, please send me your credit card info 🙂
     private static String API_KEY = "AIzaSyBUWTvOdjkdIur2IFzkEPCVTodoL7xUzJk";
 
+    /**
+     * Use the geoencoding api from google to convert the user's address in to latitude and longitude
+     */
     public static Location getCoordinatesFromAddress(String address) {
         String url = "https://maps.googleapis.com/maps/api/geocode/json?key=" + API_KEY + "&address=" + address;
 
