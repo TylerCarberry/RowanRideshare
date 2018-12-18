@@ -1,7 +1,15 @@
-// TODO: Get the value from the drop down menu and make that into a map - to send it to the back end
-// TODO: The individial day schedules should pull directly from the database
-// TODO: Fix the huge error when the schedule button is pressed
+/// editschedule.dart
+///
+/// Purpose:
+/// The purpose of this file is to let the user edit their schedule
+/// from the Main Screen. It does this by offering the user ranges
+/// for each day - arriving and departing ranges. It shows the user
+/// a menu of times to choose from.
+/// There is A LOT of error checking involved inside this file
+/// to prevent a user from entering incomplete schedule information
+/// hence all the different vars
 
+/// Imports
 import 'dart:async';
 import 'dart:async' show Future;
 import 'dart:io';
@@ -16,9 +24,9 @@ import 'AppDrawer.dart';
 import 'ProfileModel.dart';
 import 'ScheduleModel.dart';
 
-// This is the map that is to be sent to the database
-// If any of the 4 blocks are 0000 - that means that the user didn't
-// put in a time for that block and that entire day is invalid
+/// This is the map that is to be sent to the database
+/// If any of the 4 blocks are 0000 - that means that the user didn't
+/// put in a time for that block and that entire day is invalid
 var scheduleMap = {
   "monday": "",
   "tuesday": "",
@@ -83,13 +91,13 @@ setScheduleMapFriday(String a, String b, String c, String d) {
   scheduleMap["friday"] = a + b + c + d;
 }
 
-// The 'a' 'b' 'c' 'd' are the values for the hint text for the drop down
-// menus - they should be pulled from the database once there are values
-// in the database
-// as - arrival range start time
-// ae - arrival range end time
-// ls - leave range start time
-// le - leave range end time
+/// The 'a' 'b' 'c' 'd' are the values for the hint text for the drop down
+/// menus - they should be pulled from the database once there are values
+/// in the database
+/// as - arrival range start time
+/// ae - arrival range end time
+/// ls - leave range start time
+/// le - leave range end time
 var mondaySchedule = {
   "as": "",
   "ae": "",
@@ -145,27 +153,28 @@ var fridaySchedule = {
   "d": "0000"
 };
 
-/// Changes the AM/PM time to military time
+/// Changes the AM/PM time input from the user
+/// to Military Time using string parsing.
 String getNewTime(String selectedTime) {
   if (selectedTime.contains('AM', 0)) {
-    // AM times
+    /// AM times
     if (selectedTime.length == 7) {
-      // single digit AM times
+      /// single digit AM times
       return ("0" +
           selectedTime.substring(0, 1) +
           selectedTime.substring(2, 4));
     } else {
-      // double digit AM times
+      /// double digit AM times
       return (selectedTime.substring(0, 2) + selectedTime.substring(3, 5));
     }
   } else {
-    // PM times
+    /// PM times
     if (selectedTime.length == 7) {
-      // single digit PM times
+      /// single digit PM times
       return ((int.parse(selectedTime.substring(0, 1)) + 12).toString() +
           selectedTime.substring(2, 4));
     } else {
-      // Double digit PM times - 12:00 PM and 12:30 PM
+      /// Double digit PM times - 12:00 PM and 12:30 PM
       return selectedTime.substring(0, 2) + selectedTime.substring(3, 5);
     }
   }
@@ -209,8 +218,9 @@ class _MyScheduleForm extends State<ScheduleForm> {
                 border: TableBorder.all(width: 1.0, color: Colors.black),
                 children: [
                   TableRow(children: [
-                    // ======= MONDAY START========== //
-                    // ======= MONDAY START========== //
+
+                    /// ======= MONDAY START========== //
+                    /// ======= MONDAY START========== //
 
                     TableCell(
                         child: Column(
@@ -270,7 +280,6 @@ class _MyScheduleForm extends State<ScheduleForm> {
                                 return new DropdownMenuItem(
                                     value: value, child: Text(value));
                               }).toList(),
-                              // TODO: Need to figure out how to show the selection
                               onChanged: (value) {
                                 setState(() {
                                   mondaySchedule["as"] = value;
@@ -452,13 +461,10 @@ class _MyScheduleForm extends State<ScheduleForm> {
                     ))
                   ]),
 
-                  // ======== MONDAY END ========= //
-                  /**
-                       * ///////////////////////////////////
-                       * ///////////////////////////////////
-                       */
+                  /// ======== MONDAY END ========= //
 
-                  // ======== TUESDAY START ========= //
+
+                  /// ======== TUESDAY START ========= //
 
                   TableRow(children: [
                     TableCell(
@@ -696,14 +702,10 @@ class _MyScheduleForm extends State<ScheduleForm> {
                     ))
                   ]),
 
-                  // ======== TUESDAY END ========= //
+                  /// ======== TUESDAY END ========= //
 
-                  /**
-                       * ///////////////////////////////////
-                       * ///////////////////////////////////
-                       */
 
-                  // ======== WEDNESDAY START ========= //
+                  /// ======== WEDNESDAY START ========= //
 
                   TableRow(children: [
                     TableCell(
@@ -941,14 +943,11 @@ class _MyScheduleForm extends State<ScheduleForm> {
                     ))
                   ]),
 
-                  // ======== WEDNESDAY END ========= //
+                  /// ======== WEDNESDAY END ========= //
 
-                  /**
-                       * ///////////////////////////////////
-                       * ///////////////////////////////////
-                       */
 
-                  // ======== THURSDAY START ========= //
+
+                  /// ======== THURSDAY START ========= //
 
                   TableRow(children: [
                     TableCell(
@@ -1186,14 +1185,10 @@ class _MyScheduleForm extends State<ScheduleForm> {
                     ))
                   ]),
 
-                  // ======== THURSDAY END ========= //
+                  /// ======== THURSDAY END ========= //
 
-                  /**
-                       * ///////////////////////////////////
-                       * ///////////////////////////////////
-                       */
 
-                  // ======== FRIDAY START ========= //
+                  /// ======== FRIDAY START ========= //
 
                   TableRow(children: [
                     TableCell(
@@ -1431,8 +1426,17 @@ class _MyScheduleForm extends State<ScheduleForm> {
                     ))
                   ])
 
-                  // ================== FRIDAY END ==================== //
-                  // ================== FRIDAY END ==================== //
+                  /// ================== FRIDAY END ==================== //
+                  /// ================== FRIDAY END ==================== //
+
+
+                  /// The submit button does the error checking and then
+                  /// saves the new schedule to the data base
+                  /// If the military time string - contains a set of 4 0's
+                  /// then, we know that one of the range inputs for a day
+                  /// was incomplete, and we don't allow the user to press
+                  /// the submit button until they have entered a valid time
+
                 ]),
             RaisedButton(
                 child: Text("Submit"),
@@ -1585,7 +1589,7 @@ class _MyScheduleForm extends State<ScheduleForm> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                MainScreen()) //Change this to AuthScreen()
+                                MainScreen())
                         );
                   } else {
                     return null;
