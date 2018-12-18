@@ -19,16 +19,25 @@ public class Search{
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 
+    /**
+     * Gets a list of profiles that match with the user
+     *
+     * @param repo the repository that stores the profiles
+     * @param profileID id of the user
+     * @param radius search radius in miles
+     * @return a list of profiles that match with the user based on distance and schedule
+     */
 	public List<Profile> getMatches(ProfileRepository repo, int profileID, int radius) {
+	    // Gets the profile object from the repository
 		Profile profile = repo.findById(profileID).get();
 		List<Profile> matchedProfiles = getMatchesByDistance(profileID, profile.getAddress().getLatitude(), profile.getAddress().getLongitude(), radius);
-		// Temp set up with nested loops, this can be made more efficient
 		Iterator<Profile> profileIterator = matchedProfiles.iterator();
 		while(profileIterator.hasNext()) {
             Profile checkProfile = profileIterator.next();
             boolean foundMatchedProfile = false;
             String matchedSchedulesString = "";
             Iterator<Schedule> scheduleIterator = checkProfile.getSchedules().iterator();
+            // Checks though each schedule and looks for a match
             while(scheduleIterator.hasNext())
             {
                 Schedule checkSchedule = scheduleIterator.next();
@@ -48,12 +57,21 @@ public class Search{
             if(foundMatchedProfile)
                 checkProfile.setSchedulesString(matchedSchedulesString.trim());
             else
-                profileIterator.remove();
+                profileIterator.remove(); //profile is removed from the list if no matches are found with the schedules
 
         }
 		return matchedProfiles;
 	}
 
+	/**
+	 * Gets a list of profiles that are within a specified radius of the user
+     *
+     * @param profileID id of the user
+     * @param lat latitude that corresponds to the user's address
+     * @param lng longitude that corresponds to the user's address
+     * @param radius search radius in miles
+     * @return a list of profiles that match with the user based on distance.
+	 */
 	private List<Profile> getMatchesByDistance(int profileID, double lat, double lng, double radius){
 	    List<Profile> matchedProfiles = jdbcTemplate.query(
                 "SELECT *, ( 3959* ACOS( COS( RADIANS(?) ) * COS( RADIANS( Latitude ) ) * COS( RADIANS( Longitude ) - RADIANS(?) ) + SIN( RADIANS(?) ) * SIN( RADIANS( Latitude ) ) ) ) AS Distance FROM address JOIN profile USING (AddressID) WHERE ProfileID <> ? HAVING Distance < ? ORDER BY Distance;",
@@ -74,6 +92,11 @@ public class Search{
         return matchedProfiles;
 	}
 
+    /**
+     * Truncates a double to the nearest hundredth
+     * @param d double to be truncated
+     * @return truncated double
+     */
 	private double Round(double d)
     {
         int i = (int)(d * 100);
