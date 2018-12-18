@@ -1,3 +1,10 @@
+/// Constants.dart
+///
+/// Purpose:
+/// This file is used to define the URL for the back end server -- AWS's URL
+/// Additional URLs are provided for testing and ngrok
+
+
 // If you want to use your AWS instead of your local server, uncomment this line
 final String BASE_URL = "http://ec2-34-230-33-210.compute-1.amazonaws.com:8080";
 
