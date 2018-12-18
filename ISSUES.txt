@@ -1,0 +1,5 @@
+Here are a list of existing bugs/issues:
+
+1.The Schedule button on the home screen does not show the current schedule.
+  -Ideally we show the schedule itself much like we show the address in Edit Address (with hint text).
+  -Or we can show the schedule in another format with a brand new widget (not recommended).
