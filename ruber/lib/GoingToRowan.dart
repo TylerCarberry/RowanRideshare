@@ -1,6 +1,12 @@
+/// GoingToRowan.dart
+///
+/// Purpose:
+/// The purpose of this file is to provide the radius
+/// variables to the screen where the user selects the
+/// radius for searching.
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'AppDrawer.dart';
 
 double radius = 0;
