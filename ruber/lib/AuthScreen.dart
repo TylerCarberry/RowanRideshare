@@ -156,7 +156,7 @@ class _MyAuthScreenState extends State<MyAuthScreen> {
           context,
           MaterialPageRoute(
               builder: (context) => InitialAddressForm(
-                  emailAddress))); // Should be changed to AuthScreen.dart which should go to InitialAddressForm.dart
+                  emailAddress)));
     } else {
       Navigator.pop(context);
 
