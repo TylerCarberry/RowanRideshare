@@ -11,6 +11,9 @@ import java.io.IOException;
 
 public class Authenticator {
 
+    /**
+     * Sign a user in to the app given their auth token
+     */
     public String authenticate(String authToken) {
         try {
             FirebaseOptions options = new FirebaseOptions.Builder()

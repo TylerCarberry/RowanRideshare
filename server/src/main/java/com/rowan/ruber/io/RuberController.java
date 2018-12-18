@@ -14,9 +14,11 @@ import org.springframework.web.client.RestTemplate;
 import java.time.LocalTime;
 import java.util.*;
 
+/**
+ * Endpoints for the server that are used to connect to the app
+ */
 @RequestMapping("/rides")
 @RestController
-
 public class RuberController {
 
     @Autowired
@@ -45,6 +47,10 @@ public class RuberController {
         return "Hello " + name;
     }
 
+    /**
+     * Every address of everybody
+     * @return
+     */
     @GetMapping(path = "/address/all")
     public @ResponseBody
     Iterable<Address> getAddresses() {
@@ -170,6 +176,9 @@ public class RuberController {
         return profileRepository.save(profile);
     }
 
+    /**
+     * Add a user's address to the database
+     */
     @PostMapping(path = {"/address/{profileID}/new"})
     public @ResponseBody
     Address createAddress(@RequestBody Address address, @PathVariable int profileID) {

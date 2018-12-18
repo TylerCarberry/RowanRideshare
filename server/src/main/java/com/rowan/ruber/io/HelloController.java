@@ -2,6 +2,9 @@ package com.rowan.ruber.io;
 
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * A test controller to make sure the server is running
+ */
 @RequestMapping("/hello")
 @RestController
 public class HelloController {
