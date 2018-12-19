@@ -1,3 +1,13 @@
+/// matches_screen.dart
+///
+/// Purpose:
+/// The purpose of this file is to show the matches found depending on the
+/// radius set by the user. It shows the user name, the days matched, and
+/// the distance they are away from the main user. It uses a listview builder
+/// which is a dynamic list created using the length of the returned match
+/// profiles JSON.
+
+/// Imports
 import 'dart:async';
 import 'dart:async' show Future;
 import 'dart:convert';
@@ -13,6 +23,7 @@ import 'ChatRoomScreen.dart';
 import 'ChatroomModel.dart';
 import 'ProfileModel.dart';
 
+/// Variable where the returned matched profiles are stored
 List profileMatches;
 
 getId() async {
@@ -40,8 +51,6 @@ class matchesScreenState extends State<matchesScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int radius = prefs.get("radius");
     var response = await http.get(
-
-        /// Change the URL to the end point from the database
         Uri.encodeFull(BASE_URL + '/rides/matching/$userId/$radius'),
         headers: {"Accept": "application/json"});
 
@@ -58,6 +67,10 @@ class matchesScreenState extends State<matchesScreen> {
     this.getData();
   }
 
+  /// This is the widget which is called on when the user clicks a match
+  /// It shows the full profile (without address), to the user and it
+  /// allows the user to send them a ride request
+
   Widget expandProfile(BuildContext context, int index) {
     return Scaffold(
         appBar: AppBar(
@@ -67,7 +80,6 @@ class matchesScreenState extends State<matchesScreen> {
         body: Center(
           child: ListView(
             children: <Widget>[
-              /// User image: avatar
               Container(
                   margin: EdgeInsets.only(
                       bottom: 0.0, left: 90.0, right: 90.0, top: 15.0),
@@ -137,41 +149,36 @@ class matchesScreenState extends State<matchesScreen> {
                     onPressed: () {
                       String matchEmail = profileMatches[index]["email"];
                       getMatchesId(matchEmail).then((otherId) {
-
-
-
-                      getMyProfileId().then((myId) {
-                        print(myId);
-                        ChatRoom newRoom =
-                        new ChatRoom(profileOneID: myId, profileTwoID: otherId);
-                        //print(newRoom.profileOneID);
-                        //print(newRoom.profileTwoID);
-                        //print(newRoom.profileTwoID);
-                        createChatRoom(newRoom).then((response) {
-                          if (response.statusCode > 200)
-                            print(response.body);
-                          else
-                            print(response.statusCode);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ChatRoomScreen()));
+                        getMyProfileId().then((myId) {
+                          print(myId);
+                          ChatRoom newRoom = new ChatRoom(
+                              profileOneID: myId, profileTwoID: otherId);
+                          createChatRoom(newRoom).then((response) {
+                            if (response.statusCode > 200)
+                              print(response.body);
+                            else
+                              print(response.statusCode);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ChatRoomScreen()));
+                          }).catchError((error) {
+                            print('error : $error');
+                          });
                         }).catchError((error) {
-                          print('error : $error');
+                          print('unable to get id. error : $error');
                         });
-
-                      }).catchError((error) {
-                        print('unable to get id. error : $error');
                       });
-                      });
-
-
                     },
                   )))
             ],
           ),
         ));
   }
+
+  /// This is the main widget that is displayed. It shows a dynamically
+  /// created list based on the profilematches list. It shows the
+  /// name, distance, and matched day.
 
   @override
   Widget build(BuildContext context) {
