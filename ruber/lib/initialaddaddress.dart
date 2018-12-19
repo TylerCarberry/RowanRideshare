@@ -1,3 +1,14 @@
+/// initialaddress.dart
+///
+/// Purpose:
+/// The purpose of this file is for the user to be able to input
+/// their address into the application. It requires a street name
+/// city, zip, and state to move onto the next screen. This is named
+/// initial because it is shown at the user creation process
+/// and it saves the data to the database as a new user, not an existing
+/// user.
+
+/// Imports
 import 'dart:async';
 import 'dart:async' show Future;
 import 'dart:io';
@@ -9,9 +20,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'AddressPostModel.dart';
 import 'AppDrawer.dart';
-import 'ProfileModel.dart';
 import 'initialeditschedule.dart';
 
+
+/// Global variable declarations for saving the input from the user
 int id;
 String profilePic;
 String streetName = "";
@@ -21,6 +33,8 @@ String state = "";
 
 String email = "";
 String name = "";
+
+/// Shared preferences methods
 
 getId() async {
 
@@ -37,10 +51,11 @@ setId(int newId) async {
   if (newId != null && newId != 0) {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setInt("id", newId);
-    //print(newId);
     id = newId;
   }
 }
+
+/// Getters and setters for the global variables
 
 setName(String newName) {
   name = newName;
@@ -101,6 +116,11 @@ class InitialAddressForm extends StatefulWidget {
   _MyAddressForm createState() => _MyAddressForm();
 }
 
+/// This class holds all the widgets and text controllers (which handle
+/// the input from the text forms). It also does error checking
+/// so that the user has to populate all the fields in order to
+/// move past this screen
+
 class _MyAddressForm extends State<InitialAddressForm> {
   final streetNameController = TextEditingController();
   final cityController = TextEditingController();
@@ -147,7 +167,7 @@ class _MyAddressForm extends State<InitialAddressForm> {
               ),
             ),
 
-            // Email
+            /// Street Name input
 
             Container(
                 margin: EdgeInsets.only(top: 15.0),
@@ -169,6 +189,9 @@ class _MyAddressForm extends State<InitialAddressForm> {
                 FocusScope.of(context).requestFocus(new FocusNode());
               },
             )),
+
+            /// City input
+
             Container(
                 margin: EdgeInsets.only(top: 15.0),
                 child: Text('City',
@@ -184,13 +207,15 @@ class _MyAddressForm extends State<InitialAddressForm> {
               decoration: InputDecoration.collapsed(hintText: city),
               controller: cityController,
               onEditingComplete: () {
-                // Make sure to write to Database
 
                 newCity = cityController.text;
 
                 FocusScope.of(context).requestFocus(new FocusNode());
               },
             )),
+
+            /// State input
+
             Container(
                 margin: EdgeInsets.only(top: 15.0),
                 child: Text('State',
@@ -213,6 +238,9 @@ class _MyAddressForm extends State<InitialAddressForm> {
                 FocusScope.of(context).requestFocus(new FocusNode());
               },
             )),
+
+            /// ZIP code input
+
             Container(
                 margin: EdgeInsets.only(top: 15.0),
                 child: Text('ZIP',
@@ -234,6 +262,11 @@ class _MyAddressForm extends State<InitialAddressForm> {
                 FocusScope.of(context).requestFocus(new FocusNode());
               },
             )),
+
+            /// Save address button - does error checking to make sure
+            /// that the user had populated all the fields before clicking
+            /// on the button
+
             Container(
                 margin: EdgeInsets.only(top: 40.0, left: 70.0, right: 70.0),
                 child: RaisedButton(
@@ -241,7 +274,6 @@ class _MyAddressForm extends State<InitialAddressForm> {
                   textColor: Colors.white,
                   child: Text('Save Address'),
                   onPressed: () {
-                    // TODO: Fix the capture of fields -- current output is null201 mullica Hill roadglassboro08043NJ
 
                     if (streetNameController.text.isEmpty != true) {
                       setStreetName(streetNameController.text);

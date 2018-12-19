@@ -1,16 +1,25 @@
+/// Main.dart
+///
+/// Purpose:
+/// The purpose of this file is to act as the main starting point
+/// of the app. It describes the Welcome screen which goes
+/// to the Google OAuth screen. This also includes the main
+/// menu screen which is the starting point of the app once the user
+/// is created.
+
+
+/// Imports
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'AppDrawer.dart';
+import 'AuthScreen.dart';
 import 'ChatRoomScreen.dart';
-import 'Messages_Screen.dart';
 import 'RideScreen.dart';
 import 'editschedule.dart';
 import 'profile.dart';
-import 'AuthScreen.dart';
 
 var api_key = "AIzaSyDrHKl8IxB4cGXIoELXQOzzZwiH1xtsRf4";
-const String _name = "Your Name";
 
 void main() => runApp(new RUber());
 
@@ -24,7 +33,7 @@ class RUber extends StatelessWidget {
   }
 }
 
-// ==================== WELCOME SCREEN ====================== //
+/// ==================== WELCOME SCREEN ====================== //
 
 class WelcomeScreen extends StatelessWidget {
   @override
@@ -69,20 +78,15 @@ class WelcomeScreen extends StatelessWidget {
               MaterialButton(
                 child: Text(
                   "Start",
-                  style: TextStyle(
-                    fontSize: 20
-                  ),
+                  style: TextStyle(fontSize: 20),
                 ),
                 textColor: Colors.white,
                 color: Colors.blue,
                 minWidth: 100.0,
                 height: 70.0,
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              MyAuthScreen()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MyAuthScreen()));
                 },
               ),
             ],
@@ -91,7 +95,7 @@ class WelcomeScreen extends StatelessWidget {
   }
 }
 
-// =========================== END WELCOME SCREEN ====================== //
+/// =========================== END WELCOME SCREEN ====================== //
 
 class MainScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -106,7 +110,11 @@ class MainScreen extends StatelessWidget {
         onWillPop: () async => false,
         child: Scaffold(
             appBar: AppBar(
-              title: Text('Ryde', style: TextStyle(fontSize: 30, fontFamily: "Audiowide", color: Colors.white)),
+              title: Text('Ryde',
+                  style: TextStyle(
+                      fontSize: 30,
+                      fontFamily: "Audiowide",
+                      color: Colors.white)),
               centerTitle: true,
               leading: IconButton(
                   icon: new Image.network(
@@ -166,69 +174,5 @@ class MainScreen extends StatelessWidget {
                 )
               ]),
             )));
-  }
-}
-
-// ================== MESSAGES SCREEN ======================= //
-
-class MessagesScreen extends StatefulWidget {
-  State createState() => MessagesScreenState();
-}
-
-class ChatMessage extends StatelessWidget {
-  ChatMessage({this.text});
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return launchChatMessageContainer(context, text, _name);
-  }
-}
-
-class MessagesScreenState extends State<MessagesScreen> {
-  final List<ChatMessage> _messages = <ChatMessage>[];
-
-  final TextEditingController _textController = new TextEditingController();
-
-  void _handleSubmitted(String text) {
-    _textController.clear();
-
-    ChatMessage message = new ChatMessage(text: text);
-
-    setState(() {
-      _messages.insert(0, message);
-    });
-  }
-
-  Widget _buildTextComposer() {
-    return new IconTheme(
-        data: new IconThemeData(color: Theme.of(context).accentColor),
-        child: new Container(
-          //modified
-          margin: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: new Row(
-            children: <Widget>[
-              new Flexible(
-                child: new TextField(
-                  controller: _textController,
-                  onSubmitted: _handleSubmitted,
-                  decoration:
-                      new InputDecoration.collapsed(hintText: "Send a message"),
-                ),
-              ),
-              new Container(
-                margin: new EdgeInsets.symmetric(horizontal: 4.0),
-                child: new IconButton(
-                    icon: new Icon(Icons.send),
-                    onPressed: () => _handleSubmitted(_textController.text)),
-              ),
-            ],
-          ),
-        ));
-  }
-
-  Widget build(BuildContext context) {
-    return launchMessagesScreen(context, _messages, _buildTextComposer);
   }
 }

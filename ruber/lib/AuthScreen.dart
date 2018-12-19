@@ -1,6 +1,17 @@
+/// AuthScreen.dart
+///
+/// Purpose:
+/// This file is used for the OAuth functionality for the application.
+/// It uses the Google OAuth API to authenticate Rowan users. This handles
+/// all GUI for the login, the password management, and we receive a email,
+/// full name, and a profile picture from Google as a returned object.
+
+/// Mandatory Copyright Information
 // Copyright 2017 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
+
+/// Imports
 import 'dart:async';
 import 'dart:async' show Future;
 import 'dart:convert';
@@ -18,6 +29,9 @@ import 'ProfileModel.dart';
 import 'UserModel.dart';
 import 'initialaddaddress.dart';
 
+
+/// Global variables which are set to the return values from Google
+
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn _googleSignIn = GoogleSignIn();
 
@@ -27,6 +41,9 @@ String userProfilePic;
 List profileList;
 int id;
 Future<String> _message = Future<String>.value('');
+String emailAddress = "";
+
+/// Getter and setter methods for the global variables
 
 getUserProfilePic() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -68,20 +85,6 @@ getMyUserName() async {
   return userName;
 }
 
-/*
-getId() async {
-
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  int tempId = prefs.getInt("id");
-  if (tempId != 0 && tempId != null) {
-    id = tempId;
-  }
-
-  return id;
-}*/
-
-String emailAddress = "";
-
 getEmailAddress() {
   return emailAddress;
 }
@@ -92,6 +95,10 @@ setEmailAddress(String newEmail) async {
   prefs.setString("email", newEmail);
 }
 
+/// The MyAuthScreen class is a StatefulWidget which is extended by
+/// the _MyAuthScreenState class.
+/// The build Widget handles the GUI screen for the login and handles
+/// the flow of the application from one screen to another
 class MyAuthScreen extends StatefulWidget {
   @override
   _MyAuthScreenState createState() => _MyAuthScreenState();
@@ -130,23 +137,6 @@ class _MyAuthScreenState extends State<MyAuthScreen> {
     int tempId = prefs.getInt("id");
     print("temp id: " + tempId.toString());
 
-/*
-    getData();
-    int size = profileList.
-    bool inDatabase = false;
-    for(int i = 0; i < size; i++)
-      {
-        String tempEmailAddress = profileList[i]["email"];
-        print(tempEmailAddress);
-        //print(user.email);
-        print(i);
-        if(tempEmailAddress == user.email){
-          inDatabase = true;
-        }
-      }
-
-      */
-
     if (tempId == null) {
       NewUser tempUser = NewUser(name: tempName, email: tempEmail);
 
@@ -166,7 +156,7 @@ class _MyAuthScreenState extends State<MyAuthScreen> {
           context,
           MaterialPageRoute(
               builder: (context) => InitialAddressForm(
-                  emailAddress))); // Should be changed to AuthScreen.dart which should go to InitialAddressForm.dart
+                  emailAddress)));
     } else {
       Navigator.pop(context);
 

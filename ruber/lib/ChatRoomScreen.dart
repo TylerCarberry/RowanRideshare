@@ -1,3 +1,12 @@
+/// ChatRoomScreen.dart
+///
+/// Purpose:
+/// This file is used to show the different chat threads once the user
+/// clicks on the "Messages" option from the main menu. It also includes
+/// the screen which allows the user to type in a message and send it
+/// to the opposing user.
+
+/// Imports
 import 'dart:async';
 import 'dart:async' show Future;
 import 'dart:convert';
@@ -12,10 +21,14 @@ import 'AuthScreen.dart';
 import 'ChatroomModel.dart';
 import 'Constants.dart';
 
+/// Global variables for storing the chat rooms from the server
+
 Map<String, dynamic> profileChats;
 String myInputText;
 
 int chatRoomId;
+
+/// Getter and setter methods
 
 getChatRoomId() {
   return chatRoomId;
@@ -42,13 +55,14 @@ class ChatRoomScreen extends StatefulWidget {
   ChatRoomScreenState createState() => new ChatRoomScreenState();
 }
 
+/// ChatRoomScreenState class holds all the Widgets for the chat room
+/// functionality.
+/// Widgets in ChatRoomScreenState:
+/// Chat Threads Screen - build()
+///
 class ChatRoomScreenState extends State<ChatRoomScreen> {
 
   int index;
-
-  /**
-   * This Widget is the ChatRooms - People who are in contact with the user
-   */
   Future<ChatList> getData() async {
     int userId = await getId();
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -71,6 +85,9 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
     super.initState();
     this.getData();
   }
+
+  /// Chat Thread screen -- initial screen which is shown whenever
+  /// the user clicks on the "Messages" option
 
   @override
   Widget build(BuildContext context) {
@@ -122,27 +139,25 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
         ));
   }
 
-  /// MESSAGE INPUT CONTAINER TEXTCONTROLLER
+  /// Text Editing Controller - for holding the message that was typed
+
   TextEditingController _textController = new TextEditingController();
 
   void _afterMessageSubmission(String text) {
     setState(() {
       if (_textController.text.isEmpty) {
       } else
-//        messages..insert(0, _textController.text);
         setMyInputText(_textController.text);
     });
-    //_textController.clear();
   }
 
-  /**
-   * This Widget is where the user actually writes the message
-   */
+  /// This widget holds the different messages from both parties - also
+  /// shows the time sent/received and their profile image
+
   Widget MessageContainer() {
     return new IconTheme(
         data: new IconThemeData(color: Theme.of(context).accentColor),
         child: new Container(
-          //modified
           margin: const EdgeInsets.symmetric(horizontal: 8.0),
           child: new Row(
             children: <Widget>[
@@ -190,10 +205,10 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
         ));
   }
 
-  /**
-   * This is the screen that is shown when the user clicks on another user in the
-   * main Chat Room
-   */
+  /// This is the screen shown when the user clicks onto a chat thread
+  /// in the chat room screen. It holds the MessageContainer inside it
+  /// so that it can show the different messages being typed
+
   Widget IndividualChatThread(BuildContext context, int index) {
     this.index = index;
     return Scaffold(
@@ -204,7 +219,6 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
                 " & " +
                 profileChats["chatrooms"][index]["profileNames"]["Profile 1"]
                     .toString()),
-            // TODO - Grab from the db using the index
             centerTitle: true,
             actions: <Widget>[
               IconButton(
@@ -222,7 +236,6 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
                   })
 
             ]),
-        // TODO: Name should be pulled using the index or the profile ID
         drawer: launchAppDrawer(context),
         body: new Column(
           children: <Widget>[
@@ -235,6 +248,16 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
                     : profileChats["chatrooms"][index]["messages"].length,
                 itemBuilder: (BuildContext context, int index2) {
                   return Container(
+
+                    /// This logic decides where the messages go in the
+                    /// MessageContainer - right or left. Right is for the
+                    /// sender, left is for the received messages. It does
+                    /// this by comparing the senderID of the message being
+                    /// sent to the profileID of the user of the app. If they
+                    /// are equal, then it means that the sender is the user
+                    /// so it goes on the right hand side, and ANY other message
+                    /// goes on the left hand side (receiver messages)
+
                       child: Row(
                           children: profileChats["chatrooms"][index]["messages"]
                                       [index2]["senderID"] ==
@@ -253,10 +276,11 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
         ));
   }
 
-  /**
-   * This method shifts the message to the right hand side - used when the user
-   * types in their message
-   */
+  /// This is for structuring the message to go on the right side, if
+  /// the message is being sent by the user of the app - currently
+  /// Received messages from the other party are displayed on the left
+  /// hand side
+
   List<Widget> rightSide(int index, int index2) {
     return <Widget>[
       Expanded(
@@ -315,10 +339,9 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
     ];
   }
 
-  /**
-   * This method shifts the message to the left hand side - used when receiving
-   * a message
-   */
+  /// This is used to structure the message on the left hand side -- for
+  /// received messages. Sent messages are displayed on the right hand side.
+
   List<Widget> leftSide(int index, int index2) {
     return <Widget>[
       Column(

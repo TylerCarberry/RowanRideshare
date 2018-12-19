@@ -29,12 +29,6 @@ class Schedule {
   String thursday;
   String friday;
 
-//  String day;
-//  String goingToRangeStart;
-//  String goingToRangeEnd;
-//  String leavingRangeStart;
-//  String leavingRangeEnd;
-
   Schedule({
     this.id,
     this.profile,
@@ -43,11 +37,6 @@ class Schedule {
     this.wednesday,
     this.thursday,
     this.friday,
-//    this.day,
-//    this.goingToRangeStart,
-//    this.goingToRangeEnd,
-//    this.leavingRangeStart,
-//    this.leavingRangeEnd,
   });
 
   factory Schedule.fromJson(Map<String, dynamic> parsedJson) {
@@ -59,11 +48,6 @@ class Schedule {
       wednesday: parsedJson["wednesday"],
       thursday: parsedJson["thursday"],
       friday: parsedJson["friday"],
-//      day: parsedJson["day"],
-//      goingToRangeStart: parsedJson["goingToRangeStart"],
-//      goingToRangeEnd: parsedJson["goingToRangeEnd"],
-//      leavingRangeStart: parsedJson["leavingRangeStart"],
-//      leavingRangeEnd: parsedJson["leavingRangeEnd"],
     );
   }
 
@@ -75,10 +59,5 @@ class Schedule {
         "wednesday": wednesday,
         "thursday": thursday,
         "friday": friday
-//        "day": day,
-//        "goingToRangeStart": goingToRangeStart,
-//        "goingToRangeEnd": goingToRangeEnd,
-//        "leavingRangeStart": leavingRangeStart,
-//        "leavingRangeEnd": leavingRangeEnd,
       };
 }

@@ -1,3 +1,17 @@
+/// initialeditschedule.dart
+///
+/// Purpose:
+/// The purpose of this file is to allow the user to put in their
+/// initial schedule into the application. It is presented after
+/// the user puts in their initial address. It is different from
+/// the editschedule.dart file because it is used whenever there
+/// is a new user creation, not during a schedule edit for an
+/// existing user. The file itself and its contents are extremely
+/// similar to the editschedule.dart file, the only difference is that
+/// this uses the newSchedule() method at the click of the save address
+/// button, instead of updateSchedule()
+
+
 import 'dart:async';
 import 'dart:async' show Future;
 import 'dart:io';
@@ -12,9 +26,9 @@ import 'Constants.dart';
 import 'ProfileModel.dart';
 import 'ScheduleModel.dart';
 
-// This is the map that is to be sent to the database
-// If any of the 4 blocks are 0000 - that means that the user didn't
-// put in a time for that block and that entire day is invalid
+/// This is the map that is to be sent to the database
+/// If any of the 4 blocks are 0000 - that means that the user didn't
+/// put in a time for that block and that entire day is invalid
 var scheduleMap = {
   "monday": "",
   "tuesday": "",
@@ -79,13 +93,13 @@ setScheduleMapFriday(String a, String b, String c, String d) {
   scheduleMap["friday"] = a + b + c + d;
 }
 
-// The 'a' 'b' 'c' 'd' are the values for the hint text for the drop down
-// menus - they should be pulled from the database once there are values
-// in the database
-// as - arrival range start time
-// ae - arrival range end time
-// ls - leave range start time
-// le - leave range end time
+/// The 'a' 'b' 'c' 'd' are the values for the hint text for the drop down
+/// menus - they should be pulled from the database once there are values
+/// in the database
+/// as - arrival range start time
+/// ae - arrival range end time
+/// ls - leave range start time
+/// le - leave range end time
 var mondaySchedule = {
   "as": "",
   "ae": "",
@@ -204,8 +218,8 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
                 border: TableBorder.all(width: 1.0, color: Colors.black),
                 children: [
                   TableRow(children: [
-                    // ======= MONDAY START========== //
-                    // ======= MONDAY START========== //
+                    /// ======= MONDAY START========== //
+                    /// ======= MONDAY START========== //
 
                     TableCell(
                         child: Column(
@@ -265,7 +279,6 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
                                 return new DropdownMenuItem(
                                     value: value, child: Text(value));
                               }).toList(),
-                              // TODO: Need to figure out how to show the selection
                               hint: new Text(mondaySchedule["as"]),
                               onChanged: (value) {
                                 setState(() {
@@ -459,13 +472,9 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
                     ))
                   ]),
 
-                  // ======== MONDAY END ========= //
-                  /**
-                       * ///////////////////////////////////
-                       * ///////////////////////////////////
-                       */
+                  /// ======== MONDAY END ========= //
 
-                  // ======== TUESDAY START ========= //
+                  /// ======== TUESDAY START ========= //
 
                   TableRow(children: [
                     TableCell(
@@ -719,14 +728,10 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
                     ))
                   ]),
 
-                  // ======== TUESDAY END ========= //
+                  /// ======== TUESDAY END ========= //
 
-                  /**
-                       * ///////////////////////////////////
-                       * ///////////////////////////////////
-                       */
 
-                  // ======== WEDNESDAY START ========= //
+                  /// ======== WEDNESDAY START ========= //
 
                   TableRow(children: [
                     TableCell(
@@ -980,14 +985,10 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
                     ))
                   ]),
 
-                  // ======== WEDNESDAY END ========= //
+                  /// ======== WEDNESDAY END ========= //
 
-                  /**
-                       * ///////////////////////////////////
-                       * ///////////////////////////////////
-                       */
 
-                  // ======== THURSDAY START ========= //
+                  /// ======== THURSDAY START ========= //
 
                   TableRow(children: [
                     TableCell(
@@ -1241,14 +1242,10 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
                     ))
                   ]),
 
-                  // ======== THURSDAY END ========= //
+                  /// ======== THURSDAY END ========= //
 
-                  /**
-                       * ///////////////////////////////////
-                       * ///////////////////////////////////
-                       */
 
-                  // ======== FRIDAY START ========= //
+                  /// ======== FRIDAY START ========= //
 
                   TableRow(children: [
                     TableCell(
@@ -1502,8 +1499,14 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
                     ))
                   ])
 
-                  // ================== FRIDAY END ==================== //
-                  // ================== FRIDAY END ==================== //
+                  /// ================== FRIDAY END ==================== //
+                  /// ================== FRIDAY END ==================== //
+
+
+
+                  /// Save Schedule button - does error checking to make sure
+                  /// that the user had populated all the fields before clicking
+                  /// on the button
                 ]),
             RaisedButton(
               color: Colors.blue,

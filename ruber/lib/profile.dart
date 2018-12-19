@@ -1,3 +1,11 @@
+/// profile.dart
+///
+/// Purpose:
+/// The purpose of this is to allow the user to see their profile. This screen
+/// pulls all the data from the database. It also offers options to the user
+/// to change their address and their schedule.
+
+/// Imports
 import 'dart:async';
 import 'dart:async' show Future;
 import 'dart:io';
@@ -13,6 +21,8 @@ import 'AuthScreen.dart';
 import 'ProfileModel.dart';
 import 'editschedule.dart';
 
+/// Global variable declarations
+
 String streetName = "";
 String city = "";
 String zipCode = "";
@@ -22,6 +32,8 @@ String email = "";
 
 String name = "";
 int id;
+
+/// Getters and setters
 
 setName(String newName) {
   name = newName;
@@ -105,7 +117,8 @@ class ProfileScreen extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.all(10.0),
           children: <Widget>[
-            // Profile Picture
+
+            /// Profile Picture
 
             Container(
                 margin: EdgeInsets.only(
@@ -119,7 +132,7 @@ class ProfileScreen extends StatelessWidget {
                         // This is where we would retrieve the image from the data base
                         image: NetworkImage(userProfilePic)))),
 
-            // Full Name Heading & Text
+            /// Full Name Heading & Text
 
             Container(
                 margin: EdgeInsets.only(top: 15.0),
@@ -141,7 +154,7 @@ class ProfileScreen extends StatelessWidget {
                             return CircularProgressIndicator();
                         }))),
 
-            // Email Heading & Text
+            /// Email Heading & Text
 
             Container(
               margin: EdgeInsets.only(top: 15.0),
@@ -163,6 +176,9 @@ class ProfileScreen extends StatelessWidget {
                           } else
                             return CircularProgressIndicator();
                         }))),
+
+            /// Joined date
+
             Container(
               margin: EdgeInsets.only(top: 15.0),
               child: Text(
@@ -187,6 +203,9 @@ class ProfileScreen extends StatelessWidget {
                           } else
                             return CircularProgressIndicator();
                         }))),
+
+            /// Street Name
+
             Container(
               margin: EdgeInsets.only(top: 15.0),
               child: Text(
@@ -215,6 +234,9 @@ class ProfileScreen extends StatelessWidget {
                           } else
                             return CircularProgressIndicator();
                         }))),
+
+            /// City
+
             Container(
               margin: EdgeInsets.only(top: 15.0),
               child: Text(
@@ -242,6 +264,9 @@ class ProfileScreen extends StatelessWidget {
                           } else
                             return CircularProgressIndicator();
                         }))),
+
+            /// State
+
             Container(
               margin: EdgeInsets.only(top: 15.0),
               child: Text(
@@ -269,6 +294,9 @@ class ProfileScreen extends StatelessWidget {
                           } else
                             return CircularProgressIndicator();
                         }))),
+
+            /// ZIP Code
+
             Container(
               margin: EdgeInsets.only(top: 15.0),
               child: Text(
@@ -297,7 +325,7 @@ class ProfileScreen extends StatelessWidget {
                             return CircularProgressIndicator();
                         }))),
 
-            // Edit buttons
+            /// Edit buttons for the address and schedule
 
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -334,7 +362,12 @@ class ProfileScreen extends StatelessWidget {
   }
 }
 
-// ========================== EDIT ADDRESS =========================== //
+/// This is the edit address screen which is shown whenever the user clicks
+/// the "Edit Address" button in the profile
+/// Very similar to the initial edit address screen
+/// For the edit schedule, the app takes the user to the schedule.dart
+/// file to edit their schedule
+/// ========================== EDIT ADDRESS SCREEN =========================== //
 
 class AddressForm extends StatefulWidget {
   @override
