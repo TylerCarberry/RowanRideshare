@@ -555,7 +555,9 @@ class _MyAddressForm extends State<AddressForm> {
         )));
   }
 }
-
+/*
+* This method returns the users id from shared preferences.
+ */
 Future<int> getMyId() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String emailUrl = prefs.getString("email");
@@ -568,7 +570,9 @@ Future<int> getMyId() async {
   print(res);
   return int.parse(res);
 }
-
+/*
+* This method returns the users information.
+ */
 Future<Post> getPost() async {
   int userid = await getId();
   print(userid);
@@ -580,25 +584,10 @@ Future<Post> getPost() async {
   return postFromJson(response.body);
 }
 
-Future<Address> getAddressPost() async {
-  int id = await getId();
+/*
+* This method edits the users address.
+ */
 
-  String addressUrl = BASE_URL + '/rides/address/$id';
-
-  final response2 = await http.get(addressUrl);
-  return addressFromJson(response2.body);
-}
-
-Future<http.Response> createPost(Post post) async {
-  String updateUrl = BASE_URL + '/rides/address/update';
-  final response = await http.post('$updateUrl',
-      headers: {
-        HttpHeaders.contentTypeHeader: 'application/json',
-        HttpHeaders.authorizationHeader: ''
-      },
-      body: postToJson(post));
-  return response;
-}
 
 Future<http.Response> createAddress(Address address) async {
   String updateUrl = BASE_URL + '/rides/address/update';

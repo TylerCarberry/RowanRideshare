@@ -402,6 +402,9 @@ class ChatRoomScreenState extends State<ChatRoomScreen> {
   }
 }
 
+/*
+* This method is used to get the users Id from shared Preferences
+ */
 getId() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   int tempId = prefs.getInt("id");
@@ -410,14 +413,18 @@ getId() async {
   }
   return id;
 }
-
+/*
+* This Method is used to return all of the chatrooms the user is part of.
+ */
 Future<ChatList> getChatrooms() async {
   int userid = await getId();
   String postUrl = BASE_URL + '/rides/profile/$userid/chatrooms';
   final response = await http.get(postUrl);
   return listFromJsonChat(response.body);
 }
-
+/*
+*This method is used to post messages to the server.
+ */
 Future<http.Response> createMessage(Messages myMessage) async {
   String newMessageUrl = BASE_URL + '/rides/message/new';
   final response = await http.post('$newMessageUrl',

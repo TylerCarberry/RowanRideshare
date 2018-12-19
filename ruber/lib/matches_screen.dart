@@ -44,7 +44,9 @@ class matchesScreen extends StatefulWidget {
   @override
   matchesScreenState createState() => new matchesScreenState();
 }
-
+/*
+* This method returns the users matches.
+ */
 class matchesScreenState extends State<matchesScreen> {
   Future<List<Post>> getData() async {
     int userId = await getId();
@@ -215,13 +217,9 @@ class matchesScreenState extends State<matchesScreen> {
   }
 }
 
-Future<List<Post>> getAllPost() async {
-  int userId = await getId();
-  String postUrl = BASE_URL + '/rides/matching/$userId/20';
-  final response = await http.get(postUrl);
-  return allPostsFromJson(response.body);
-}
-
+/*
+* This method creates a new chatroom for users that match.
+ */
 Future<http.Response> createChatRoom(ChatRoom chatroom) async {
   int userId = await getId();
   //print(userId);
@@ -235,19 +233,10 @@ Future<http.Response> createChatRoom(ChatRoom chatroom) async {
   print(response.body);
   return response;
 }
+/*
+* This method returns the users Id using their email.
+ */
 
-Future<http.Response> createMessage(Messages message) async {
-  int userId = await getId();
-  String newMessageUrl = BASE_URL + '/rides/message/new';
-  final response = await http.post('$newMessageUrl',
-      headers: {
-        HttpHeaders.contentTypeHeader: 'application/json',
-        HttpHeaders.authorizationHeader: ''
-      },
-      body: messagePostToJson(message));
-  print(response.body);
-  return response;
-}
 
 Future<int> getMatchesId(String tempEmail) async {
   String addressUrl = BASE_URL + '/rides/profile/getmyid/$tempEmail';
@@ -259,7 +248,9 @@ Future<int> getMatchesId(String tempEmail) async {
 }
 
 int matchId;
-
+/*
+* This method finds the id of the user they matched with.
+ */
 getMatchId() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   int tempId = prefs.getInt("matchID");
@@ -284,7 +275,9 @@ setMatchId(int newId) async {
 }
 
 int id;
-
+/*
+* This method returns the users id from shared preferences.
+ */
 Future<int> getMyProfileId() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   int tempId = prefs.getInt("id");

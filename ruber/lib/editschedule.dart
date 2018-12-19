@@ -1599,14 +1599,18 @@ class _MyScheduleForm extends State<ScheduleForm> {
         )));
   }
 }
-
+/*
+* This method return the users information so that is can be checked during edit.
+ */
 Future<Post> getPost() async {
   int userId = await getId();
   String postUrl = BASE_URL + '/rides/profile/$userId';
   final response = await http.get(postUrl);
   return postFromJson(response.body);
 }
-
+/*
+*This method allows the user to changes the times for days in their schedule.
+ */
 Future<http.Response> updateSchedule(Schedule schedule) async {
   int userId = await getId();
   String updateUrl = BASE_URL + '/rides/profile/$userId/schedule/update';
@@ -1619,6 +1623,9 @@ Future<http.Response> updateSchedule(Schedule schedule) async {
   return response;
 }
 
+/*
+*This method is used to add new days to the users schedule during an edit.
+ */
 Future<http.Response> newSchedule(Schedule newSchedule) async {
   int userId = await getId();
   String updateUrl = BASE_URL + '/rides/profile/$userId/schedule/new';

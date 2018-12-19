@@ -329,7 +329,9 @@ class _MyAddressForm extends State<InitialAddressForm> {
   }
 }
 
-
+/*
+* This method returns the users id using their email from shared preferences.
+ */
 Future<int> getMyId() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String emailUrl = prefs.getString("email");
@@ -342,7 +344,9 @@ Future<int> getMyId() async {
   print(res);
   return int.parse(res);
 }
-
+/*
+* This method adds the users new address to their profile on the server.
+ */
 Future<http.Response> createAddress(AddressPost address) async {
   int userId = await getId();
   print(userId);

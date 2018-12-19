@@ -1629,26 +1629,9 @@ class _MyScheduleForm extends State<InitialScheduleForm> {
   }
 }
 
-Future<Post> getPost() async {
-  String postUrl = BASE_URL + '/rides/profile/1';
-  final response = await http.get(postUrl);
-  return postFromJson(response.body);
-}
-
-Future<http.Response> updateSchedule(Schedule schedule) async {
-  int userId = await getId();
-  String updateUrl = BASE_URL + '/rides/profile/$userId/schedule/update';
-//  String updateUrl = 'http://680285ec.ngrok.io/rides/profile/1/schedule/update';
-
-  final response = await http.post('$updateUrl',
-      headers: {
-        HttpHeaders.contentTypeHeader: 'application/json',
-        HttpHeaders.authorizationHeader: ''
-      },
-      body: scheduleToJson(schedule));
-  return response;
-}
-
+/*
+* This method adds the users schedule to the server.
+ */
 Future<http.Response> newSchedule(Schedule newSchedule) async {
   int userId = await getId();
 
