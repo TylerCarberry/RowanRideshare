@@ -1,3 +1,12 @@
+/// RideScreen.dart
+///
+/// Purpose:
+/// The purpose of this file is to provide the user with a radius slider
+/// which is used to select the search radius for ride matching. It is
+/// preset to 20 miles, but we can change that. From this screen, it takes
+/// the user to the matches screen.
+
+/// Imports
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -40,8 +49,8 @@ class _gtr extends State<launchRideScreen> {
             ),
             Slider(
               value: radius,
-              min: 0,
-              max: 20,
+              min: 0, // Set the min to 0 miles
+              max: 20, // Set the max to 20 miles
               onChanged: _setRadius,
             ),
             RaisedButton(
