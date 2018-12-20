@@ -21,6 +21,7 @@ import java.util.*;
 @RestController
 public class RuberController {
 
+    /* Repository objects for communicating with database */
     @Autowired
     private AddressRepository addressRepository;
 
@@ -48,7 +49,9 @@ public class RuberController {
     }
 
     /**
-     * Every address of everybody
+     * Get all the addresses. Used as endpoint for testing.
+     * 
+     * @return a List of all Addresses
      */
     @GetMapping(path = "/address/all")
     public @ResponseBody
@@ -56,7 +59,11 @@ public class RuberController {
         return addressRepository.findAll(); //returns JSON or XML of addresses
     }
 
-    // Temp
+    /**
+    * Get all the Profiles. Used as endpoint for testing.
+    *
+    * @return a List of all Profiles
+    */
     @GetMapping(path = "/profile/all")
     public @ResponseBody
     Iterable<Profile> getProfiles() {
@@ -64,10 +71,10 @@ public class RuberController {
     }
 
     /**
-     * Get the profile. May return null.
+     * Gets the profile. May return null.
      *
      * @param profileID the ID for the profile.
-     * @return the profile in JSON format.
+     * @return a Profile if profileID was valid
      */
     @GetMapping(path = "/profile/{profileID}")
     public @ResponseBody
@@ -75,18 +82,37 @@ public class RuberController {
         return profileRepository.findById(profileID);
     }
 
+    /**
+     * Gets the profile by email. May return null.
+     *
+     * @param emailAddress the unique email for the profile.
+     * @return a Profile if the email was valid.
+     */
     @GetMapping(path = "/profile/email/{emailAddress}")
     public @ResponseBody
     Optional<Profile> getProfile(@PathVariable String emailAddress){
         return profileRepository.findByEmailAddress(emailAddress);
     }
 
+    /**
+    * Gets the profileID for a specified Profile.
+    *
+    * @param emailAddress the unique email for the Profile
+    * @return the Profile's profileID
+    */
     @GetMapping(path = "/profile/getmyid/{emailAddress}")
     public @ResponseBody
     int getMyId(@PathVariable String emailAddress) {
         return profileRepository.findByEmailAddress(emailAddress).get().getId();
     }
 
+    /**
+    * Gets the Chatrooms for a given profile.
+    * Formatted as a map for JSON parsing on front end.
+    *
+    * @param profileID the ID for the profile
+    * @return a HashMap with 1 Entry: Key is the String "chatrooms" and Value is a List of Chatrooms.
+    */
     @GetMapping(path = "/profile/{profileID}/chatrooms")
     public @ResponseBody
     HashMap<String, List<Chatroom>> getChatroomMessages(@PathVariable int profileID) {
@@ -107,6 +133,13 @@ public class RuberController {
         return chatroomRepository.findById(chatroomID);
     }
 
+
+    /**
+     * Get the Address for a Profile.
+     *
+     * @param profileID the ID of the Profile that the Address is linked to
+     * @return the profile in JSON format
+     */
     @GetMapping(path = "/address/{profileID}")
     public @ResponseBody
     Optional<Address> getAddress(@PathVariable int profileID) {
@@ -115,6 +148,12 @@ public class RuberController {
         return Optional.ofNullable(profile.getAddress());
     }
 
+    /**
+     * Get the Messages for a Chatroom.
+     *
+     * @param chatroomID the ID for the chatroom
+     * @return a List of Messages
+     */
     @GetMapping(path = "/messages/{chatroomID}")
     public @ResponseBody
     Optional<List<Message>> getMessage(@PathVariable int chatroomID) {
@@ -122,6 +161,12 @@ public class RuberController {
         return Optional.ofNullable(chatroom.getMessages());
     }
 
+    /**
+     * Get the Schedule for a Profile.
+     *
+     * @param profileID the ID for the Profile
+     * @return a List of Schedules
+     */
     @GetMapping(path = "/schedule/{profileID}")
     public @ResponseBody
     Optional<List<Schedule>> getSchedule(@PathVariable int profileID) {
@@ -129,6 +174,12 @@ public class RuberController {
         return Optional.ofNullable(profile.getSchedules());
     }
 
+    /**
+     * Create or Update a Profile depending on the JSON input.
+     *
+     * @param map JSON input
+     * @return a Profile
+     */
     @PostMapping(path = {"/profile/new", "/profile/update"})
     public @ResponseBody
     Profile createUpdateProfile(@RequestBody Map<String, String> map) {
@@ -154,6 +205,12 @@ public class RuberController {
         return profileRepository.save(profile);
     }
 
+    /**
+     * Create or Update an address depending on the JSON input.
+     *
+     * @param address the Address to create/update
+     * @return the updated Address
+     */
     @PostMapping(path = {"/address/new", "/address/update"})
     public @ResponseBody
     Address createUpdateAddress(@RequestBody Address address) {
@@ -165,7 +222,14 @@ public class RuberController {
         return addressRepository.save(address);
     }
 
-    /* TODO - currently no other way to link an address to a profile - need the ProfileID from the front end */
+    /**
+     * Same as createAddress, but uses the AddressID instead due to issues working with an Address object on the front end.
+     * Currently no other way to link an address to a profile - need the ProfileID from the front end
+     * 
+     * @param profileID the ID for the Profile to link
+     * @param addressID the ID for the Address to link
+     * @return the updated Profile
+     */
     @PostMapping(path = { "/profile/{profileID}/linkAddress"})
     public @ResponseBody
     Profile linkAddress(@PathVariable int profileID, @PathVariable int addressID) {
@@ -176,7 +240,11 @@ public class RuberController {
     }
 
     /**
-     * Add a user's address to the database
+     * Creates a new Address and links it to the Profile.
+     * 
+     * @param address the Address to link
+     * @param profileID the ID for the Profile
+     * @return the given address (if linking was successful)
      */
     @PostMapping(path = {"/address/{profileID}/new"})
     public @ResponseBody
@@ -193,9 +261,12 @@ public class RuberController {
     }
 
     /**
-     * I decided to combine create chatroom and addProfileToChatroom.
-     * Since we're manually taking care of createDate, a chatroom should consist of at least 1 user to start the chatroom
-     * otherwise a chatroom is just hanging around not attached to any profiles.
+     * Adds a Profile to a Chatroom, or creates a new Chatroom if no Chatroom was specified.
+     * Currently unused (Group message was a stretch goal).
+     * 
+     * @param profileID the ID for the Profile to add
+     * @param map JSON input
+     * @return an updated Profile containing the Chatroom
      */
         @PostMapping(path = {"/profile/{profileID}/chatroom/new", "/profile/{profileID}/chatroom/update"})
     public @ResponseBody
@@ -216,10 +287,10 @@ public class RuberController {
     }
 
     /**
-     * This method is for creating a chatroom using two profileID
+     * Creates a new Chatroom with two Profiles
      * 
-     * @param map
-     * @return
+     * @param map JSON input
+     * @return a Chatroom
      */
     @PostMapping(path = {"/chatroom/new"})
     public @ResponseBody
@@ -244,6 +315,12 @@ public class RuberController {
         return chat;
     }
 
+    /**
+     * Create a Message for a Chatroom and a Profile (sender).
+     * 
+     * @param map JSON input containing Message parameters
+     * @return a Message
+     */
     @PostMapping(path = "/message/new")
     public @ResponseBody
     Message createMessage(@RequestBody Map<String, String> map) {
@@ -273,14 +350,12 @@ public class RuberController {
     }
 
     /** 
-     * If attempt to create a schedule failed - i.e. there's a dupe, then scheduleID will still autoincrement  
+     * Creates new Schedules for a specified Profile.
+     * Should only be called by updateSchedule to process new Schedules.
      * 
-     * If trying to create an already made schedule (i.e. "MONDAY" : "0600...") already exists, it will throw exception and stop
-     * even if there are other days that have not been made -> for example if "TUESDAY" :"0700..." has not been made
-     * but comes after "MONDAY" in the map.
-     * 
-     * //TODO FIX ABOVE 
-     * //
+     * @param profileID ID for the Profile
+     * @param map JSON input containing Schedule information
+     * @return a List of new Schedules
      */
     @PostMapping(path = "/profile/{profileID}/schedule/new")
     public @ResponseBody 
@@ -305,8 +380,11 @@ public class RuberController {
     }
 
     /**
-     * For some reason when there are new schedules in the map, the getSchedule response doesn't immediately reflect those,
-     * therefore another list is hold the schedules.
+     * Updates the schedule for the specified profile. If new schedule days are specified, they are added as well.
+     * 
+     * @param profileID the ID for the Profile
+     * @param map JSON input for updating schedules
+     * @return a List of updated Schedules
      */
     @PostMapping(path = "/profile/{profileID}/schedule/update")
     public @ResponseBody 
@@ -362,6 +440,11 @@ public class RuberController {
         }
     }
 
+    /**
+     * Delete the chatroom corresponding to the given chatroomID
+     * @param chatroomID The chatroomID to delete
+     * @return true if successful
+     */
     @GetMapping("/chatroom/delete/{chatroomID}")
     public boolean deleteChatroom(@PathVariable int chatroomID) {
         try {
@@ -372,6 +455,12 @@ public class RuberController {
         }
     }
 
+    /**
+     * Delete the message corresponding to the given messageID
+     * 
+     * @param messageID The messageID to delete
+     * @return true if successful delete
+     */
     @GetMapping("/message/delete/{messageID}/")
     public boolean deleteMessage(@PathVariable int messageID) {
         try {
@@ -382,6 +471,13 @@ public class RuberController {
         }
     }
 
+    /**
+     * Return list of profile matches within the specified radius for the profile
+     * 
+     * @param profileID the profile to find matches for
+     * @param radius The radius to look for matches
+     * @return A List of matching Profiles
+     */
     @GetMapping("/matching/{profileID}/{radius}")
     public @ResponseBody
     List<Profile> getMatches(@PathVariable int profileID, @PathVariable int radius) {
