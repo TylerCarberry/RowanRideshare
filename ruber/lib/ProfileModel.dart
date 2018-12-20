@@ -1,56 +1,54 @@
 import 'dart:convert';
 
+//Takes in a JSON string and converts it to a Post object
 Post postFromJson(String str) {
   final jsonData = json.decode(str);
   return Post.fromJson(jsonData);
 }
 
+//Takes in a Post object and returns a JSON String
 String postToJson(Post data) {
   final dyn = data.toJson();
   return json.encode(dyn);
 }
 
+//Returns a list of all Posts from a JSON String
 List<Post> allPostsFromJson(String str) {
   final jsonData = json.decode(str);
   return new List<Post>.from(jsonData.map((x) => Post.fromJson(x)));
 }
 
+//Converts a List of Posts to a Json String
 String allPostsToJson(List<Post> data) {
   final dyn = new List<dynamic>.from(data.map((x) => x.toJson()));
   return json.encode(dyn);
 }
 
+//Class that creates a Post object
 class Post {
   int id;
   String name;
   String email;
   String createdDate;
   Address2 address;
-
-//  ScheduleList schedules;
   List<Schedule2> schedules;
   double distanceRounded;
 
-//  List<Map<String, dynamic>> schedules;
-
+  //Class that creates a Post
   Post(
       {this.id,
-      this.name,
-      this.email,
-      this.createdDate,
-      this.address,
-      this.schedules,
-      this.distanceRounded});
+        this.name,
+        this.email,
+        this.createdDate,
+        this.address,
+        this.schedules,
+        this.distanceRounded});
 
+  //Converts JSON to a Post object
   factory Post.fromJson(Map<String, dynamic> parsedJson) {
     var list = parsedJson['schedules'] as List;
-//    print(list);
     List<Schedule2> scheduleList =
-        list.map((i) => Schedule2.fromJsonSchedule(i)).toList();
-
-//    Iterable l = json.decode('scedules');
-//    List<Schedule> scheduleList = l.map((Map schedules)=> Schedule.fromJsonSchedule(i)).toList();
-
+    list.map((i) => Schedule2.fromJsonSchedule(i)).toList();
     return Post(
       id: parsedJson["id"],
       name: parsedJson["name"],
@@ -59,88 +57,60 @@ class Post {
       address: Address2.fromJsonAddress(parsedJson["address"]),
       schedules: scheduleList,
       distanceRounded: parsedJson["distanceRounded"],
-//      schedules: json.decode(scheduleList.toString()),
     );
   }
 
+  //Converts the data to JSON
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "email": email,
-        "createdDate": createdDate,
-        "address": address,
-        "schedules": schedules,
-        "distanceRounded": distanceRounded
-      };
+    "id": id,
+    "name": name,
+    "email": email,
+    "createdDate": createdDate,
+    "address": address,
+    "schedules": schedules,
+    "distanceRounded": distanceRounded
+  };
 }
 
-//Address2 address2FromJson(String str) {
-//  final jsonData = json.decode(str);
-//  return Address2.fromJson(jsonData);
-//}
-//
-//String address2ToJson(Address2 data) {
-//  final dyn = data.toJson();
-//  return json.encode(dyn);
-//}
+//Class used to parse the nested Address objects
+class Address2 {String streetAddress;
+String city;
+String zipCode;
+String state;
+double latitude;
+double longitude;
 
-//List<Address2> allAddresses2FromJson(String str) {
-//  final jsonData = json.decode(str);
-//  return new List<Address2>.from(jsonData.map((x) => Address2.fromJson(x)));
-//}
-//
-//String allAddresses2ToJson(List<Address2> data) {
-//  final dyn = new List<dynamic>.from(data.map((x) => x.toJson()));
-//  return json.encode(dyn);
-//}
+Address2({
+  this.streetAddress,
+  this.city,
+  this.zipCode,
+  this.state,
+  this.latitude,
+  this.longitude,
+});
 
-class Address2 {
-//  int id;
-  String streetAddress;
-  String city;
-  String zipCode;
-  String state;
-  double latitude;
-  double longitude;
-
-  Address2({
-//    this.id,
-    this.streetAddress,
-    this.city,
-    this.zipCode,
-    this.state,
-    this.latitude,
-    this.longitude,
-  });
-
-  factory Address2.fromJsonAddress(Map<String, dynamic> json) {
-    return Address2(
-//      id: parsedJson["id"],
-      streetAddress: json["streetAddress"],
-      city: json["city"],
-      zipCode: json["zipCode"],
-      state: json["state"],
-      latitude: json["latitude"],
-      longitude: json["longitude"],
-    );
-  }
-
-  Map<String, dynamic> toJsonAddress() => {
-//        "id": id,
-        "streetAddress": streetAddress,
-        "city": city,
-        "zipCode": zipCode,
-        "state": state,
-        "latitude": latitude,
-        "longitude": longitude,
-      };
-
-//  @override
-//  String toString() {
-//    return id.toString() + streetAddress.toString() + city + zipCode + state;
-//  }
+factory Address2.fromJsonAddress(Map<String, dynamic> json) {
+  return Address2(
+    streetAddress: json["streetAddress"],
+    city: json["city"],
+    zipCode: json["zipCode"],
+    state: json["state"],
+    latitude: json["latitude"],
+    longitude: json["longitude"],
+  );
 }
 
+Map<String, dynamic> toJsonAddress() => {
+  "streetAddress": streetAddress,
+  "city": city,
+  "zipCode": zipCode,
+  "state": state,
+  "latitude": latitude,
+  "longitude": longitude,
+};
+}
+
+//Class used to parse the nested Schedule objects
 class Schedule2 {
   int id;
   int profile;
@@ -173,29 +143,12 @@ class Schedule2 {
   }
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "profile": profile,
-        "day": day,
-        "goingToRangeStart": goingToRangeStart,
-        "goingToRangeEnd": goingToRangeEnd,
-        "leavingRangeStart": leavingRangeStart,
-        "leavingRangeEnd": leavingRangeEnd,
-      };
+    "id": id,
+    "profile": profile,
+    "day": day,
+    "goingToRangeStart": goingToRangeStart,
+    "goingToRangeEnd": goingToRangeEnd,
+    "leavingRangeStart": leavingRangeStart,
+    "leavingRangeEnd": leavingRangeEnd,
+  };
 }
-
-//class ScheduleList{
-//  final List<Schedule> schedules;
-//
-//  ScheduleList({
-//    this.schedules
-//  });
-//
-//  factory ScheduleList.fromJson(List<dynamic> parsedJson) {
-//
-//    List<Schedule> schedules = new List<Schedule>();
-//    schedules = parsedJson.map((i)=>Schedule.fromJsonSchedule(i)).toList();
-//    return new ScheduleList(
-//      schedules: schedules,
-//    );
-//  }
-//}
